@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#1d1d1f">
+<title>數位檢定展演練習｜德誼 內部訓練</title>
+<style>
+:root{--bg:#f5f5f7;--card:#fff;--ink:#1d1d1f;--sub:#6e6e73;--line:#e3e3e8;--accent:#0071e3;--accent-ink:#fff;--accent-bg:#eaf3ff;--topic:#c2410c;--topic-bg:#fff1e6;--warn:#b35c00;--warnbg:#fff4e5;--ok:#1a7f37;--need:#fff7e0;--rec:#f1f6ff;--say:#fff9eb;--sayline:#ff9f0a}
+@media(prefers-color-scheme:dark){:root{--bg:#000;--card:#1c1c1e;--ink:#f5f5f7;--sub:#a1a1a6;--line:#38383a;--accent:#2997ff;--accent-ink:#000;--accent-bg:#10243a;--topic:#ffb340;--topic-bg:#3a2a10;--warn:#ffb340;--warnbg:#3a2a10;--ok:#30d158;--need:#2b2610;--rec:#0c1a2b;--say:#2a2312;--sayline:#ff9f0a}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
+#app{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+main{flex:1;width:100%;max-width:640px;margin:0 auto;padding:16px 14px 8px}
+h1{font-size:24px;line-height:1.3;margin:12px 0 4px}
+h2{font-size:18px;margin:0}
+p{margin:0}
+.sub{color:var(--sub);font-size:14px}
+.cl{display:inline-block}
+.btn{display:block;width:100%;min-height:52px;border:0;border-radius:14px;background:var(--accent);color:var(--accent-ink);font:600 17px/1.3 inherit;padding:12px 16px;text-align:center;cursor:pointer}
+.btn.sec{background:var(--card);color:var(--accent);border:1.5px solid var(--line)}
+.btn.sm{min-height:40px;font-size:14px;border-radius:12px;padding:6px 10px}
+.btn[disabled]{cursor:not-allowed}
+.btn small{display:block;font-weight:400;font-size:13px;opacity:.85;margin-top:2px}
+.stack>*+*{margin-top:12px}
+.home .big{padding:20px 16px}
+.note{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:14px;color:var(--sub)}
+.top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.top .back{flex:0 0 auto;width:auto;min-height:40px;padding:6px 14px;font-size:15px}
+.tabs{display:flex;gap:6px;background:var(--line);padding:4px;border-radius:12px;margin:8px 0 12px}
+.tabs button{flex:1;border:0;border-radius:9px;padding:10px 6px;background:transparent;color:var(--ink);font:600 15px inherit;cursor:pointer;min-height:42px}
+.tabs button.on{background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+/* 機型／題型 */
+.hero{display:flex;flex-direction:column;gap:8px}
+.hero .hb{border-radius:14px;padding:10px 14px}
+.hero .hb span{display:block;font-size:12px;font-weight:700;letter-spacing:.12em;opacity:.85}
+.hero .hb b{display:block;font-size:26px;line-height:1.25;font-weight:800}
+.hero .hb.m{background:var(--accent);color:var(--accent-ink)}
+.hero .hb.t{background:var(--topic-bg);color:var(--topic);border:2px solid var(--topic)}
+.hero .hb.t b{font-size:22px}
+.seg{display:flex;gap:6px;margin:10px 0 0;font-size:14px;align-items:center}
+.seg span{color:var(--sub)}
+.seg button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 12px;font:600 13px inherit;cursor:pointer;min-height:36px}
+.seg button.on{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.mt2{margin:10px 0 4px;padding:8px 12px;border-radius:10px;background:var(--warnbg);color:var(--warn);font-size:14px;font-weight:600}
+/* 計時 */
+.timers{margin:10px 0 2px}
+.timer{display:flex;align-items:center;gap:8px;margin:6px 0}
+.timer .tl{font-size:12px;color:var(--sub);font-weight:700;min-width:54px}
+.timer .t{font:700 22px/1 ui-monospace,SFMono-Regular,Menlo,monospace;min-width:62px}
+.timer .btn{width:auto;flex:1}
+.timer.remind .t{color:var(--warn)}
+.timer.over .t{color:#d70015}
+.tb{padding:6px 12px;border-radius:10px;background:var(--warnbg);color:var(--warn);font-size:14px;font-weight:600;margin:2px 0 6px}
+.tip{font-size:14px;color:var(--sub);margin-top:6px}
+/* 客人情境 */
+.lab{font-size:13px;font-weight:700;color:var(--accent);margin:12px 0 2px;letter-spacing:.04em}
+.cust{margin-top:12px}
+.cust .lab:first-child{margin-top:0}
+ul.bl{margin:2px 0 0;padding-left:20px;list-style:disc}
+ul.bl li{margin:3px 0}
+.cust ul.bl li{font-size:17px}
+/* 步驟按鈕 */
+.steps{margin-top:16px}
+.steps .btn{font-size:18px;font-weight:800;min-height:62px;display:flex;align-items:center;justify-content:center;gap:10px;text-align:left}
+.steps .btn .n{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--accent-ink);color:var(--accent);font:800 17px/30px -apple-system,sans-serif;text-align:center}
+.steps .btn small{font-size:13px;font-weight:500;margin-top:1px}
+.steps .btn.go{box-shadow:0 4px 14px rgba(0,113,227,.4)}
+.steps .btn.lock{background:transparent;color:var(--sub);border:2px dashed var(--line);font-weight:600;box-shadow:none;margin-top:10px}
+.steps .btn.lock .n{background:var(--line);color:var(--sub)}
+.steps .btn.next{margin-top:12px}
+.done{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ok)}
+.need,.recbox{border-radius:14px;padding:12px 14px;margin-top:12px}
+.need{background:var(--need)}
+.recbox{background:var(--rec)}
+.need ul.bl li{font-size:17px;margin:4px 0}
+.need .nt{display:block;font-size:13px;color:var(--sub);margin:2px 0 0;font-weight:700}
+.navb{margin-top:22px;padding-top:12px;border-top:1px dashed var(--line)}
+.navb .l{font-size:12px;color:var(--sub);margin-bottom:6px}
+.rowbtn{display:flex;gap:8px;flex-wrap:wrap}
+.rowbtn .btn{flex:1;min-width:130px}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--sub);font-weight:500;min-height:42px;font-size:14px;border-radius:10px}
+/* 推薦：標題層級 */
+.stage{margin:20px -2px 8px;padding:10px 14px;border-radius:12px;background:var(--ink);color:var(--card);font-size:17px;font-weight:800;line-height:1.35}
+.stage small{display:block;font-size:13px;font-weight:500;opacity:.8;margin-top:2px}
+.proj{margin:16px 0 8px;padding:9px 14px;border-radius:10px;background:var(--accent);color:var(--accent-ink);font-size:17px;font-weight:800;border-left:10px solid rgba(0,0,0,.25)}
+.bridge{margin:12px 2px 4px;padding:8px 12px;border-left:4px solid var(--line);color:var(--sub);font-size:14px}
+/* 功能卡 */
+.fn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:12px 14px;margin:8px 0}
+.fn .fh{display:flex;flex-wrap:wrap;align-items:center;gap:4px 0}
+.fn .no{display:inline-block;font-size:12px;color:var(--accent);font-weight:700;margin-right:6px}
+.fn .nm{font-size:17px;font-weight:800}
+.fn .lab:first-of-type{margin-top:8px}
+.good-t{font-weight:700}
+.say{margin-top:10px;background:var(--say);border-left:4px solid var(--sayline);border-radius:8px;padding:8px 12px}
+.say .lab{margin:0 0 2px}
+.say p{font-size:16px;line-height:1.75}
+ol.st{margin:2px 0 0;padding:0;list-style:none;counter-reset:s}
+ol.st li{counter-increment:s;position:relative;padding:4px 0 4px 30px;margin:0}
+ol.st li::before{content:counter(s);position:absolute;left:0;top:5px;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:700 12px/22px -apple-system,sans-serif;text-align:center}
+.plab{font-size:13px;font-weight:700;margin-top:6px}
+.w{margin-top:8px;font-size:13px;color:var(--warn);background:var(--warnbg);padding:6px 10px;border-radius:8px}
+.badge{display:inline-block;font-size:11px;font-weight:700;border-radius:6px;padding:1px 6px;margin-left:4px;background:var(--warnbg);color:var(--warn);vertical-align:1px}
+.swap{font-size:13px;color:var(--ok);margin-top:6px}
+/* 一覽 */
+.outline{margin:10px 0 4px;border:1.5px solid var(--accent);border-radius:12px;padding:10px 12px;background:var(--card)}
+.outline .ot{font-size:14px;font-weight:800;color:var(--accent);margin-bottom:4px}
+.outline ol{list-style:none;margin:0;padding:0;counter-reset:o}
+.outline li{counter-increment:o;position:relative;padding:6px 0 6px 30px;border-top:1px solid var(--line)}
+.outline li:first-child{border-top:0}
+.outline li::before{content:counter(o);position:absolute;left:0;top:7px;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:700 12px/22px -apple-system,sans-serif;text-align:center}
+.outline li b{display:block;font-size:13px;color:var(--sub)}
+.outline li span{display:block;font-size:16px;font-weight:700}
+.outline .og{font-size:13px;font-weight:800;color:var(--topic);margin:8px 0 0;padding-top:6px;border-top:2px solid var(--line)}
+footer{margin-top:24px;padding:18px 14px calc(18px + env(safe-area-inset-bottom));text-align:center;border-top:1px solid var(--line);background:var(--card)}
+footer .logo{width:120px;height:36px;margin:0 auto;background:url(data:image/png;base64,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) center/contain no-repeat;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;pointer-events:none}
+@media(prefers-color-scheme:dark){footer .logo{background-image:url(data:image/png;base64,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)}}
+footer .t1{font-size:14px;font-weight:600;margin-top:8px}
+footer .t2{font-size:13px;color:var(--sub)}
+</style>
+</head>
+<body>
+<div id="app"><main id="main"></main>
+<footer>
+ <div class="logo" role="img" aria-label="德誼 DE"></div>
+ <div class="t1">員工發展暨組織發展部製作</div>
+ <div class="t2">內部訓練用，請勿外流</div>
+</footer></div>
+<script>
+document.addEventListener('contextmenu',function(e){e.preventDefault()});document.addEventListener('dragstart',function(e){e.preventDefault()});
+// ===== iOS 功能庫與機型資料 =====
+// F[id] = {n 名稱, g 項目, no 簡章編號, t 特點, p 路徑, b 通用好處, ban?:[機型], alt?:id, pro?:true(僅 Pencil Pro), w?:提醒, chk?:true(路徑需上機確認)}
+const F_IOS = {
+ // ---- iPhone：聯繫分享 ----
+ im1:{n:'點按回應',g:'im',no:'iMessage ①',t:'長按訊息，用愛心、讚等表情快速回應',p:'訊息 > 開啟對話 > 長按要回應的訊息 > 點選回應圖示',b:'不用一句句打字，一秒表達「收到」'},
+ im2:{n:'文字效果',g:'im',no:'iMessage ②',t:'讓訊息文字帶動畫效果（如放大、震動、爆炸）',p:'訊息 > 對話 > 輸入文字 > 選取文字 > 點「文字效果」> 選效果 > 傳送',b:'祝賀、強調時讓訊息更有感覺',chk:true},
+ im4:{n:'投票',g:'im',no:'iMessage ④',t:'在群組裡建立投票，成員直接點選',p:'訊息 > 群組對話 > 輸入框左側「＋」> 投票 > 輸入問題與選項 > 傳送',b:'揪人、決定時間地點，大家一點就選、結果一眼看到',w:'只在 iMessage 群組可用，先確認現場是 iMessage 群組'},
+ im5:{n:'訊息語音轉文字',g:'im',no:'iMessage ⑤',t:'收到的語音訊息自動轉成文字',p:'訊息 > 開啟含語音訊息的對話 > 查看語音訊息下方的轉錄文字',b:'不方便播放時，看文字就知道內容',w:'繁體中文支援與顯示位置上機確認',chk:true},
+ im6:{n:'滑動回覆',g:'im',no:'iMessage ⑥',t:'把某一則訊息向右滑，直接針對它回覆',p:'訊息 > 對話 > 將要回覆的訊息向右滑 > 輸入內容 > 傳送',b:'訊息很多時也不會回錯對象'},
+ ph1:{n:'來電過濾',g:'ph',no:'電話與 FaceTime ①',t:'系統先詢問未知來電者身分，再決定要不要接',p:'設定 > App > 電話 > 過濾未知來電 > 詢問來電原因',b:'陌生與詐騙來電先擋一層，重要來電不漏接',w:'iOS 26 起提供，路徑上機確認',chk:true},
+ ph2:{n:'語音留言逐字稿',g:'ph',no:'電話與 FaceTime ②',t:'語音留言自動轉成文字',p:'電話 > 語音留言 > 點選一則留言查看逐字稿',b:'不用回撥聽留言，看文字就知道要處理什麼',w:'需有語音留言素材，現場以展示素材為準'},
+ ph3:{n:'手勢回應',g:'ph',no:'電話與 FaceTime ③',t:'FaceTime 通話中比出讚、愛心等手勢，畫面出現反應特效',p:'FaceTime > 通話中 > 控制中心 > 視訊效果 > 開啟反應 > 對鏡頭比手勢',b:'視訊時不用開口也能表達，氣氛更好',chk:true},
+ ph4:{n:'同播共享',g:'ph',no:'電話與 FaceTime ④',t:'FaceTime 通話時一起看影片、聽音樂',p:'FaceTime > 撥給對方 > 通話中點共享內容 > 同播共享 > 選 App 與內容',b:'隔著螢幕一起看、一起聽，像坐在一起',w:'對方也要有 Apple 裝置，現場用同伴的 iPhone 接聽'},
+ ph5:{n:'接力',g:'ph',no:'電話與 FaceTime ⑤',t:'在一台裝置開始的 FaceTime 通話，可在另一台 Apple 裝置接續',p:'FaceTime 通話中 > 另一台裝置出現接力圖示 > 點選 > 通話轉移過去',b:'走到座位就把通話轉到 iPad 或 Mac，不中斷',w:'兩台要同 Apple 帳號並開藍牙與 Wi-Fi，不穩就改選來電過濾'},
+ ph6:{n:'視訊人物居中',g:'ph',no:'電話與 FaceTime ⑥',t:'視訊時畫面自動讓人物維持在中央',p:'FaceTime 通話中 > 控制中心 > 視訊效果 > 開啟置中視角 > 在畫面前左右走動',b:'不用一直調角度，人走動也不出框',chk:true},
+ // ---- iPhone：影像創作 ----
+ c1:{n:'拍照介面操作',g:'cam',no:'拍照 ①',t:'切換鏡頭、變焦、對焦、曝光、閃光燈等基本操作',p:'相機 > 點 0.5×／1×／2×／4× 切換鏡頭或雙指捏合 > 點畫面對焦、上下滑調曝光 > 點上方箭頭展開閃光燈、Live、計時器',b:'一支手機就是多顆鏡頭，廣角到望遠一鍵切換',w:'太基本，適合當搭配，不建議單獨撐場；Air 沒有 0.5×'},
+ c2:{n:'人像模式',g:'cam',no:'拍照 ②',t:'拍出背景虛化的人像，拍完還能改焦點',p:'相機左右滑到「人像」> 對準同伴，依提示保持距離至出現「自然光」> 拍照 > 照片 App 點「編輯」用景深滑桿調背景模糊',b:'幫家人、客人拍出背景虛化的人像',w:'同伴入鏡即可；距離提示沒出現就先後退'},
+ c3:{n:'微距攝影',g:'cam',no:'拍照 ③',t:'靠近小物件自動切到微距，拍細節與紋理',p:'把鏡頭靠近花或小物件（約 2 公分）> 相機自動切到微距 > 點對焦 > 拍照',b:'拍商品細節、花草紋理',ban:['air'],alt:'c1',w:'需桌上有小物件；iPhone 17 是否支援微距上機確認'},
+ c4:{n:'前置相機（旋轉、縮放、人物居中）',g:'cam',no:'拍照 ④',t:'前置鏡頭可旋轉直橫拍、縮放，多人入鏡自動置中',p:'切到前鏡頭 > 點取景器旋轉箭頭切換直式／橫式 > 點 1×／0.5× 切換視角 > 多人入鏡時畫面自動調整',b:'團體自拍不用伸長手臂，大家自動被框進來',w:'圖示位置依機型與 iOS 版本略有不同，上機先確認'},
+ c5:{n:'相機控制按鈕',g:'cam',no:'拍照 ⑤',t:'實體按鈕：按一下開相機、輕壓叫出控制、全按拍照',p:'輕按相機控制開相機 > 輕壓叫出控制選單 > 手指在按鈕上滑動調整 > 再輕壓確認、全按拍照；設定 > 相機 > 相機控制',b:'單手就能拍，不用在螢幕上找選項',w:'若 1 分鐘快速展演已講相機控制按鈕就換別的'},
+ c8:{n:'攝影風格',g:'cam',no:'拍照 ⑧',t:'選擇偏好的色調風格，讓每張照片色彩一致',p:'相機 > 點攝影風格圖示 > 左右滑選風格 > 調整色調／色溫 > 拍照',b:'拍出自己的色彩偏好，每張都一致',w:'18 Pro 的介面可能與舊版不同，上機先確認',chk:true},
+ v1:{n:'錄影介面操作',g:'vid',no:'錄影 ①',t:'選解析度與幀率、錄影中變焦與同時拍照',p:'相機切到「影片」> 點右上角解析度／幀率（如 4K 30、4K 60）> 錄影中雙指變焦、點白色快門鈕同時拍照',b:'錄比賽、旅行，畫質規格一鍵選',w:'低風險但亮點偏少'},
+ v2:{n:'慢動作',g:'vid',no:'錄影 ②',t:'錄下動作並在編輯時選出慢動作區段',p:'相機切到「慢動作」> 錄一段動作 > 照片 App 開該影片 > 編輯 > 拖動下方滑桿兩端選出慢動作區段',b:'運動、寵物動作拍成電影感慢動作',w:'需要有動作可拍，同伴揮手即可'},
+ v3:{n:'電影級模式',g:'vid',no:'錄影 ③',t:'自動追焦，事後還能改焦點與景深',p:'切到「電影級」> 點畫面中不同人物或物件切換對焦（長按鎖定）> 錄影 > 照片 App > 編輯 可事後改焦點與景深',b:'像電影一樣自動追焦，事後還能改',w:'需要前後景兩個對象才好看，先練過'},
+ v4:{n:'動作模式',g:'vid',no:'錄影 ④',t:'手持邊走邊錄也穩定',p:'影片模式左上角點奔跑小人圖示 > 邊走邊錄 > 播放比較穩定度',b:'運動、旅遊手持錄影也穩',w:'要走動才看得出效果'},
+ v6:{n:'前置相機（超穩定錄影、雙向同拍）',g:'vid',no:'錄影 ⑥',t:'前鏡頭超穩定錄影，或前後鏡頭同時錄製',p:'前鏡頭＋影片模式 > 開啟超穩定錄影；雙向同拍：影片模式點雙鏡頭圖示，同時用前後鏡頭錄製',b:'Vlog 同時錄自己和眼前風景',w:'雙向同拍入口位置需上機確認',chk:true},
+ p1:{n:'搜尋圖庫',g:'pho',no:'照片 App ①',t:'用自然語言搜尋照片',p:'照片 App > 點「搜尋」> 輸入自然語言（如「海邊」「生日蛋糕」「去年夏天的狗」）> 結果即時列出',b:'幾萬張照片，一句話就找到',w:'依賴展示機的照片素材'},
+ p2:{n:'選集',g:'pho',no:'照片 App ②',t:'自動依人物、寵物、旅行等分類整理',p:'照片 App > 「選集」分頁 > 往下滑看人物與寵物、旅行、精選等分類 > 點進去瀏覽',b:'照片自動幫你整理好',w:'穩定，不需網路'},
+ p3:{n:'智慧照片編輯（清除）',g:'pho',no:'照片 App ③',t:'用「清除」移除照片中的路人或雜物',p:'照片 > 編輯 > 清除 > 點選或圈選背景路人／物體 > 自動移除',b:'旅遊照被路人入鏡，一鍵移除',w:'需 Apple Intelligence 已啟用，首次可能要下載模型，準備時間先試一次；延伸、重構入口需上機確認'},
+ p5:{n:'製作幻燈片秀',g:'pho',no:'照片 App ⑤',t:'把照片做成回顧幻燈片',p:'選取多張照片 > 分享 > 幻燈片秀；或在選集中點「回憶」播放',b:'活動結束、旅行回來一鍵做回顧',w:'幻燈片秀與回憶影片入口容易混淆，先確認',chk:true},
+ p6:{n:'原況文字',g:'pho',no:'照片 App ⑥',t:'照片中的文字可直接拷貝、翻譯、撥號',p:'開啟含文字的照片（名片、菜單、路牌）> 長按文字或點右下角文字圖示 > 拷貝、翻譯、撥號',b:'拍下名片就能直接撥電話',w:'需要一張含中文字的素材'},
+ // ---- iPhone：便利生活 ----
+ s1:{n:'待機模式',g:'sys',no:'系統功能 ①',t:'充電時橫放手機，變成時鐘與資訊顯示',p:'設定 > 待機模式 > 開啟 > 手機充電、橫放、鎖定畫面即進入 > 左右滑切換樣式',b:'床邊或桌上充電就是時鐘、行事曆或照片',w:'需充電且橫放，先接好充電線'},
+ s2:{n:'控制中心',g:'sys',no:'系統功能 ②',t:'右上角下滑開控制中心，可自訂排列與新增控制項',p:'從螢幕右上角向下滑 > 控制中心 > 點左上角「＋」或長按空白處進入編輯 > 新增控制項 > 拖曳調整',b:'常用開關一滑就到，不用進設定翻找',w:'編輯入口依 iOS 版本，上機確認'},
+ s3:{n:'個人化主題與佈局',g:'sys',no:'系統功能 ③',t:'自訂主畫面圖示、淺色或深色與色調',p:'長按主畫面空白處 > 點左上角「編輯」> 自訂 > 選淺色／深色／色調與圖示大小 > 完成',b:'圖示放大、畫面看得舒服，找 App 更容易',chk:true},
+ n1:{n:'編輯格式',g:'note',no:'備忘錄 ①',t:'標題、粗體、項目符號等文字格式',p:'備忘錄 > 新增備忘錄 > 點工具列「Aa」> 選標題／粗體／項目符號 > 輸入內容',b:'筆記有層次，回頭看一眼就懂',chk:true},
+ n2:{n:'檢查表',g:'note',no:'備忘錄 ②',t:'建立可勾選的待辦清單',p:'備忘錄 > 新增備忘錄 > 點工具列檢查表圖示 > 輸入項目 > 點圓圈勾選完成',b:'待辦一項項勾掉，進度一眼看'},
+ n3:{n:'掃描文字與文件',g:'note',no:'備忘錄 ③',t:'把紙本文件掃描成電子檔，也可擷取文字',p:'備忘錄 > 新增備忘錄 > 點相機圖示 > 掃描文件 > 對準文件拍攝 > 儲存；掃描文字：相機圖示 > 掃描文字',b:'紙本資料變成電子檔，隨身帶、隨時找'},
+ m1:{n:'螢幕錄製',g:'com',no:'常見功能 ①',t:'把手機畫面與聲音錄成影片',p:'設定 > 控制中心 > 加入螢幕錄製 > 開控制中心 > 點錄製按鈕 > 結束後到照片查看',b:'教人操作、記錄操作步驟都很方便',w:'錄製前先確認麥克風設定'},
+ m2:{n:'螢幕截圖（裁切、標示、分享）',g:'com',no:'常見功能 ②',t:'同時按側邊按鈕與調高音量鍵截圖，可裁切標示後分享',p:'同時按側邊按鈕與調高音量按鈕 > 點左下角縮圖 > 用標示工具裁切與標示 > 完成 > 分享',b:'看到的資訊立刻截圖圈重點傳出去'},
+ m3:{n:'原況文字（相機、照片、截圖）',g:'com',no:'常見功能 ③',t:'相機、照片、截圖中的文字可直接選取、拷貝、翻譯、撥號',p:'相機 > 對準文字 > 點原況文字圖示 > 選取文字 > 拷貝；照片與截圖：長按文字',b:'名片、路牌、文件上的字不用重打',w:'需要一張含中文字的素材'},
+ m5:{n:'錢包（製作票卡）',g:'com',no:'常見功能 ⑤',t:'把票券與卡片加入錢包',p:'錢包 > 點右上角「＋」> 選票卡類型或建立票卡 > 完成後連按兩下側邊按鈕叫出',b:'進站、進場刷手機，不用翻票',w:'現場以展示素材為準，不要綁真實信用卡'},
+ // ---- iPad 功能 ----
+ ib1:{n:'Safari（分頁與分頁群組）',g:'ipad',no:'基礎操作・Safari',t:'用分頁與分頁群組同時瀏覽多個網頁',p:'Safari > 點分頁列「＋」開新分頁 > 長按分頁 > 加入新的分頁群組 > 命名群組',b:'資料分組放好，切換快速不混亂',w:'分頁群組入口依 iPadOS 版本，上機確認'},
+ ib2:{n:'App 切換器',g:'ipad',no:'基礎操作・App 切換器',t:'快速檢視並切換最近使用的 App',p:'從螢幕底部向上滑並稍停 > 進入 App 切換器 > 左右滑動選 App > 點選切換',b:'兩個 App 來回切換不用回主畫面',w:'手勢依 iPadOS 版本，上機確認'},
+ ib3:{n:'控制中心',g:'ipad',no:'基礎操作・控制中心',t:'右上角下滑，快速調整亮度、音量與常用開關',p:'從螢幕右上角向下滑 > 控制中心 > 拖曳亮度與音量滑桿 > 點需要的開關',b:'調亮度、音量一滑就好，不用到設定裡翻找',w:'介面依 iPadOS 版本，上機確認'},
+ ib4:{n:'個人化主題與佈局',g:'ipad',no:'基礎操作・個人化主題與佈局',t:'自訂主畫面圖示大小、淺色或深色與色調',p:'長按主畫面空白處 > 點左上角「編輯」> 自訂 > 選擇淺色／深色 > 選擇圖示大小 > 完成',b:'圖示放大、畫面看起來舒服，找 App 更容易',w:'入口依 iPadOS 版本，上機確認'},
+ iw1:{n:'視訊人物居中',g:'ipad',no:'工作生產・iPad ①',t:'視訊時畫面自動跟隨人物',p:'開 FaceTime 通話 > 右上角往下滑開控制中心 > 點「影片效果」> 開啟「人物居中」> 同伴左右走動',b:'居家視訊、線上授課不用一直調位置',w:'需同伴被前鏡頭拍到；通話對象用同伴手機，避免撥出陌生號碼'},
+ iw2:{n:'自訂檔案夾與加入 Dock',g:'ipad',no:'工作生產・iPad ②',t:'整理主畫面資料夾，常用 App 固定在 Dock',p:'長按主畫面空白處進入編輯 > 把一個 App 拖到另一個 App 上建立資料夾並命名 > 再把常用 App 拖到下方 Dock',b:'依工作／生活整理主畫面，常用 App 放 Dock',w:'會改動展示機版面，做完要還原'},
+ iw3:{n:'視窗 App 及幕前調度',g:'ipad',no:'工作生產・iPad ③',t:'像電腦一樣多視窗並排',p:'設定 > 多工 > 選「視窗 App」或「幕前調度」> 開 2–3 個 App > 拖曳視窗邊角調整大小、拖到邊緣並排',b:'同時處理文件與郵件，像電腦一樣',w:'切換模式會重排視窗，準備時間先設好；步驟多、時間吃緊',alt:'iw2'},
+ iw4:{n:'高效率手勢',g:'ipad',no:'工作生產・iPad ④',t:'三指手勢：還原、重做、拷貝、貼上',p:'備忘錄 > 輸入文字 > 三指向左滑還原 > 三指向右滑重做 > 選取文字 > 三指捏合拷貝 > 三指張開貼上',b:'不用找按鈕，手指一滑就修改文字',w:'要先選取文字才能拷貝'},
+ iw5:{n:'預覽（掃描、PDF 填寫、標示、簽名）',g:'ipad',no:'工作生產・iPad ⑤',t:'用預覽開啟 PDF，可標示、填寫表單與加入簽名',p:'檔案 > 點選 PDF 開啟預覽 > 點右上角標示（筆尖圖示）> 簽名 > 新增簽名 > 用手指或 Pencil 簽名 > 拖到簽名處 > 完成',b:'簽核文件直接簽完回傳，不用列印掃描',w:'需展示機有 PDF 素材；預覽介面上機確認'},
+ iw6:{n:'備忘錄整理（釘選、標籤、資料夾）',g:'ipad',no:'工作生產・iPad ⑥',t:'釘選、標籤、資料夾，把筆記歸類',p:'備忘錄 > 筆記向右滑點圖釘 > 內文輸入 #標籤 > 左下角新增資料夾 > 把筆記拖進資料夾',b:'重要筆記釘在最上面，筆記一眼就找到',w:'展示機要有多則備忘錄；整理時不要刪到原有素材'},
+ iw7:{n:'郵件（附件、稍後傳送）',g:'ipad',no:'工作生產・iPad ⑦',t:'在郵件中撰寫、附加檔案、稍後傳送',p:'郵件 > 回覆或新郵件 > 點迴紋針（附加檔案）> 選取檔案；長按傳送箭頭選「稍後傳送」> 選時間',b:'回信直接附檔案，一個 App 完成',w:'需郵件帳號與網路，不要真的寄出；附件入口上機確認',alt:'iw6'},
+ ic1:{n:'無邊記基礎',g:'ipad',no:'創意創作・無邊記基礎',t:'在白板加入便利貼、文字、形狀與圖片',p:'無邊記 > 新增白板 > 點工具列「＋」> 選便利貼／文字／形狀／圖片 > 拖曳排列',b:'想法隨手排，會議草圖直接成型',w:'介面名稱上機確認'},
+ ic2:{n:'無邊記進階',g:'ipad',no:'創意創作・無邊記進階',t:'用連接線串起想法，並邀請他人協作',p:'無邊記 > 點物件 > 拖出連接點到另一個物件（連接線）> 右上角共享圖示 > 協作 > 選傳送方式 > 傳送邀請',b:'流程圖更清楚，團隊還能接著補',w:'進階項目依簡章範圍，上機確認'},
+ ic3:{n:'備忘錄應用功能',g:'ipad',no:'創意創作・備忘錄',t:'備忘錄插入掃描文件、表格、附件並與手寫並用',p:'備忘錄 > 新增 > 點工具列表格或相機圖示 > 掃描文件／加入附件 > 用 Pencil 在上面補寫',b:'筆記、圖稿、文件整理在同一份備忘錄',w:'工具列圖示依版本，上機確認'},
+ ic4:{n:'照片（標示、編輯）',g:'ipad',no:'創意創作・照片',t:'在照片上直接標示畫圖、調整與編輯',p:'照片 > 點選照片 > 編輯 > 右上角標示（筆尖圖示）> 用 Pencil 畫記 > 完成',b:'作品照片直接圈出要改的地方，不用另外開 App',w:'標示入口依 iPadOS 版本，上機確認'},
+ // ---- Apple Pencil ----
+ pe1:{n:'快速截圖與標示',g:'pen',no:'Pencil 清單',t:'用 Pencil 從螢幕角落向內滑即可截圖並直接標示',p:'用 Apple Pencil 由螢幕左下或右下角向內滑 > 進入標示畫面 > 圈選重點 > 點完成 > 儲存或分享',b:'看到重點立刻截圖圈出，一步完成',w:'要確實從角落向內滑，先試手感；Pencil Pro 與 USB-C 皆支援'},
+ pe2:{n:'隨手寫',g:'pen',no:'Pencil 清單',t:'在文字欄位用筆直接手寫，自動轉成打字文字',p:'設定 > Apple Pencil > 開啟隨手寫 > 在搜尋欄或輸入框用 Pencil 直接寫字 > 自動轉為文字',b:'不用叫出鍵盤，筆寫完自動變文字',w:'字跡要端正，否則辨識會錯；Pro 與 USB-C 皆支援'},
+ pe3:{n:'資料偵測器',g:'pen',no:'Pencil 清單',t:'手寫的電話、日期、地址可被辨識並直接使用',p:'備忘錄 > 用 Pencil 手寫日期或電話 > 圈起來或點選 > 選擇加入行事曆或撥打',b:'寫下電話、日期，一點就撥打或加入行事曆',w:'辨識結果不穩定，當備案；動作依版本上機確認',alt:'pe2'},
+ pe4:{n:'點兩下轉換工具',g:'pen',no:'Pencil 清單',t:'點兩下筆身，切換目前工具與橡皮擦',p:'設定 > Apple Pencil > 點兩下 > 選擇動作 > 備忘錄中點兩下 Pencil 筆身切換工具',b:'畫圖時不用移手到工具列，一點就切換',pro:true,alt:'pe8',w:'Pencil (USB-C) 沒有點兩下'},
+ pe5:{n:'雙指按壓打開調色盤',g:'pen',no:'Pencil 清單',t:'雙指按壓 Pencil Pro 筆身，叫出工具與顏色調色盤',p:'設定 > Apple Pencil > 緊握 > 確認顯示調色盤 > 備忘錄中雙指按壓筆身 > 選工具或顏色',b:'不離開畫面就換筆換色，創作不中斷',pro:true,alt:'pe2',w:'僅 Apple Pencil Pro'},
+ pe6:{n:'筆觸變化（側轉、壓力、傾斜）',g:'pen',no:'Pencil 清單',t:'依施力、傾斜改變筆觸粗細濃淡',p:'備忘錄 > 新增 > 點筆記工具列 > 選鋼筆／鉛筆／螢光筆 > 以施力或傾斜書寫',b:'手繪有層次，像真的筆一樣有輕重',pro:true,alt:'pe8',w:'壓力感應僅 Pencil Pro；USB-C 款只示範傾斜與工具切換'},
+ pe7:{n:'懸浮功能',g:'pen',no:'Pencil 清單',t:'筆尖懸浮在螢幕上方，預覽筆跡位置',p:'筆尖懸浮在螢幕上方約 1 公分 > 預覽筆跡位置、欄位會高亮',b:'還沒落筆就先看到效果，下筆更準',alt:'pe8',w:'是否支援依機型與筆款而定，先上機確認',chk:true},
+ pe8:{n:'橡皮擦工具',g:'pen',no:'Pencil 清單',t:'擦除筆跡，可選像素或物件橡皮擦',p:'備忘錄 > 用 Pencil 書寫 > 點工具列橡皮擦 > 選像素橡皮擦或物件橡皮擦 > 擦除筆跡',b:'畫錯可整筆擦掉，像紙筆一樣自然',w:'比較基礎，單用不夠亮點'},
+ // ---- 鍵盤加分 ----
+ kb1:{n:'功能鍵列',g:'kb',no:'鍵盤加分',t:'鍵盤頂部功能鍵：亮度、音量、搜尋、App 切換等',p:'將鍵盤接上 iPad > 按頂部功能鍵列的亮度、音量、搜尋或 App 切換鍵',b:'邊打字邊調整，不用移手去點螢幕',w:'鍵盤需與抽到機型相符'},
+ kb2:{n:'觸控式軌跡板手勢',g:'kb',no:'鍵盤加分',t:'軌跡板手勢：捏放縮放、三指回主畫面、切換 App',p:'雙指捏放縮放；三指向上滑回主畫面；三指或四指左右滑切換 App',b:'手勢跟 Mac 很像，上手快',w:'確認鍵盤軌跡板有連線'},
+ kb3:{n:'常用快速鍵',g:'kb',no:'鍵盤加分',t:'快速鍵取代手勢與點選',p:'長按 Command 鍵顯示清單 > Command+Tab 切換 App、Command+A 全選、Command+C 拷貝、Command+V 貼上、Command+Z 還原',b:'會用電腦的人馬上上手，雙手不離鍵盤',w:'與「高效率手勢」放在一起可形成「手勢＋快速鍵」對照；鍵盤需與機型相符'}
+};
+
+const G_IOS = {im:'iMessage',ph:'電話與 FaceTime',cam:'拍照',vid:'錄影',pho:'照片 App',sys:'系統功能',note:'備忘錄 App',com:'常見功能',ipad:'iPad 功能',pen:'Apple Pencil 功能',kb:'鍵盤加分（選用）'};
+
+// 機型硬體資料：tag -> [特點, 示範路徑, 提醒]
+const M_IOS = {
+ 'iPhone 17':{kind:'iphone',
+  design:['鋁金屬機身、正面超瓷晶盾 2；黑、白、霧藍、鼠尾草綠、薰衣草紫五色；重 177 公克','手持機身，介紹顏色與材質（現場是哪個顏色就講哪個）','色名以台灣官網為準'],
+  chip:['A19 晶片（6 核心 CPU、5 核心 GPU、16 核心神經網路引擎）','設定 > 一般 > 關於本機','數字以台灣官網為準'],
+  camera:['雙 48MP 融合相機（主相機＋超廣角）；前置 18MP Center Stage 方形感測器','相機 > 切換前置鏡頭 > 點旋轉箭頭','前置與主相機擇一只講一個'],
+  battery:['影片續航最長約 30 小時；搭配 40W 充電器 20 分鐘約 50%','設定 > 電池','續航與快充數字以台灣官網為準，要說「最長」'],
+  action:['動作按鈕、相機控制按鈕、動態島；120Hz ProMotion 顯示器','設定 > 動作按鈕；設定 > 相機 > 相機控制','']},
+ 'iPhone Air':{kind:'iphone',
+  design:['厚 5.6 公釐、重 165 公克，史上最薄 iPhone；5 級鈦金屬邊框；正面與背面都有超瓷晶盾保護','手持機身介紹，重點講鈦金屬與輕薄','顏色以現場機型為準；只有 eSIM、沒有 SIM 卡槽'],
+  chip:['A19 Pro（6 核心 CPU、5 核心 GPU 含神經網路加速器），搭配 N1 無線晶片與 C1X 數據機','設定 > 一般 > 關於本機',''],
+  camera:['後置單顆 48MP Fusion 主相機（可模擬多種焦段、含 2 倍光學級望遠）；前置 18MP Center Stage','相機 > 點 1× 或 2× 切換焦段','沒有超廣角：不能講 0.5× 與微距；前置與主相機只講一個'],
+  battery:['影片續航最長約 27 小時；6.5 吋 ProMotion 顯示器（1–120Hz）','設定 > 電池','續航數字以台灣官網為準'],
+  action:['動作按鈕、相機控制按鈕；6.5 吋 ProMotion 顯示器','設定 > 動作按鈕；設定 > 相機 > 相機控制','']},
+ 'iPhone 18 Pro':{kind:'iphone',
+  design:['鍛造鋁金屬一體成型機身；正面超瓷晶盾 2、背面超瓷晶盾玻璃；黑色、銀色、冰川藍色、勃根地紅色','手持機身介紹顏色與材質','色名以台灣官網為準'],
+  chip:['A20 Pro（2 奈米、6 核心 CPU、7 核心 GPU、雙 16 核心神經網路引擎）、C2 數據機；更大蒸氣室讓持續效能最高提升約 40%','設定 > 一般 > 關於本機；展示時開相機連拍','數字以台灣官網為準'],
+  camera:['48MP 融合主相機、48MP 超廣角與望遠；前置 18MP Center Stage','相機 > 切換前置鏡頭或點 0.5×／1×／2×／4×','可變光圈與 Pro 控制項沒練過不要講；前置與主相機只講一個'],
+  battery:['影片續航最長約 34 小時（台灣官網數字）','設定 > 電池','各來源續航數字不一，以台灣官網為準'],
+  action:['動作按鈕、相機控制按鈕、縮小的動態島','設定 > 動作按鈕；設定 > 相機 > 相機控制','']},
+ 'iPad Air (M4)':{kind:'ipad',
+  design:['11 吋 464 公克、13 吋 616 公克，厚 6.1 公釐；藍色、紫色、星光色、太空灰色','手持機身介紹','色名以台灣官網為準'],
+  chip:['M4（8 核心 CPU、9 核心 GPU、16 核心神經網路引擎、12GB 統一記憶體）','設定 > 一般 > 關於本機；展示：從底部上滑停住切換 App','晶片名稱以現場機型為準'],
+  display:['Liquid Retina（IPS）：11 吋 2360×1640、13 吋 2732×2048，264 ppi、P3 廣色域、抗反射；支援 Pencil 懸浮感應','設定 > 螢幕顯示與亮度；開啟照片或影片示範','Air 是 LCD，不要說 OLED'],
+  unlock:['上方按鈕內建 Touch ID','設定 > Touch ID 與密碼；指尖放上方按鈕解鎖','Air 是 Touch ID，不是 Face ID'],
+  usbc:['底部 USB-C 連接器可充電與接外接裝置；背面有磁吸連接器與智慧型接點','指出底部 USB-C 連接器並說明用途','']},
+ 'iPad Pro (M5)':{kind:'ipad',
+  design:['11 吋厚 5.3 公釐、13 吋厚 5.1 公釐，11 吋 444 公克；100% 再生鋁金屬機身；銀色、太空黑色','手持機身介紹','色名以台灣官網為準'],
+  chip:['M5 晶片（12GB 或 16GB 記憶體）','設定 > 一般 > 關於本機；展示：多個 App 切換','晶片名稱以現場機型為準'],
+  display:['Ultra Retina XDR 串聯 OLED：11 吋 2420×1668、13 吋 2752×2064，264 ppi；ProMotion 最高 120Hz；HDR 峰值亮度最高 1600 尼特','設定 > 螢幕顯示與亮度；開啟照片或影片示範','1TB／2TB 才有奈米紋理玻璃可選，以實機為準'],
+  unlock:['Face ID（原深感測相機在橫向長邊）；四揚聲器、四麥克風','設定 > Face ID 與密碼；播放影片示範音效','Pro 是 Face ID，不是 Touch ID'],
+  usbc:['USB-C 支援 Thunderbolt／USB 4','指出底部 USB-C 連接器並說明可接高速外接裝置','']}
+};
+const ACC_IOS = {
+ 'iPad Air (M4)':{kb:['巧控鍵盤（適用於 iPad Air）：磁吸於背面連接器，不需藍牙配對也不用另外充電','將 iPad 磁吸到鍵盤背面連接器，自動連線','現場鍵盤要是「適用於 iPad Air」款，不要拿成 Pro 款'],pencil:['Apple Pencil Pro：吸附於 iPad 側邊即配對並充電；Apple Pencil (USB-C)：滑開尾蓋，以 USB-C 線配對與充電','Pencil Pro 吸附側邊；Pencil USB-C 接上 USB-C 線','Pencil USB-C 沒有點兩下與壓力感應']},
+ 'iPad Pro (M5)':{kb:['適用於 iPad Pro 的巧控鍵盤：磁吸背面、不需配對與另外充電','將 iPad 磁吸到鍵盤背面連接器，自動連線','現場鍵盤要是「適用於 iPad Pro」款，不要拿成 Air 款'],pencil:['Apple Pencil Pro 吸附側邊配對充電；Apple Pencil (USB-C) 以 USB-C 線配對充電','Pencil Pro 吸附側邊；Pencil USB-C 接上 USB-C 線','Pencil USB-C 沒有點兩下與壓力感應']}
+};
+const TOPICS_IOS = {
+ iphone:{'聯繫分享':{groups:['im','ph'],note:'從 iMessage、電話與 FaceTime 兩項目中，各選 2 個功能'},
+         '影像創作':{groups:['cam','vid','pho'],note:'從拍照、錄影、照片 App 三項目中選 2 個項目，各選 2 個功能'},
+         '便利生活':{groups:['sys','note','com'],note:'從系統功能、備忘錄 App、常見功能三項目中選 2 個項目，各選 2 個功能'}},
+ ipad:{'基礎操作':{groups:['ipad'],note:'至少 2 個 iPad 功能＋至少 2 個 Pencil 功能；鍵盤為加分'},
+       '工作生產':{groups:['ipad'],note:'至少 2 個 iPad 功能＋至少 2 個 Pencil 功能；鍵盤為加分'},
+       '創意創作':{groups:['ipad'],note:'至少 2 個 iPad 功能＋至少 2 個 Pencil 功能；鍵盤為加分'}}
+};
+
+// iPhone 客人題庫。hw:[tag,為何對這位客人好]；r:[[功能id,對這位客人的好處]]
+const C_IPHONE = {
+'聯繫分享':[
+ {c:'40 歲媽媽，家庭群組很活躍，常揪家人聚餐，也要跟外地的爺爺奶奶視訊',s:'每週在家庭群組討論吃飯時間地點，晚上帶孩子和長輩視訊',p:'家庭群組訊息太多，要一句句打字回應很花時間；常接到陌生或詐騙來電，擔心漏接家人的重要電話；晚上想跟長輩視訊時，希望能一起看東西，而不是乾聊',hw:['battery','視訊、群組聊一整天也撐得住'],r:[['im1','群組不用一句句打字，一秒表達「收到」'],['im4','揪聚餐大家投票，一眼看結果'],['ph1','陌生與詐騙來電先擋一層，家人電話不漏接'],['ph4','隔著螢幕跟長輩一起看家庭影片，像坐在一起']]},
+ {c:'28 歲業務，常外出拜訪客戶，開會時不方便接電話',s:'開會或開車時漏接電話，收到語音訊息來不及聽，還要快速回覆客戶',p:'開會或開車時不方便聽語音，訊息累積後要逐則播放才知道內容；語音留言太多，沒時間一則則回撥確認；客戶群組訊息量大，常擔心回覆時回錯對象',hw:['battery','整天在外跑，續航與快充是關鍵'],r:[['im5','開會時不用播放語音，看文字就知道內容'],['im6','客戶群組訊息很多，也不會回錯對象'],['ph2','漏接電話不用回撥聽留言，看文字就知道要處理什麼'],['ph5','走到座位就把通話轉到 iPad 或 Mac，不中斷']]},
+ {c:'22 歲大學生，社團幹部，同時待在好幾個群組',s:'社團群組一天幾百則訊息，要通知活動、確認出席，也常跟朋友視訊',p:'社團群組一天上百則訊息，重要通知很快被洗掉；想快速回應「收到」，又不想用一堆文字洗版；想和遠方朋友同時看同一部影片一起討論',hw:['chip','群組、視訊同時開也順'],r:[['im6','針對某則通知直接回覆，不被洗掉'],['im1','一個表情就回應，不洗版'],['ph4','跟遠方朋友同步看影片，有一起看的感覺'],['ph3','視訊時用手勢回應，不用開口也有氣氛']]},
+ {c:'58 歲退休長輩，孫子在國外念書，每天視訊',s:'每天跟孫子視訊聊天，偶爾收到孩子傳來的語音訊息',p:'打字速度慢，收到孩子的語音訊息時不方便聽或聽不清楚；常接到推銷與詐騙電話，擔心誤接；視訊時走動就拍不到全臉，孫子看不清楚',hw:['battery','視訊聊很久也不怕沒電'],r:[['im5','孩子傳來的語音直接變文字，看得到內容'],['im1','按一下表情就回覆，不用打字'],['ph1','推銷、詐騙電話先過濾，只接熟人'],['ph6','視訊時人走動，畫面自動置中、看得到全臉']]},
+ {c:'32 歲新手爸爸，常出差，想跟家人保持聯繫',s:'出差在外，晚上要跟太太和寶寶視訊，也想一起看影片、聽音樂',p:'出差在外，錯過寶寶成長的片段；視訊時只能互相聊天，無法一起看影片；想讓文字訊息表達更有溫度與重點',hw:['camera','視訊時前置鏡頭自動置中，家人看得更清楚'],r:[['im2','祝福與強調的訊息用動畫文字，更有感情'],['im1','太太傳的照片按讚回應，立刻讓她知道有看到'],['ph4','視訊時一起看寶寶影片，不錯過家人時光'],['ph5','從手機視訊接到 iPad 繼續，大螢幕看寶寶']]},
+ {c:'26 歲行銷企劃，同時管理多個客戶群組',s:'一天在多個客戶群組之間切換，還要處理語音留言與來電',p:'同時處理多個客戶群組，訊息一多容易回錯對象；語音訊息量大，沒有時間逐則播放；陌生來電常打斷工作',hw:['chip','多群組、多 App 同時處理也不卡'],r:[['im6','指定回覆某則訊息，不會回錯對象'],['im5','語音訊息轉文字，一眼掃完'],['ph2','語音留言看逐字稿，馬上知道誰要什麼'],['ph1','陌生來電先詢問，專心處理客戶事務']]},
+ {c:'35 歲社區志工召集人，負責籌辦鄰里活動',s:'每月要揪活動、統計人數，也常接到民眾與不明來電',p:'活動報名要一個個詢問誰能參加，統計很費時；訊息很多容易漏看；不明來電很多，分不清是詐騙還是民眾來電',hw:['battery','一整天外出聯繫，電量要夠'],r:[['im4','活動時間用投票，一次統計好'],['im1','收到報名用表情確認，快速又清楚'],['ph1','不明來電先過濾，避免被詐騙'],['ph2','漏接的留言看逐字稿，馬上知道要回誰']]},
+ {c:'30 歲上班族，朋友散居海外，常視訊聯絡',s:'晚上和海外朋友視訊，想一起看影片，聊天也想更有趣',p:'與海外朋友視訊時，只能乾聊，缺少互動；想一起看影片或聽音樂，感覺像在同一個空間；想用有趣的方式回覆朋友的訊息',hw:['chip','視訊與連線穩定，通話順暢'],r:[['ph4','跟海外朋友同步看影片，有一起看的感覺'],['ph3','視訊時用手勢表達，氣氛更好'],['im2','訊息加動畫文字，慶祝更有感覺'],['im1','朋友分享的照片用表情回應']]}
+],
+'影像創作':[
+ {c:'38 歲爸爸，常拍孩子運動會與家庭旅遊',s:'孩子比賽時要抓精彩瞬間，回家要整理上千張照片給長輩看',p:'孩子在運動會跑得快，一般拍攝容易抓不到精彩瞬間；邊跑邊追著拍時畫面容易晃動；累積上千張照片後，想找特定孩子的照片很費時',hw:['camera','主相機畫質好、鏡頭切換方便'],r:[['v2','孩子跑步、投球的動作拍成慢動作，更精彩'],['v4','邊跑邊追著孩子錄也穩'],['p1','輸入「孩子 足球」一句話就找到'],['p2','選集自動依人物整理，翻照片不費力']]},
+ {c:'27 歲旅遊愛好者，經營旅遊社群帳號',s:'每次旅行拍很多人像與風景，回來要挑照片修圖發文',p:'拍人像時背景太雜亂，無法突顯主角；景點常有路人入鏡，照片不夠乾淨；旅行後想快速把照片做成回顧分享',hw:['camera','多顆鏡頭切換，風景人像都能拍'],r:[['c2','幫朋友拍出背景虛化的人像，拍完還能改焦點'],['c4','自拍與合照自動置中，不用伸長手臂'],['p3','景點路人一鍵清除，照片更乾淨'],['p5','旅行結束一鍵做成回顧幻燈片，發文用']]},
+ {c:'45 歲手作小店老闆，要拍商品照上架',s:'每天拍新品照片、拍紙本目錄與名片，傳給客人與廠商',p:'商品細節拍起來沒有質感，無法呈現紋理；紙本目錄與名片上的文字，拍完後還得手動重新打字；商品照片越拍越多，要用時找不到',hw:['camera','靠近拍細節，商品質感一目了然'],r:[['c3','靠近商品自動微距，拍出紋理與細節'],['c5','單手按鍵開相機、調整，拍商品又快又穩'],['p6','拍下廠商名片直接撥電話，目錄文字直接拷貝'],['p1','輸入商品名稱，馬上找到照片']]},
+ {c:'33 歲寵物飼主，家裡有兩隻貓',s:'每天記錄貓咪的可愛瞬間，想做成影片分享給朋友',p:'貓咪動作很快，一般拍攝容易拍糊或抓不到；想把毛孩拍出電影般的質感；照片累積幾千張，要找特定那一張很費時',hw:['camera','拍動態的穩定度與畫質'],r:[['v2','貓咪跳躍、撲玩具的動作拍成慢動作'],['v3','像電影一樣自動追焦，主角永遠清楚'],['p1','輸入「貓 窗邊」就找到'],['p2','選集自動把人物與寵物分好']]},
+ {c:'24 歲大學生，經營個人 Vlog 頻道',s:'走在街上邊走邊錄、也常對著鏡頭自拍講話',p:'手持邊走邊錄時畫面容易晃動；想同時拍到自己與眼前的風景；每支影片色調不一致，缺少個人風格',hw:['camera','前置與主相機都有高畫質'],r:[['v6','前置超穩定錄影，Vlog 同時錄自己和風景'],['v4','邊走邊錄畫面也穩'],['c4','前置相機旋轉、縮放，直橫拍都方便'],['c8','選一個偏好風格，每支影片色調一致']]},
+ {c:'50 歲媽媽，家族聚會的專屬攝影師',s:'過年與家族聚會要拍大合照，回家要做回憶給長輩看',p:'家族聚會人多，自拍時擠不進畫面；想拍出背景乾淨、突顯長輩的照片；聚會後要把照片整理好放給長輩看',hw:['camera','前置相機自動置中，人再多都拍得進去'],r:[['c4','團體自拍大家自動被框進來'],['c2','幫長輩拍出背景虛化的人像'],['p5','聚會結束一鍵做成幻燈片放給長輩看'],['p2','選集自動依人物整理，找照片輕鬆']]},
+ {c:'31 歲攝影愛好者，喜歡拍夜景與風景',s:'週末到各地拍夜景、街拍，回來慢慢挑選照片',p:'夜景與暗處拍攝的畫質要求高；單手拍攝時按螢幕不方便；背景有路人影響構圖；一次拍很多張要快速挑選',hw:['chip','拍很多張、連拍、修圖都不卡'],r:[['c1','廣角到望遠一鍵切換，構圖更靈活'],['c5','單手按鍵開相機、調整，街拍更隱蔽快速'],['p3','背景路人一鍵清除'],['p1','輸入「夜景」就找到']]},
+ {c:'29 歲活動企劃，常紀錄公司活動與講座',s:'活動現場拍照錄影，會後要整理成回顧影片與紀錄',p:'活動現場要長時間錄影，需要穩定畫質與續航；想讓講者畫面更有質感；活動後要快速整理成回顧，講座簡報文字也想直接擷取',hw:['battery','長時間錄影、整天活動電量夠'],r:[['v1','錄影解析度與幀率一鍵選，畫質有保障'],['v3','錄講者時自動追焦，畫面有電影感'],['p5','活動結束一鍵做成回顧幻燈片'],['p6','拍下簡報文字直接拷貝，不用重打']]}
+],
+'便利生活':[
+ {c:'30 歲行政專員，常拍文件、整理待辦與會議紀錄',s:'每天處理紙本資料、截圖傳訊息、整理待辦清單',p:'紙本文件隨身帶很不方便，也容易遺失；手機裡的資料散落各處，要用時找不到；看到的資訊需要快速截圖標示後傳給同事',hw:['battery','整天工作不怕沒電'],r:[['n3','紙本資料變成電子檔，隨身帶、隨時找'],['n2','待辦一項項勾掉，進度一眼看'],['m2','看到的資料立刻截圖圈重點傳給同事'],['m3','名片、文件上的字不用重打']]},
+ {c:'35 歲通勤上班族，搭捷運、常用手機買票與看資訊',s:'通勤路上快速操作手機、買票進站，睡前放床邊當時鐘，也常教長輩用手機',p:'通勤途中常用設定要進多層選單才找到；票券散在各處，進站時還要翻找；想教長輩使用手機，卻不知道怎麼示範操作',hw:['action','通勤單手好操作'],r:[['s2','常用開關一滑就到，不用進設定翻找'],['s1','床邊充電就是時鐘與行事曆'],['m5','進站刷手機，不用翻票'],['m1','把操作錄成影片，教長輩更簡單']]},
+ {c:'25 歲社會新鮮人，用手機記筆記與待辦',s:'剛上班，要記主管交代的事、整理待辦、偶爾截圖流程',p:'主管交代的事沒有整理，筆記雜亂沒有重點；待辦事項容易漏掉；手機畫面上 App 太多，要用時找不到',hw:['action','動作按鈕一鍵開常用功能'],r:[['n1','筆記有標題、粗體、項目符號，一眼抓重點'],['n2','交辦事項做成可勾選清單，不漏掉'],['s3','自訂主畫面，常用 App 一眼找到'],['s2','常用開關一滑就到，不用進設定翻找']]},
+ {c:'60 歲退休長輩，視力退化，想把手機用得舒服',s:'看新聞、和家人視訊、偶爾用手機拍照',p:'視力退化，手機上的字太小看不清楚；設定項目不知道從哪裡找；遇到看不懂的字，想直接知道意思',hw:['battery','一天用下來不怕沒電'],r:[['s3','圖示放大、畫面看得舒服，找 App 更容易'],['s2','亮度、音量一滑就調'],['m3','把不認識的字拍下來直接選取、翻譯'],['m1','請孩子把操作錄成影片，隨時回頭看']]},
+ {c:'40 歲業務，經常出差搭車、進場看展',s:'出差要用票券進場、查行程，晚上在飯店充電放床邊',p:'出差時票券散落，進場前要翻找；行程要反覆打開查詢；想把行程快速截圖標示後傳給客戶',hw:['action','動作按鈕一鍵開常用功能'],r:[['s2','常用設定一滑就到'],['s1','飯店床邊充電，待機模式就是時鐘與行程'],['m5','高鐵、展覽票券放錢包，進場一刷就好'],['m2','截圖標示行程傳給客戶']]},
+ {c:'28 歲補習班學生，需要整理上課資料',s:'上課拍黑板與講義、整理筆記、把重點分享給同學',p:'上課拍黑板與講義後，沒有整理容易忘記內容；筆記排版雜亂，複習時抓不到重點；想把講義上的文字直接放進筆記，不想手打',hw:['camera','拍黑板、講義的畫質清楚'],r:[['n3','講義、黑板直接掃描成電子檔'],['n1','筆記整理出標題與重點，複習更快'],['m2','截圖標示重點，傳給同學'],['m3','講義上的文字直接拷貝進筆記']]},
+ {c:'38 歲媽媽，家務加上孩子行程一把抓',s:'要記孩子的學校行程、採買清單，通勤接送時用手機看資訊',p:'孩子的行程與採買清單散在各處，容易忘東忘西；學校通知需要快速整理並分享給家人；活動票券想集中收好，進場時快速出示',hw:['battery','接送、採買一整天電量夠'],r:[['n2','採買清單與待辦用勾選，買到就勾掉'],['n1','學校行程用標題與項目符號整理好'],['m5','把學校活動票券放錢包，進場快速'],['m2','課表、通知截圖後圈重點，傳給家人']]},
+ {c:'45 歲店長，常要教新進同仁使用手機工具',s:'新人報到，要教怎麼操作打卡、拍文件、傳資料',p:'每次新人報到都要重新口頭說明操作；想留下可重複觀看的教材；文件需要電子化，方便新人隨時查閱',hw:['action','動作按鈕一鍵啟動常用功能'],r:[['m1','把操作過程錄成影片，新人可重複看'],['m2','截圖標示步驟，快速做成說明'],['n3','文件掃描成電子檔，新人隨時查'],['n1','教學筆記有標題與重點，新人好看懂']]}
+]};
+
+// iPad 客人題庫。hw:[[tag,why],[tag,why]]（至少 2 項）；acc:'kb'|'pencil'；r: iPad 功能×2、Pencil×2（pe）、kb 加分(可無)
+const C_IPAD = {
+'基礎操作':[
+ {c:'20 歲大學生，上課做筆記、查資料、寫報告',s:'課堂上一邊上網查資料、一邊做筆記，下課還要整理截圖給同學',p:'筆電太重，上課攜帶不方便；查資料與做筆記要在多個視窗之間來回切換；截圖後還要另外標示重點才能分享給同學',hw:[['display','上課看資料清楚'],['chip','查資料與筆記同時開也順']],acc:'kb',r:[['ib1','查資料、看講義分組放好，切換不混亂'],['ib2','資料與筆記來回切換，不用回主畫面'],['pe1','看到重點立刻截圖圈出，傳給同學一步完成'],['pe2','在搜尋欄直接寫字，不用叫出鍵盤'],['kb3','打報告時雙手不離開鍵盤，效率接近筆電']]},
+ {c:'62 歲退休長輩，用 iPad 看影片、視訊與寫字記事',s:'在家追劇、和孫子視訊，也想手寫記食譜與行程',p:'手機螢幕小，字看不清楚；設定項目不知道從哪裡找；不習慣用鍵盤打字，想直接手寫',hw:[['display','螢幕大、字看得清楚'],['unlock','解鎖免輸入密碼']],acc:'pencil',r:[['ib3','調亮度、音量一滑就好，不用到設定翻找'],['ib4','圖示放大、畫面看起來舒服'],['pe2','不習慣鍵盤，用手寫輸入搜尋與訊息'],['pe8','寫錯可整筆擦掉，像紙筆一樣自然']]},
+ {c:'45 歲家庭主婦，食譜、追劇、視訊都用 iPad',s:'廚房查食譜、客廳追劇、和家人視訊，也常截圖分享食譜',p:'食譜網頁很多，容易找不到；看影片時想快速調整亮度與音量；食譜截圖後想圈出重點，分享給朋友',hw:[['display','看食譜與影片清晰'],['unlock','廚房手濕用指紋或看臉快速解鎖']],acc:'pencil',r:[['ib1','食譜網頁用分頁群組分類放好'],['ib3','影片看到一半快速調亮度、音量'],['pe1','食譜截圖後圈出重點，分享給朋友'],['pe2','用手寫在搜尋欄輸入食材']]},
+ {c:'35 歲媽媽，孩子上網課、家人輪流共用 iPad',s:'孩子白天上網課，晚上自己用 iPad 追劇、看資料',p:'孩子上網課，要在網課與筆記之間快速切換；家人輪流使用，主畫面容易被弄亂；想在作業截圖上直接圈選重點',hw:[['chip','多個 App 同時開也順'],['display','螢幕大看得清楚，保護視力']],acc:'pencil',r:[['ib2','網課與筆記來回切換，不用回主畫面'],['ib4','主畫面照習慣排好，圖示大小可調'],['pe1','作業截圖直接圈選重點'],['pe2','不用打字，直接手寫搜尋']]},
+ {c:'28 歲上班族，常規劃旅行，查資料很多',s:'下班後規劃旅遊行程，同時看多個網站、地圖與訂房資料',p:'規劃旅行時網頁開太多，資料容易混亂；地圖、訂房資料要在多個 App 之間切換；手寫記下的電話與日期，想直接撥打或加入行事曆',hw:[['chip','多個網頁、App 同時開不卡'],['display','看地圖、照片清晰']],acc:'kb',r:[['ib1','旅遊網頁用分頁群組分區，不混亂'],['ib2','地圖與訂房網頁一滑就切換'],['pe1','行程截圖直接標示傳給旅伴'],['pe3','手寫電話、日期，一點就撥打或加入行事曆'],['kb3','查資料時雙手不離鍵盤，快速切換']]},
+ {c:'50 歲退休大叔，想學電腦也想練字',s:'每天用 iPad 看新聞、寫日記、跟老友視訊',p:'不熟悉鍵盤，打字很慢；設定項目不知道從哪找；字太小，看起來吃力',hw:[['display','螢幕大、字大看得舒服'],['unlock','解鎖不用輸入密碼']],acc:'pencil',r:[['ib4','圖示放大、深色或淺色隨喜好調整'],['ib3','亮度、音量一滑就調整'],['pe2','日記用手寫，自動轉成打字'],['pe8','寫錯擦掉，像在紙上一樣']]},
+ {c:'22 歲考證照考生，讀 PDF 講義與寫筆記',s:'每天在圖書館讀 PDF、整理筆記、截圖重點',p:'PDF 講義與筆記要在兩個 App 之間反覆切換；想在截圖重點上直接畫記；筆電太重，帶去圖書館不方便',hw:[['display','讀 PDF 清晰護眼'],['chip','講義與筆記同時開不卡']],acc:'kb',r:[['ib1','不同科目講義分頁群組，不搞混'],['ib2','講義與筆記一滑就切換'],['pe1','講義重點截圖後直接圈選'],['pe8','畫錯重點可擦除，像鉛筆一樣'],['kb3','複習時用快速鍵切換，效率更高']]},
+ {c:'38 歲咖啡店老闆，用 iPad 看報表、簽收貨單',s:'店內櫃檯用 iPad 看銷售報表、簽廠商送貨單、查網路資料',p:'報表與通訊軟體要來回切換；簽收貨單需要列印後再簽名；櫃檯忙碌時，想快速調整亮度與音量',hw:[['unlock','指紋或看臉快速解鎖，櫃檯忙也方便'],['usbc','USB-C 連接外接裝置與充電']],acc:'kb',r:[['ib2','報表與訊息來回切換，不用回主畫面'],['ib3','櫃檯亮度、音量一滑就調'],['pe1','單據截圖後直接簽名標示'],['pe2','用手寫在欄位直接輸入，不用叫出鍵盤'],['kb1','功能鍵列一排按鍵調亮度、音量']]}
+],
+'工作生產':[
+ {c:'25 歲新進專案助理',s:'每天開會、跟進專案，需要邊聽邊記、圈重點傳給同事',p:'紙本筆記散落，重點難以整理；打字速度跟不上開會進度；想找能取代紙筆的工具，並能快速分享重點給同事',hw:[['chip','開會時同時開好幾個 App 也不卡'],['unlock','指尖一按就解鎖，開會中快速打開']],acc:'kb',r:[['iw6','重要筆記釘在最上面，專案筆記一眼就找到'],['iw4','不用找按鈕，手指一滑就修改文字'],['pe2','開會直接手寫，不用打字也不用紙本'],['pe1','看到重點直接圈出來傳給同事'],['kb3','會用電腦的人馬上上手，效率更高']]},
+ {c:'34 歲行政人員，常外出開會、收簽核文件與回覆郵件',s:'在外開會時要簽文件、回郵件，會後還要整理手寫的會議記錄',p:'文件需要列印、簽名、再掃描，流程很繁瑣；郵件附件要在多個 App 間切換；手寫的會議記錄，之後還要再打字一次',hw:[['display','在外簽文件、看文件都清楚'],['chip','多個 App 同時處理也順']],acc:'kb',r:[['iw5','簽核文件在 iPad 上直接簽完回傳，不用列印掃描'],['iw7','會後直接回信附上簽好的文件'],['pe2','回郵件、填表單用手寫輸入'],['pe3','會議記錄寫下的日期、電話一點就加入行事曆或撥號'],['kb1','邊打字邊調亮度、音量，不用移手']]},
+ {c:'40 歲業務主管，經常做簡報與跟進客戶',s:'客戶端用 iPad 簡報、查資料、同時回訊息',p:'簡報與郵件需要同時看，來回切換很麻煩；客戶筆記與資料散落各處；想在客戶面前快速圈出重點',hw:[['chip','簡報、郵件同時開不卡'],['display','客戶面前展示資料清晰']],acc:'kb',r:[['iw3','簡報與郵件並排，像電腦一樣同時處理'],['iw6','客戶筆記用標籤與資料夾分類'],['pe1','客戶資料截圖後當場圈重點'],['pe2','需要補充時直接手寫，不用打斷節奏'],['kb2','軌跡板手勢跟 Mac 很像，上手快']]},
+ {c:'29 歲設計助理，同時開很多 App 協作',s:'要同時看設計稿、通訊軟體與參考資料，常在 App 間切換',p:'App 太多，主畫面雜亂；設計稿與訊息要在不同 App 間切換；修改意見需要快速標示給同事',hw:[['chip','多 App 同時開不卡'],['usbc','USB-C 外接裝置與高速傳檔']],acc:'kb',r:[['iw2','主畫面依工作整理，常用 App 放 Dock'],['iw3','設計稿與訊息並排，不用一直切換'],['pe1','設計稿截圖直接圈修改意見'],['pe8','標示錯了可擦掉重畫'],['kb2','軌跡板手勢快速切換 App']]},
+ {c:'33 歲遠端工作者，每天多場視訊會議',s:'在家一天好幾場視訊會議，同時要看文件、記筆記',p:'視訊時需要一直調整位置才能入鏡；會議中要同時看文件與筆記，切換不方便；想快速記下重點',hw:[['display','看文件與畫面清晰'],['chip','視訊與筆記同時開不卡']],acc:'kb',r:[['iw1','視訊走動時畫面自動跟隨，不用一直調位置'],['iw3','視訊與筆記並排，同時看'],['pe2','會議中直接手寫筆記，不用打字'],['pe1','會議畫面截圖後圈重點，傳給同事'],['kb1','功能鍵列快速調音量與亮度']]},
+ {c:'45 歲律所秘書，要簽署與寄送大量文件',s:'每天處理合約、要簽名與標示、回覆客戶郵件',p:'合約需要列印簽名再掃描，花很多時間；郵件附件容易漏附；重要電話與日期需要快速記下並使用',hw:[['display','看文件清晰，標示精準'],['unlock','指紋或看臉解鎖，快速進入文件']],acc:'kb',r:[['iw5','合約直接簽名標示，不用列印'],['iw7','郵件附檔、稍後傳送，一個 App 完成'],['pe2','填表單用手寫輸入'],['pe3','手寫電話、日期，一點就加入行事曆'],['kb3','用快速鍵快速拷貝貼上，效率更高']]},
+ {c:'31 歲專案經理，追蹤多個專案進度',s:'每天開會、追待辦、整理會議紀錄，要快速同步給團隊',p:'待辦與專案資料散落各處；會議紀錄整理很花時間；想快速把重點分享給團隊',hw:[['chip','多專案資料同時開也順'],['display','看甘特圖與文件清晰']],acc:'kb',r:[['iw6','專案筆記用釘選、標籤、資料夾整理'],['iw2','常用專案 App 放 Dock，一點就開'],['pe1','會議重點截圖圈出，直接分享'],['pe2','會議中直接手寫筆記轉文字'],['kb3','用快速鍵快速切換專案資料']]},
+ {c:'52 歲老師，備課與批改作業',s:'晚上在家備課、批改學生電子作業與 PDF',p:'批改學生 PDF 作業時，需要在多個 App 之間切換；想直接在作業上寫評語；教材需要整理分類',hw:[['display','看學生作業清晰'],['unlock','指紋或看臉快速解鎖']],acc:'pencil',r:[['iw5','學生 PDF 作業直接標示與簽名'],['iw4','手指一滑修改教材文字，不用找按鈕'],['pe1','作業截圖後直接寫評語'],['pe8','寫錯評語可擦掉重寫']]}
+],
+'創意創作':[
+ {c:'29 歲行銷企劃，常做活動企劃與簡報草圖',s:'和團隊開會時快速畫流程、排想法，會後把草圖整理成企劃',p:'白板拍照後難以整理；想法散在各處的便利貼；手繪草圖想要有筆觸質感，並能與團隊一起編輯',hw:[['display','畫圖、看圖精準'],['chip','多人協作與繪圖都順']],acc:'pencil',r:[['ic1','想法隨手排，會議草圖直接成型'],['ic2','流程圖用連接線串起，並邀請團隊一起編輯'],['pe6','依施力與傾斜改變筆觸，草圖有層次'],['pe5','雙指按壓叫出調色盤，換筆換色不中斷']]},
+ {c:'24 歲設計系學生，要畫草稿、拍攝素材與整理筆記',s:'上課筆記、拍作品照片後標示修改、課後畫設計草稿',p:'筆記與作品圖散在不同 App；想在作品照片上直接標註修改處；畫錯時需要能快速修改',hw:[['display','畫圖看圖精準'],['chip','繪圖與多 App 順暢']],acc:'pencil',r:[['ic3','筆記、圖稿、文件整理在同一份備忘錄'],['ic4','作品照片直接圈出要改的地方'],['pe4','畫圖時不用移手到工具列，一點就切換'],['pe2','在欄位直接手寫，自動轉成文字']]},
+ {c:'35 歲插畫愛好者，下班後接案畫插圖',s:'晚上用 iPad 畫插圖、記靈感，也常拍作品照做標示',p:'想要像真筆一樣有輕重變化的筆觸；靈感散落難以整理；作品照片想直接標示修改',hw:[['display','色彩準、畫面細膩'],['chip','繪圖與多圖層不卡']],acc:'pencil',r:[['ic3','靈感、草圖、文件放在同一份備忘錄'],['ic4','作品照片直接標示修改處'],['pe6','施力與傾斜改變筆觸，像真的筆一樣有輕重'],['pe5','一捏叫出工具，創作不中斷']]},
+ {c:'27 歲手帳玩家，喜歡手寫手帳與裝飾',s:'每天用 iPad 寫手帳、貼照片、畫裝飾',p:'想讓手寫更有質感；想把照片、文字混合排版；畫錯時想快速擦掉重來',hw:[['display','看手帳細節清晰'],['unlock','指紋或看臉快速解鎖']],acc:'pencil',r:[['ic3','手寫、照片、文件整合在同一份備忘錄'],['ic1','用便利貼、形狀、圖片排版手帳'],['pe6','筆觸有輕重，手帳更有質感'],['pe2','手寫文字自動轉成打字，手帳更好整理']]},
+ {c:'42 歲教師，用 iPad 當課堂白板',s:'課堂上快速畫圖、寫重點、與學生一起編輯內容',p:'課堂白板寫完擦掉就沒了；想讓學生一起參與編輯；想快速截圖整理成教材',hw:[['display','投影或展示時畫面清晰'],['chip','協作與繪圖流暢']],acc:'pencil',r:[['ic1','隨手排想法、畫圖，課堂白板直接成型'],['ic2','邀請學生一起編輯白板，互動更多'],['pe2','用手寫快速輸入文字'],['pe1','把畫面截圖圈重點，課後分享給學生']]},
+ {c:'30 歲攝影師，要修圖、標示、整理客戶回饋',s:'拍完作品要給客戶看，客戶回饋想直接在照片上標示',p:'客戶的修改意見散落在訊息裡；想直接在照片上標註；筆記也需要集中整理',hw:[['display','看照片色彩精準'],['usbc','USB-C 外接記憶卡讀卡機傳檔']],acc:'pencil',r:[['ic4','作品照片直接圈出客戶要修改的地方'],['ic3','客戶需求、照片、筆記整理在同一份備忘錄'],['pe1','把畫面截圖直接標註傳給客戶'],['pe4','切換標示工具不用移手到工具列']]},
+ {c:'26 歲 UI 設計新人，用 iPad 畫介面草圖',s:'平常在 iPad 畫介面草圖、截圖參考，與團隊討論',p:'介面草圖需要快速排版；需要精準畫線；想與團隊一起看圖討論',hw:[['display','看介面細節清晰'],['chip','繪圖流暢不卡']],acc:'pencil',r:[['ic1','便利貼、形狀快速排版介面草圖'],['ic4','參考圖直接標示修改'],['pe5','一捏叫出調色盤，換筆換色不中斷'],['pe7','筆尖懸浮預覽位置，下筆更準']]},
+ {c:'48 歲室內設計師，要畫空間草圖與跟客戶討論',s:'拜訪客戶時隨手畫空間草圖、拍現場照片標示修改',p:'到現場拍照後難以標示修改處；草圖要有輕重質感讓客戶有感；客戶意見要即時整理成紀錄',hw:[['display','客戶面前看圖與草圖清晰'],['chip','繪圖與標示不卡']],acc:'pencil',r:[['ic2','客戶討論用無邊記連接想法，並邀請協作'],['ic4','現場照片直接圈出修改處'],['pe6','草圖有輕重，客戶更有感'],['pe1','畫面截圖後直接標註，馬上分享']]}
+]};
+
+// ===== Mac 功能庫與機型資料 =====
+const F_MAC = {
+ // Switch to macOS
+ mf1:{n:'Finder',g:'t1',no:'Switch to macOS ①',t:'Mac 的檔案管理員，可用標籤與檢視方式整理檔案',p:'Finder > 檢視 > 顯示路徑列 > 檢視 > 以欄位顯示；右鍵檔案 > 標籤 > 選顏色',b:'檔案分類清楚，找檔案更快',w:'標籤入口依 macOS 版本，上機確認'},
+ mf2:{n:'App 選單',g:'t1',no:'Switch to macOS ②',t:'選單列最左側是目前 App 的專屬選單',p:'點選單列最左側的 App 名稱 > 查看該 App 專屬選項（設定、隱藏、結束）',b:'功能都在螢幕上方選單列，不用到處找',chk:true},
+ mf3:{n:'Spotlight',g:'t1',no:'Switch to macOS ③',t:'用快速鍵搜尋檔案、App 與資訊',p:'按 Command＋空白鍵 > 輸入檔名或 App 名稱 > 按 Return 開啟',b:'不用翻資料夾，輸入關鍵字就找到',w:'Windows 的 Ctrl 對應 Mac 的 Command'},
+ mf4:{n:'Quick Look',g:'t1',no:'Switch to macOS ④',t:'選取檔案後按空白鍵即可預覽，不用打開 App',p:'Finder > 點選檔案 > 按空白鍵預覽 > 再按空白鍵關閉',b:'不用打開檔案就能看內容，不怕按錯'},
+ mf5:{n:'控制中心',g:'t1',no:'Switch to macOS ⑤',t:'選單列右上角的控制中心，快速調整常用設定',p:'點選單列右上角控制中心圖示 > 拖曳亮度或音量滑桿 > 點需要的開關',b:'亮度、音量、Wi-Fi 一個地方就能調'},
+ mf6:{n:'通知中心',g:'t1',no:'Switch to macOS ⑥',t:'集中查看通知與小工具',p:'點選單列右上角日期與時間 > 開啟通知中心 > 查看通知與小工具',b:'錯過的通知與今日行程一處看完',chk:true},
+ mf7:{n:'多點觸控板（手勢操作）',g:'t1',no:'Switch to macOS ⑦',t:'用觸控板手勢快速切換、縮放與捲動',p:'系統設定 > 觸控板 > 更多手勢 > 試三指向上滑（調度中心）、雙指捏合縮放、雙指左右滑翻頁',b:'不用滑鼠，手指一滑就切換',chk:true},
+ mf9:{n:'Safari（標籤群組）',g:'t1',no:'Switch to macOS ⑨',t:'用標籤群組分類管理網頁',p:'Safari > 檔案 > 新增標籤群組 > 命名 > 把分頁拖進群組；側邊欄切換群組',b:'網頁依工作、生活分組，不混亂',chk:true},
+ mf10:{n:'桌面小工具',g:'t1',no:'Switch to macOS ⑩',t:'把天氣、行事曆等資訊放在桌面',p:'在桌面空白處右鍵 > 編輯小工具 > 選天氣或行事曆 > 點「＋」加入桌面',b:'打開電腦就看到天氣與行程',w:'入口依 macOS 版本，上機確認'},
+ mf11:{n:'視窗並排',g:'t1',no:'Switch to macOS ⑪',t:'將兩個視窗並排在螢幕左右，同時對照',p:'滑鼠移到視窗左上角綠色按鈕 > 選「將視窗平鋪到螢幕左側」> 另一側選擇另一個視窗',b:'兩份文件左右對照，不用一直切視窗',w:'選單文字依 macOS 版本，上機確認'},
+ // 照片、影片與創作
+ mp1:{n:'照片介面介紹',g:'t2',no:'照片、影片與創作 ①',t:'用圖庫、回憶、相簿與人物整理與尋找照片',p:'照片 > 側邊欄 > 人物 > 點人物的臉 > 瀏覽全部照片；再點相簿或回憶展示分類',b:'點人物就能一次找到所有照片'},
+ mp2:{n:'編輯相片',g:'t2',no:'照片、影片與創作 ②',t:'調整亮度、對比、色彩並裁切照片',p:'照片 > 雙擊照片 > 編輯 > 調整 > 拖曳亮度與對比滑桿 > 裁切 > 完成',b:'照片亮一點、色彩更真實'},
+ mp3:{n:'智慧照片編輯（清除）',g:'t2',no:'照片、影片與創作 ③',t:'用清除工具移除照片中不想要的路人或雜物',p:'照片 > 雙擊照片 > 編輯 > 清除 > 點選或圈選要移除的物件',b:'背景的路人、雜物一點就清掉',w:'可能需要 Apple Intelligence，上機確認支援，不行就換「編輯相片」',alt:'mp2'},
+ mp4:{n:'編輯影片',g:'t2',no:'照片、影片與創作 ④',t:'在照片 App 內修剪影片長度並套用濾鏡',p:'照片 > 雙擊影片 > 編輯 > 拖曳修剪滑桿 > 選濾鏡 > 完成',b:'短片剪到重點，更精簡',w:'影片素材要事先放入照片圖庫'},
+ mp5:{n:'AirDrop 分享',g:'t2',no:'照片、影片與創作 ⑤',t:'用 AirDrop 把照片與影片傳給附近的裝置',p:'照片 > 選取照片 > 點分享按鈕 > AirDrop > 點選對方裝置',b:'當面傳送，畫質不被壓縮',w:'需要附近有可用的 iPhone，並開啟 Wi-Fi 與藍牙'},
+ mp6:{n:'製作幻燈片秀',g:'t2',no:'照片、影片與創作 ⑥',t:'把選取的照片做成有主題與音樂的幻燈片秀',p:'照片 > 選取多張照片 > 檔案 > 製作 > 幻燈片秀 > 選主題與音樂 > 播放',b:'選幾張照片加音樂就能放給長輩看',w:'選單文字依 macOS 版本，上機確認'},
+ mp7:{n:'與您分享',g:'t2',no:'照片、影片與創作 ⑦',t:'朋友在訊息傳來的照片自動出現在照片 App',p:'照片 > 側邊欄「與您分享」> 查看朋友在訊息分享的照片',b:'朋友傳的照片自動整理，不用再翻訊息',chk:true},
+ mp8:{n:'原況文字',g:'t2',no:'照片、影片與創作 ⑧',t:'照片中的文字可直接選取、拷貝、翻譯',p:'照片 > 雙擊含文字的照片 > 拖選文字或點右下角原況文字圖示 > 拷貝',b:'名片、文件拍下來的字不用重打',chk:true},
+ // Pages
+ pg1:{n:'樣板',g:'t3',no:'Pages ①',t:'Pages 內建多種報告、傳單與海報樣板',p:'Pages > 檔案 > 新增 > 選報告／傳單／海報類樣板 > 選擇',b:'套上樣板就有專業版面，不用從零排'},
+ pg2:{n:'插入文字、圖表與照片',g:'t3',no:'Pages ②',t:'在文件中加入文字、圖表與照片',p:'插入 > 圖表 > 選圖表類型 > 編輯圖表資料；插入 > 選擇 > 選照片 > 拖曳調整位置',b:'數據用圖表呈現，更有說服力'},
+ pg3:{n:'編輯樣式',g:'t3',no:'Pages ③',t:'調整文字字體、顏色與段落樣式',p:'選取文字 > 右側格式面板 > 文字 > 調整字體、大小與顏色',b:'字體與顏色改成自己的風格，更有辨識度',w:'面板名稱依版本，上機確認'},
+ pg5:{n:'輸出與分享',g:'t3',no:'Pages ⑤',t:'輸出成 PDF、Word 或圖像，或邀請他人協作',p:'Pages > 檔案 > 輸出為 > PDF（或 Word／圖像）> 儲存；工具列 共享 > 協作 > 邀請',b:'格式不跑掉，也可多人同時編輯',w:'協作需要 iCloud 帳號'},
+ pg7:{n:'從背景中突顯主體',g:'t3',no:'Pages ⑦',t:'把照片主體從雜亂背景中分離出來',p:'選取照片 > 格式 > 圖像 > 從背景中突顯主體（或 移除背景）',b:'去掉雜亂背景，主體更突出',w:'入口依 Pages 版本，上機確認'},
+ pg9:{n:'iCloud 同步',g:'t3',no:'Pages ⑨',t:'文件存在 iCloud 雲碟，其他裝置同步最新版本',p:'Pages > 檔案 > 移到 > iCloud 雲碟 > 在 iPhone 或 iPad 的 Pages 確認最新版本',b:'在哪台裝置改，其他裝置都看得到',w:'要登入同一個 Apple 帳號',chk:true},
+ // Keynote
+ kn1:{n:'樣板',g:'t4',no:'Keynote ①',t:'Keynote 內建多種主題樣板',p:'Keynote > 檔案 > 新增 > 選主題樣板 > 選擇',b:'套用專業主題，簡報版面立刻整齊'},
+ kn2:{n:'動畫',g:'t4',no:'Keynote ②',t:'讓物件依照說明節奏逐步登場',p:'選取物件 > 動畫面板 > 加入效果 > 建立進場 > 選動畫',b:'重點一個一個出現，聽眾跟得上節奏',w:'面板名稱依 Keynote 版本，上機確認'},
+ kn4:{n:'圖表',g:'t4',no:'Keynote ④',t:'把數字做成圖表',p:'插入 > 圖表 > 選圖表類型 > 編輯圖表資料 > 輸入數字',b:'數字變成圖，一眼看懂趨勢'},
+ kn5:{n:'插入照片與網路影片',g:'t4',no:'Keynote ⑤',t:'加入本機照片與網路影片連結',p:'插入 > 選擇 > 選照片；插入 > 網頁影片 > 貼上影片網址',b:'案例照片和示範影片直接在投影片裡播',w:'網路影片需要連網'},
+ kn6:{n:'輸出與分享',g:'t4',no:'Keynote ⑥',t:'輸出成 PDF 或 PowerPoint',p:'Keynote > 檔案 > 輸出為 > PDF（或 PowerPoint）> 儲存',b:'傳給對方格式不跑掉，用哪種軟體都能開'},
+ kn7:{n:'插入即時影片',g:'t4',no:'Keynote ⑦',t:'在投影片中加入鏡頭即時畫面',p:'插入 > 影片 > 即時影片 > 選鏡頭來源 > 拖曳調整位置',b:'講者畫面直接放在投影片裡，線上更有臨場感',w:'入口依 Keynote 版本，上機確認'},
+ kn9:{n:'從背景中突顯主體',g:'t4',no:'Keynote ⑨',t:'把照片主體從背景中分離出來',p:'選取照片 > 格式 > 圖像 > 從背景中突顯主體（或 移除背景）',b:'去掉雜亂背景，讓重點更明確',w:'入口依 Keynote 版本，上機確認'},
+ kn10:{n:'iCloud 同步',g:'t4',no:'Keynote ⑩',t:'存在 iCloud 雲碟，其他裝置同步最新版本',p:'Keynote > 檔案 > 移到 > iCloud 雲碟 > 在 iPhone 或 iPad 的 Keynote 確認最新版本',b:'家裡改的教材，公司的 iPad 也看得到',w:'要登入同一個 Apple 帳號'},
+ // Mac 無線超能力
+ wl1:{n:'接力',g:'t5',no:'Mac 無線超能力 ①',t:'在一台裝置開始的工作，到另一台接著做',p:'iPhone 備忘錄 > 開始輸入 > Mac Dock 出現接力圖示 > 點一下接續',b:'手機寫到一半，到 Mac 接著寫',w:'可能要等幾秒；同 Apple 帳號、藍牙＋Wi-Fi 開啟'},
+ wl2:{n:'接續互通相機（視訊、掃描、拍照）',g:'t5',no:'Mac 無線超能力 ②',t:'用 iPhone 當 Mac 的相機，拍照或掃描文件直接進 Mac',p:'Mac Pages 或備忘錄 > 右鍵（或 檔案）> 從 iPhone 或 iPad 匯入 > 拍攝照片或掃描文件 > iPhone 自動開相機 > 拍完出現在 Mac',b:'現場拍名片、白板，直接進文件，不用再傳',w:'iPhone 要在附近且已解鎖；掃描文件會自動裁切、校正'},
+ wl3:{n:'iPhone 鏡像輸出',g:'t5',no:'Mac 無線超能力 ③',t:'在 Mac 上看到並操作 iPhone 畫面',p:'iPhone 鎖定 > Mac 開「iPhone 鏡像輸出」App > 依提示驗證 > 在 Mac 上操作 iPhone',b:'手機在充電或在包包裡，也能在 Mac 回訊息、開 App',w:'iPhone 必須是鎖定狀態；台灣可用（歐盟不提供）'},
+ wl4:{n:'iPad 並行',g:'t5',no:'Mac 無線超能力 ④',t:'把 iPad 當作 Mac 的第二個螢幕',p:'Mac 系統設定 > 顯示器 > 點「＋」> 鏡像輸出或延伸至 > 選 iPad',b:'多一個螢幕對照資料，寫報告更方便',w:'連線可能要等；與「通用控制」容易混淆；選單文字依版本上機確認'},
+ wl5:{n:'通用剪貼板',g:'t5',no:'Mac 無線超能力 ⑤',t:'在一台裝置拷貝，另一台直接貼上',p:'iPhone 備忘錄 > 長按選取文字 > 拷貝 > Mac 開 Pages > Command+V 貼上',b:'手機上看到的資料直接貼到電腦文件，不用傳訊息',w:'最穩定、零設定，建議放第一個；拷貝後盡快貼上'},
+ wl6:{n:'AirPlay to Mac',g:'t5',no:'Mac 無線超能力 ⑥',t:'把 iPad 或 iPhone 的畫面、影片投到 Mac',p:'Mac 系統設定 > 一般 > 隔空播放與接續互通 > 允許 AirPlay 接收器 > iPhone／iPad 影片點 AirPlay > 選 Mac',b:'手機上的簡報或影片投到 Mac 大螢幕',w:'多一個接受步驟，容易卡住；設定路徑依 macOS 版本，上機確認'},
+ wl7:{n:'通用控制',g:'t5',no:'Mac 無線超能力 ⑦',t:'用一組鍵盤和觸控板同時控制 Mac 和 iPad',p:'Mac 系統設定 > 顯示器 > 點「＋」> 連結鍵盤和滑鼠 > 選 iPad > 將游標拉到螢幕邊緣進入 iPad',b:'不用換鍵盤滑鼠，游標移到邊緣就進 iPad',w:'兩台裝置要靠近；選單文字依系統版本，上機確認'}
+};
+const T_MAC = {t1:'Switch to macOS',t2:'照片、影片與創作',t3:'Pages',t4:'Keynote',t5:'Mac 無線超能力'};
+const PREP_WL = '準備時間先確認：裝置登入同一個 Apple 帳號、Wi-Fi 與藍牙開啟、距離近；iPhone 設定 > 一般 > 隔空播放與接續互通 > 接力；Mac 系統設定 > 一般 > 隔空投送與接力 > 允許接力。第一個功能建議放「通用剪貼板」最穩。';
+// Mac 硬體：tag -> [特點, 示範路徑, 提醒]
+const M_MAC = {
+ 'MacBook Neo':{
+  design:['13 吋鋁金屬機身，約 1.23 公斤、厚度 1.27 公分；四種顏色：Silver、Blush、Citrus、Indigo','拿起機身、單手掀開螢幕；蘋果選單 > 關於這台 Mac','中文色名以台灣官網為準；不要講未查證的材質或工藝'],
+  chip:['A18 Pro 晶片：6 核心 CPU、5 核心 GPU、16 核心神經網路引擎，8GB 統一記憶體','開 Safari、照片、Pages > Command+Tab 快速切換','8GB 記憶體要誠實說適合輕量日常使用；不要跟 M 系列比跑分'],
+  display:['13 吋 Liquid Retina，2408×1506，最高 500 尼特','開啟照片或影片 > 按亮度鍵調高亮度','不要說 P3 廣色域或 True Tone'],
+  battery:['36.5 瓦時電池，影片串流最長 16 小時；附 20W USB-C 充電器','系統設定 > 電池','數字是 Apple 測試值，要說「最長」'],
+  cam:['1080p FaceTime HD 相機、雙麥克風陣列、雙喇叭（空間音訊）','開 FaceTime 讓客人看畫面、聽聲音','說明是哪項規格'],
+  who:'學生與第一次買 Mac 的人；從 Windows 轉換的人；家用文書、上網、追劇的人；已有 iPhone 的人。為何喜歡：重量輕、續航長、加入 Mac 的門檻較低（價格以台灣官網為準，不要自己估價）'},
+ 'MacBook Air (M4)':{
+  design:['13／15 吋兩種尺寸；午夜色、星光色、銀色、天藍色','拿起機身展示輕薄；蘋果選單 > 關於這台 Mac','重量與厚度以台灣官網為準，不要憑印象講數字'],
+  chip:['M4 晶片，統一記憶體 16GB 起','開 3 個以上 App > 按 Control＋↑ 叫出調度中心查看全部視窗','不要跟 Pro 比跑分；記憶體以台灣官網配置為準'],
+  battery:['影片播放最長 18 小時','系統設定 > 電池','數字是 Apple 測試值，要說「最長」'],
+  cam:['12MP Center Stage 相機，視訊時自動讓人物維持在畫面中','FaceTime 或視訊 App > 控制中心 > 視訊效果 > 開啟置中視角','效果入口依 macOS 版本，上機確認'],
+  ext:['最多可外接 2 個顯示器','接上外接顯示器 > 系統設定 > 顯示器 > 排列 > 拖曳調整位置','外接數量與條件以台灣官網為準'],
+  who:'學生與研究生；要輕薄、續航長的一般辦公與創作入門者；經常出差又需要外接大螢幕的商務人士（價格以台灣官網為準，不要自己估價）'},
+ 'MacBook Pro (M6)':{
+  design:['14 吋機身；太空黑色、銀色','拿起機身展示質感；蘋果選單 > 關於這台 Mac','重量厚度以台灣官網為準，不要憑印象講數字'],
+  chip:['M6 晶片：12 核心 CPU／GPU，統一記憶體 16GB 起、最高 32GB','開剪輯 App 與照片 > 活動監視器 > 記憶體（觀察使用狀況）','規格以台灣官網配置為準；不要與其他機型比跑分'],
+  ports:['3 個 Thunderbolt 4、HDMI、SDXC 讀卡機、MagSafe 3 充電','插入 SD 卡 > Finder 側邊欄外接裝置 > 拖曳匯入；接上 HDMI > 系統設定 > 顯示器 > 排列','連接埠數量以官網為準；需要有 SD 卡與 HDMI 線示範'],
+  battery:['最長 24 小時電池續航，MagSafe 3 充電','系統設定 > 電池','數字是 Apple 測試值，要說「最長」'],
+  ne:['雙 16 核心神經網路引擎，統一記憶體 16GB 起、最高 32GB','開 Xcode 與其他 App > 活動監視器 > 記憶體（觀察記憶體壓力）','神經網路引擎規格以官網為準；不要宣稱未驗證的模型速度'],
+  who:'影音創作者、攝影師、設計師、軟體工程師、開發者、資料與 AI 工作者等高效能需求者（價格以台灣官網為準，不要自己估價）'}
+};
+
+// Mac 硬體客人：hw:[[tag,好處]]（2–3 項）；who:購買族群怎麼講；scene:適合情境與示範
+const C_MACHW = {
+'MacBook Neo':[
+ {c:'大一新生，第一次買自己的筆電',s:'平日上課記筆記、課後在咖啡廳寫報告、通勤背著走',p:'預算有限，希望第一台筆電門檻不要太高；每天背著走，擔心機身太重；一整天課程下來，擔心電池撐不住',hw:[['chip','上課筆記、上網、照片影片等日常都順'],['battery','上一整天課不用帶充電器']],who:'這台最多人選的是學生和第一次買 Mac 的人，像您是第一次自己買筆電，上手門檻低又好入門。',scene:'像您平常上課記筆記、在咖啡廳寫報告，我直接開備忘錄打字給您看，還能用 iPhone 傳照片進來：開備忘錄或 Pages 打字示範；Mac 開「iPhone 鏡像輸出」'},
+ {c:'45 歲家庭主婦，這是家裡第一台電腦，孩子與自己共用',s:'孩子寫功課與上網課，自己上網購物、視訊與整理照片',p:'預算有限，這是家裡第一台電腦；家人共用時，擔心設定被搞亂；擔心自己不會操作',hw:[['chip','孩子寫功課、媽媽上網購物都順'],['battery','沙發上直接用，不用一直找插座']],who:'這台很適合家用文書、上網追劇的家庭，也適合第一次買電腦的人，像您這是全家的第一台，門檻低最剛好。',scene:'像孩子寫功課、您自己網購和視訊，我示範為每位家人建立各自的帳號，大家輪流用也不會互相干擾：系統設定 > 使用者與群組 > 加入使用者…'},
+ {c:'62 歲退休長輩，想學電腦也想看孫子的照片',s:'在家上網看新聞、看家人傳來的照片、偶爾視訊',p:'擔心電腦太複雜學不會；螢幕要看得清楚，才能看孫子的照片；希望視訊時畫面與聲音都清楚',hw:[['display','看照片、追劇清晰'],['cam','視訊時看得清楚、聽得清楚']],who:'這台很適合想把電腦用得簡單的人，家用上網、看照片、追劇都足夠，像您想學電腦又不想太複雜，很合適。',scene:'像您想看孫子的照片、偶爾視訊，我直接打開照片和 FaceTime，給您看畫面與聲音：開啟照片或 FaceTime 示範'},
+ {c:'24 歲轉職新鮮人，從 Windows 轉到 Mac',s:'新工作配 Mac 太貴，想買一台自己用；平常寫履歷、上網找資料',p:'預算有限；不熟悉 Mac 操作；想要輕巧好攜帶，在咖啡廳也能使用',hw:[['chip','履歷、文書、上網都順'],['battery','咖啡廳寫履歷一整天']],who:'這台很適合從 Windows 轉過來的人，也適合第一次買 Mac 的人，像您想先有自己的電腦寫履歷，輕巧好上手。',scene:'像您在咖啡廳寫履歷、查資料，我開 Pages 打字、Safari 看網頁，切換 App 也很流暢：開 Pages 打字、Safari 看網頁 > Command+Tab 切換'},
+ {c:'35 歲媽媽，孩子上網課也要自己追劇',s:'白天孩子上網課，晚上自己用來追劇、整理孩子照片',p:'預算有限；擔心電池撐不住，孩子上課與自己追劇都要用；孩子與自己共用，需要輕鬆管理',hw:[['display','追劇、看照片清晰'],['battery','上課追劇一整天不用找插座']],who:'這台適合家用文書、上網追劇的人，也適合已經有 iPhone 的人，像您家裡孩子上課、自己追劇，一台就夠。',scene:'像孩子寫作業、您晚上追劇，我打開影片和照片，按亮度鍵調高給您看畫面：開啟影片或照片 > 按亮度鍵調高'},
+ {c:'27 歲自由工作者，咖啡廳寫稿與寫提案',s:'常換咖啡廳工作，背著電腦走，要視訊討論',p:'常換咖啡廳工作，背著電腦走怕太重；擔心電池撐不住；視訊時需要畫面與聲音清楚',hw:[['battery','咖啡廳一整天不用找插座'],['cam','視訊討論看得清楚、聽得清楚']],who:'這台適合需要輕巧隨身的文書工作者，像您常換咖啡廳寫稿，帶著不累。',scene:'像您在咖啡廳寫稿、跟客戶視訊，我拿起機身給您感受重量，再開 FaceTime 看畫面與聲音：拿起機身展示；開 FaceTime 示範'},
+ {c:'30 歲租屋族，空間小，家用文書上網',s:'下班後上網、看劇、寫簡單文件，桌子很小',p:'住家空間小，需要輕巧好收納的電腦；預算有限；下班想窩在沙發看劇，畫面要清晰',hw:[['chip','文書、上網、追劇都順'],['display','窩在沙發或桌前看劇清晰']],who:'這台特別適合家用文書、上網追劇的人，像您住的空間小、下班想窩在沙發看劇，輕巧好收納。',scene:'像您下班追劇、寫簡單文件，我開影片和 Pages 示範，操作都很流暢：開影片、Pages 示範'},
+ {c:'50 歲老師，備課與批改作業',s:'晚上在家備課、做簡單教材、上網查資料',p:'預算有限；需要輕便好攜帶；擔心操作太複雜',hw:[['chip','教材、上網、照片整理都順'],['battery','在學校與家裡兩邊帶也不怕沒電']],who:'這台適合以文書、上網為主的人，也適合第一次買 Mac 的人，像您備課、做教材，簡單好上手。',scene:'像您晚上備課做教材，我開 Pages 或 Keynote 打字示範，再用 iPhone 傳照片進來：開 Pages 或 Keynote 打字示範；iPhone 傳照片'}
+],
+'MacBook Air (M4)':[
+ {c:'26 歲研究生，讀論文、寫報告、跑統計軟體',s:'同時開 PDF、文獻管理、文書與視訊討論，一天在外約 10 小時',p:'同時開啟的視窗太多時，電腦容易變慢；圖書館與實驗室的充電座位難找；視訊討論時畫面不清楚，人也容易沒對到鏡頭',hw:[['chip','論文、PDF、文書、統計軟體同時開也順'],['battery','一天在外不一定要找插座'],['cam','視訊討論人走動也在畫面中']],who:'Air 最多人選的是學生和研究生，也適合要輕薄、續航長的人，像您整天在外移動，剛好合適。',scene:'像您在圖書館讀論文、在實驗室跑資料，我同時打開 Safari、備忘錄和 Pages，用調度中心把視窗並排給您看：開 Safari、備忘錄與 Pages > Control＋↑ 檢視視窗 > 拖曳並排'},
+ {c:'38 歲管理顧問，常出差、到客戶端簡報',s:'出差帶著走、客戶端簡報與視訊會議，回辦公室接外接螢幕',p:'出差時行李很重；視訊會議時畫面常常沒對到人；辦公室需要大螢幕，但不想另外買桌機',hw:[['cam','視訊站起來、走動都不會出框'],['ext','回辦公室接上大螢幕就是桌機']],who:'Air 特別適合經常出差的商務人士，也適合要輕薄又要外接大螢幕的人，像您出差帶著走、回辦公室接螢幕，剛好。',scene:'像您在客戶端簡報、回辦公室接螢幕，我開 Keynote 進簡報模式，示範外接螢幕輸出：開 Keynote > 簡報模式 > 外接螢幕輸出；系統設定 > 顯示器 > 排列'},
+ {c:'42 歲大學講師，每天備課與視訊授課',s:'在研究室備課、教室簡報、晚上在家線上授課',p:'研究室、教室兩邊來回帶電腦很重；線上授課時走動，畫面對不到人；教學時想接大螢幕',hw:[['cam','線上授課走動，畫面自動跟隨'],['ext','教室接投影或大螢幕簡報']],who:'Air 適合要輕薄、續航長又能外接螢幕的人，像您在研究室、教室、家裡三個地方都要用，很合適。',scene:'像您在教室簡報、晚上線上授課，我開 Keynote 並接外接螢幕給您看：開 Keynote > 簡報模式 > 外接螢幕輸出；系統設定 > 顯示器 > 排列'},
+ {c:'29 歲文案企劃，咖啡廳工作也常客戶視訊',s:'在咖啡廳寫文案與提案，下午與客戶視訊',p:'咖啡廳插座少，擔心電量不夠；視訊時畫面不夠好看；同時開多個 App 時容易變慢',hw:[['battery','咖啡廳一整天不用找插座'],['cam','視訊畫面自動置中，專業好看']],who:'Air 適合要輕薄、續航長的辦公與創作入門者，像您在咖啡廳寫文案、下午視訊提案，剛好。',scene:'像您在咖啡廳工作，我同時開幾個 App，用調度中心看全部視窗，切換很順：開多個 App > Control＋↑ 檢視視窗'},
+ {c:'33 歲業務，每週跑客戶、現場簡報',s:'到客戶端簡報，回公司接大螢幕處理資料',p:'跑客戶行李很重；客戶端簡報需要連接大螢幕；整天在外，擔心電池不夠',hw:[['ext','客戶端與辦公室接螢幕都方便'],['battery','整天跑客戶不用找插座']],who:'Air 特別適合經常出差、跑客戶的商務人士，像您需要輕薄好帶又能接螢幕。',scene:'像您在客戶端簡報、回辦公室接雙螢幕，我開 Keynote 示範簡報模式與外接螢幕：開 Keynote > 簡報模式 > 外接螢幕輸出'},
+ {c:'31 歲新創創辦人，一人身兼多職',s:'一個人處理企劃、財務、視訊、提案，常在外跑',p:'一個人要處理企劃、財務、視訊等多項工作，需要什麼都能做的電腦；同時開多個 App 容易卡；常在外跑，電池要夠',hw:[['chip','企劃、報表、視訊同時開也順'],['battery','整天在外也撐得住'],['cam','視訊提案畫面自動置中']],who:'Air 適合想要輕薄、續航長的一般辦公與創作入門者，像您一個人要處理很多事，一台搞定。',scene:'像您整天在外辦公，我同時開幾個 App，用調度中心把視窗並排給您看：開多個 App > Control＋↑ 檢視視窗 > 拖曳並排'},
+ {c:'25 歲設計新人，剛入行要輕薄好帶的電腦',s:'平常看稿、做簡單排版、跟客戶視訊對稿',p:'想要輕薄好帶的電腦；同時開多個視窗時容易變慢；視訊對稿時，希望畫面自然好看',hw:[['chip','設計稿、PDF、通訊軟體同時開也順'],['cam','視訊對稿自動置中']],who:'Air 適合創作入門者，也適合要輕薄、續航長的人，像您剛入行，帶著出門方便又足夠用。',scene:'像您在咖啡廳對稿、在公司接螢幕看稿，我示範外接螢幕的排列：接上外接顯示器 > 系統設定 > 顯示器 > 排列'},
+ {c:'45 歲會計師，在事務所與客戶端兩邊跑',s:'客戶端對帳、事務所大螢幕處理報表',p:'在客戶端與事務所兩邊跑，帶電腦很重；對帳報表需要大螢幕；視訊與會議也很頻繁',hw:[['ext','事務所接大螢幕看報表'],['chip','報表、試算表、視訊同時開也順']],who:'Air 適合要輕薄又能外接螢幕的商務人士，像您在事務所和客戶端兩邊跑，剛好。',scene:'像您在客戶端對帳、回事務所接大螢幕看報表，我開試算表和 Keynote 示範外接螢幕：開試算表與 Keynote > 系統設定 > 顯示器 > 排列'}
+],
+'MacBook Pro (M6)':[
+ {c:'32 歲影音創作者，經營頻道並接商業案',s:'外拍回來把相機記憶卡素材匯入剪輯，接外接螢幕調色與輸出',p:'素材量大，匯出需要等很久；外拍常帶一堆轉接頭，很麻煩；外拍一整天，擔心電池不夠',hw:[['chip','多軌剪輯、特效與匯出更有餘裕'],['ports','記憶卡直接插、外接螢幕直接接'],['battery','外拍一整天不焦慮']],who:'Pro 是為影音創作者、攝影師、設計師和工程師這類高效能需求者準備的，像您常剪輯和調色，剛好。',scene:'像您外拍回來讀卡匯入、剪輯，再接外接螢幕調色輸出，我示範匯入記憶卡素材，再接上外接螢幕：照片 > 檔案 > 匯入 > 選記憶卡素材 > 匯入；接外接螢幕 > 系統設定 > 顯示器 > 排列'},
+ {c:'30 歲軟體工程師，開發 App 並在本機跑小型 AI 模型',s:'白天編譯專案、跑模型測試，晚上有時在家接螢幕或到咖啡廳寫程式',p:'編譯專案與跑模型需要等很久；記憶體不夠時電腦就卡；外出寫程式時擔心電量不足',hw:[['ne','本機跑模型與開發工具同時開也有餘裕'],['battery','外出寫程式不焦慮']],who:'Pro 適合軟體工程師、開發者和資料與 AI 工作者，像您需要穩定的算力和記憶體。',scene:'像您白天編譯專案、跑模型，我開 Xcode 或終端機示範專案編譯，晚上回家也能接螢幕除錯：開終端機或 Xcode > 示範專案編譯；接外接螢幕'},
+ {c:'36 歲婚禮攝影師，每週都要處理大量照片',s:'拍完婚禮，回家把數千張照片匯入、挑選、修圖交件',p:'每次婚禮要處理幾千張照片，匯入很慢；記憶卡轉接頭常忘記帶；想在現場快速預覽照片',hw:[['ports','SD 卡直接插，不用轉接頭'],['chip','數千張照片修圖也順']],who:'Pro 適合攝影師和影像工作者，像您每週要處理大量照片，高效能和接口齊全很加分。',scene:'像您拍完婚禮回家匯入、挑選、修圖，我示範把 SD 卡直接插入匯入：插入 SD 卡 > Finder 側邊欄外接裝置 > 拖曳匯入'},
+ {c:'28 歲 3D 動畫設計師，做動畫與渲染',s:'在公司與家裡用同一台電腦做 3D 場景與渲染',p:'渲染 3D 場景需要等很久；同時開多個軟體時容易卡；需要外接大螢幕',hw:[['chip','3D 場景與渲染更有餘裕'],['ports','HDMI 直接接大螢幕']],who:'Pro 適合設計師和創作者這類高效能需求者，像您做 3D 場景和渲染，需要充足效能。',scene:'像您在公司和家裡接螢幕做 3D，我示範接上 HDMI 的外接螢幕排列：接上 HDMI > 系統設定 > 顯示器 > 排列'},
+ {c:'34 歲音樂製作人，在錄音室與家裡切換',s:'帶著電腦到錄音室，也在家編曲與混音',p:'音軌很多時電腦容易卡；需要連接外接音訊介面與螢幕，接口不夠；外出錄音擔心電量',hw:[['chip','多軌編曲、混音有餘裕'],['ports','外接音訊介面與螢幕不用轉接頭'],['battery','外出錄音不焦慮']],who:'Pro 適合音樂製作人和創作者，像您音軌多又要接外接介面，接口齊全很方便。',scene:'像您在錄音室和家裡之間切換，我示範接上外接裝置與螢幕：接上外接裝置 > 系統設定 > 顯示器 > 排列'},
+ {c:'31 歲資料科學家，每天跑資料分析與小型模型',s:'白天在公司跑資料與訓練小模型，晚上在家調整',p:'資料量大，執行分析要等很久；記憶體不夠時電腦就卡；外出時擔心電量不夠',hw:[['ne','跑模型與開發工具同時開有餘裕'],['chip','資料處理更有餘裕'],['battery','外出不焦慮']],who:'Pro 適合資料與 AI 工作者，像您跑資料和小型模型，需要穩定的算力與記憶體。',scene:'像您在公司跑資料、咖啡廳調整，我開 Xcode 或終端機，再看活動監視器的記憶體使用：開 Xcode 或終端機 > 活動監視器 > 記憶體'},
+ {c:'40 歲建築師，常出圖也常到工地看圖',s:'辦公室畫圖、輸出，也帶電腦到客戶端與工地簡報',p:'圖檔很大，開啟與輸出很慢；需要接大螢幕；到客戶端簡報時，擔心電池不夠',hw:[['chip','大型圖檔開啟與輸出更順'],['ports','HDMI 接客戶端投影不用轉接頭']],who:'Pro 適合建築師、設計師這類高效能需求者，像您圖檔很大、還要去客戶端簡報。',scene:'像您在辦公室出圖、到客戶端簡報，我示範接上 HDMI 投影的排列：接上 HDMI > 系統設定 > 顯示器 > 排列'},
+ {c:'27 歲 YouTuber，每週更新影片',s:'邊拍邊剪，常在旅途中剪輯並上傳',p:'剪片匯出要等很久；旅途中擔心沒電；相機卡片需要轉接頭才能讀取',hw:[['ports','相機卡直接插、不用轉接頭'],['battery','旅途剪片也不焦慮'],['chip','匯出更快']],who:'Pro 適合影音創作者，像您每週剪片、旅途中也要剪，高效能與續航都很重要。',scene:'像您旅途中讀卡、剪輯，我示範把相機卡直接插入匯入：插入 SD 卡 > Finder 外接裝置 > 匯入'}
+]};
+// Mac 軟體客人
+const C_MACSW = {
+ 't1':[
+  {c:'32 歲行政會計，用了十年 Windows，公司剛好改用 Mac',s:'每天處理大量檔案與表單，常需要兩份文件對照著看',p:'不熟 Mac 操作；檔案找不到；兩份文件對照要一直切視窗',r:[['mf11','兩份文件左右對照，不用一直切視窗'],['mf3','不用翻資料夾，輸入關鍵字就找到'],['mf1','檔案分類清楚，找檔案比以前更快']]},
+  {c:'58 歲退休教師，第一次使用 Mac',s:'在家看孩子寄來的照片與文件、查天氣、記行程',p:'怕按錯、不知道點哪裡；想快速看檔案內容；常用資訊想一眼看到',r:[['mf4','不用打開檔案就能看內容，不怕按錯'],['mf5','亮度、音量、Wi-Fi 一個地方就能調'],['mf10','打開電腦就看到天氣與行程']]},
+  {c:'27 歲行銷人員，從 Windows 換到 Mac',s:'工作要同時開很多檔案與網頁，要快速切換',p:'網頁開太多亂；找檔案要翻很久；不習慣 Mac 的操作',r:[['mf9','網頁依專案分標籤群組，不混亂'],['mf3','輸入關鍵字就找到檔案與 App'],['mf7','觸控板手勢一滑就切換視窗']]},
+  {c:'45 歲行政助理，公司剛換成 Mac',s:'每天回信、整理文件、查資料，要快速上手',p:'不知道選單在哪；通知很多會漏掉；視窗亂',r:[['mf2','功能都在螢幕上方選單列，知道去哪裡找'],['mf6','通知與行程集中在通知中心，不漏掉'],['mf11','資料與文件左右並排處理']]},
+  {c:'34 歲工程助理，常用檔案與表格',s:'同時看圖紙與報表，要在檔案間快速切換',p:'檔案太多找不到；要同時看兩份資料；快速預覽檔案內容',r:[['mf1','用標籤與欄位檢視整理檔案'],['mf4','按空白鍵就預覽，不用一個個打開'],['mf11','圖紙與報表並排對照']]},
+  {c:'50 歲房仲，常用電腦看資料與回訊息',s:'白天跑客戶，晚上用電腦整理物件資料',p:'操作不熟；資料散落；想快速查天氣與行程',r:[['mf10','天氣與行程放桌面，一眼掌握'],['mf5','常用設定一個地方就調'],['mf3','輸入物件名稱就找到資料']]},
+  {c:'22 歲大學生，第一次用 Mac 寫報告',s:'上課筆記、寫報告、查資料，要同時看多份資料',p:'不熟快速鍵；不知道怎麼切換；資料與報告要並排',r:[['mf11','參考資料與報告並排，邊看邊寫'],['mf3','Spotlight 搜尋檔案，Command＋空白鍵'],['mf7','觸控板手勢切換視窗與桌面']]},
+  {c:'60 歲長輩，剛學電腦',s:'看孫子照片、查資訊、偶爾視訊',p:'怕按錯；不知道設定在哪；想看大一點的資訊',r:[['mf4','按空白鍵預覽照片，不怕按錯'],['mf5','亮度、音量一個地方調'],['mf10','把天氣與行事曆放桌面']]}
+ ],
+ 't2':[
+  {c:'38 歲爸爸，常拍孩子運動會與家庭旅遊',s:'手機與相機的照片都傳到 Mac，想整理好並做成回憶給長輩看',p:'照片太多找不到；背景有路人雜物很可惜；不會做影片',r:[['mp1','點孩子的臉就能一次找到全部照片'],['mp3','旅遊照背景的路人一點就清掉'],['mp6','選幾張照片加音樂就能放給長輩看']]},
+  {c:'45 歲手作小店老闆，要拍商品照上架與做宣傳短片',s:'拍完商品照與短片，要修圖、剪短，再傳給客人或合作店家',p:'商品照偏暗；短片太長；傳給客人要靠通訊軟體，檔案被壓縮',r:[['mp2','商品照亮一點、色彩真實，客人更想買'],['mp4','短片剪到重點，宣傳影片更精簡'],['mp5','當面傳給客人或合作店家，畫質不被壓縮']]},
+  {c:'35 歲媽媽，孩子照片與影片很多',s:'每週整理孩子的照片，傳給外地的爺爺奶奶',p:'照片太多找不到；影片太長；想快速分享給長輩',r:[['mp1','用人物與回憶整理孩子照片'],['mp4','影片剪掉無聊的部分，只留精彩片段'],['mp5','AirDrop 當面傳給附近的家人']]},
+  {c:'28 歲旅遊部落客，每次旅行都拍上百張',s:'旅行回來要挑照片、修圖、做回顧影片',p:'路人入鏡；照片偏暗；要做回顧不會剪',r:[['mp3','景點路人一鍵清除'],['mp2','調整亮度與色彩，照片更鮮明'],['mp6','一鍵做成幻燈片秀，加音樂分享']]},
+  {c:'42 歲咖啡店老闆，拍餐點與店內活動',s:'每週拍新品與活動照片，要發社群與貼公告',p:'餐點照片偏暗；背景雜物；活動照片太多要整理',r:[['mp2','餐點照片調亮、調色，更好吃的感覺'],['mp3','背景雜物一點就清除'],['mp1','依人物與回憶整理活動照片']]},
+  {c:'50 歲退休長輩，常拍孫子與旅遊照片',s:'手機照片傳到 Mac，想整理並做成回憶',p:'照片太多找不到；不會做影片；想看名片與菜單上的字',r:[['mp1','用人物整理孫子的照片'],['mp6','選照片加音樂，做成回憶看'],['mp8','拍下菜單與名片，文字直接拷貝']]},
+  {c:'30 歲活動企劃，拍攝活動照片與影片',s:'活動後整理照片與影片，傳給主辦方與同事',p:'影片太長；照片要分享給很多人；想保留畫質',r:[['mp4','活動影片剪到重點'],['mp5','AirDrop 傳給現場同事，畫質不被壓縮'],['mp7','同事傳來的照片自動整理在與您分享']]},
+  {c:'33 歲寵物飼主，家裡有兩隻狗',s:'每天拍毛孩的照片與影片，想做成紀念',p:'照片幾千張找不到特定那張；影片太長；背景雜物',r:[['mp1','用人物與寵物整理照片，一點就找到'],['mp3','背景雜物一點就清除'],['mp6','做成幻燈片秀，加音樂紀念']]}
+ ],
+ 't3':[
+  {c:'21 歲大學生，期末要交含圖表與照片的書面報告',s:'小組報告要排版、放數據圖表與現場照片，最後交給老師並與組員分享',p:'不會排版；圖表很難做；檔案傳給老師格式跑掉',r:[['pg1','套上樣板就有專業版面，不用自己從零排'],['pg2','數據用圖表呈現，報告更有說服力'],['pg5','交給老師的檔案格式不跑掉，組員也能同時編輯']]},
+  {c:'45 歲手作小店老闆，想自己做新品宣傳傳單',s:'新品上架要印傳單並放上社群，希望看起來專業又有店家風格',p:'沒學過設計；商品照背景雜亂；不知道怎麼輸出給印刷店或社群',r:[['pg1','選好樣板直接換文字與照片，快速完成'],['pg3','字體與顏色改成店家風格，更有辨識度'],['pg7','商品照去掉背景，傳單更乾淨'],['pg5','PDF 給印刷店、圖像貼社群']]},
+  {c:'38 歲行政經理，每月要做營運報告',s:'月底整理業績數據，做成報告給主管與各部門',p:'數字很多不好閱讀；格式每次不一樣；要傳給多人',r:[['pg1','套用報告樣板，版面統一整齊'],['pg2','數字用圖表呈現，一眼看懂'],['pg5','輸出 PDF 傳給主管，格式不跑掉']]},
+  {c:'55 歲社區理事長，要寫社區公告與活動傳單',s:'每月寫社區公告、活動通知，印出來貼在公布欄',p:'不會排版；照片與文字不好排；不知道怎麼印',r:[['pg1','選公告樣板直接改文字'],['pg3','字放大、顏色清楚，長輩看得清楚'],['pg5','輸出 PDF 拿去印刷']]},
+  {c:'27 歲自由工作者，寫提案與報價單',s:'每週寫提案、報價給客戶，要看起來專業',p:'每次排版很花時間；客戶要 Word 檔；想放自己的 logo',r:[['pg1','套用商業樣板，提案立刻專業'],['pg3','改成自己的字體與顏色'],['pg5','輸出成 Word 或 PDF，客戶都能開']]},
+  {c:'32 歲老師，要做班級通訊與教材',s:'每週做班級通訊與學習單，放照片與活動紀錄',p:'照片雜亂；排版費時；要印出來也要線上傳',r:[['pg1','選通訊樣板，快速完成'],['pg2','放進活動照片與圖表，更生動'],['pg5','PDF 印刷、圖像貼群組']]},
+  {c:'40 歲小吃店老闆，要做菜單與優惠傳單',s:'新菜單與優惠要做成傳單發給客人，也貼上社群',p:'沒學過設計；餐點照背景雜亂；要印刷也要貼網路',r:[['pg1','選傳單樣板直接換文字照片'],['pg7','餐點照去背景，更好吃的感覺'],['pg5','PDF 印刷、圖像貼社群']]},
+  {c:'23 歲研究生，要寫論文與整理文獻',s:'寫論文、放圖表與照片、與指導教授分享修改',p:'排版很花時間；圖表要放得整齊；要與教授協作修改',r:[['pg2','圖表與照片排整齊'],['pg9','不同裝置都看得到最新版本'],['pg5','邀請教授協作，一起修改']]}
+ ],
+ 't4':[
+  {c:'40 歲業務經理，每季要向主管和客戶簡報業績',s:'季度檢討會要用數字說服人，會後還要把簡報傳給大家',p:'數字一堆沒人看；想讓重點逐步登場；傳給客戶格式要穩定',r:[['kn1','套用專業主題，簡報版面立刻整齊'],['kn4','業績數字變成圖，一眼看懂趨勢'],['kn2','重點一個一個出現，聽眾跟得上節奏'],['kn6','傳給客戶格式不跑掉']]},
+  {c:'35 歲課程講師，常在教室或線上授課',s:'授課時要用照片和影片說明案例，也要在不同裝置上隨時修改教材',p:'素材要從不同地方找；照片背景雜亂影響重點；教材在家和公司不同步',r:[['kn7','講者畫面直接放在投影片裡'],['kn5','案例照片和示範影片直接在投影片裡播'],['kn9','去掉雜亂背景，讓重點更明確'],['kn10','家裡改的教材公司的 iPad 也看得到']]},
+  {c:'30 歲新創創辦人，常向投資人募資簡報',s:'準備募資簡報，要簡潔有力，會後傳給投資人',p:'簡報太雜；數據不好看；投資人用不同軟體',r:[['kn1','專業主題版面，立刻有質感'],['kn4','營收成長圖表一眼看懂'],['kn6','輸出 PowerPoint 或 PDF，投資人都能開']]},
+  {c:'45 歲人資主管，要辦新人訓練簡報',s:'每月新人報到，要用簡報介紹制度與文化',p:'內容很多容易枯燥；想有動態讓人專心；講師視訊也要上線',r:[['kn1','統一主題，簡報有質感'],['kn2','重點逐步出現，引導新人專注'],['kn7','線上授課時講者畫面放在投影片']]},
+  {c:'27 歲行銷人員，要做活動提案簡報',s:'向客戶提案活動企劃，放照片與影片說明',p:'素材要整合；背景雜亂；提案要在不同裝置修改',r:[['kn5','活動照片、影片直接在簡報播放'],['kn9','產品照去背景，重點突出'],['kn10','提案在 Mac 與 iPad 隨時同步']]},
+  {c:'50 歲校長，要做家長說明會簡報',s:'學期初向家長說明教學方針與活動',p:'數據要清楚；要有動態吸引家長；會後要分享給家長',r:[['kn4','學生成績與活動數據做成圖表'],['kn2','重點逐步登場，家長跟得上'],['kn6','輸出 PDF 分享給家長']]},
+  {c:'33 歲財務分析師，每月向主管報告財務數字',s:'月底整理財務報表，做成簡報給管理層',p:'數字太多；圖表要清楚；格式要穩定',r:[['kn1','專業主題，簡報整齊'],['kn4','財務數字變成圖表，一眼看懂'],['kn6','輸出 PowerPoint 或 PDF 給主管']]},
+  {c:'38 歲補習班老師，用簡報教學',s:'每天用簡報上課，要放照片、影片與圖表',p:'素材多；背景雜亂影響重點；教材在不同裝置要同步',r:[['kn5','教學照片與網路影片直接在投影片播'],['kn9','去背景讓重點明確'],['kn10','家裡與教室的教材同步']]}
+ ],
+ 't5':[
+  {c:'自由接案的行銷人員，外出拍攝、洽公',s:'外出拍攝、洽公，回到座位要把現場資料整理成文件',p:'手機拍的照片、複製的文字要用訊息或雲端來回傳，很費時',r:[['wl5','手機上看到的資料，直接貼到電腦文件，不用傳訊息'],['wl2','現場拍名片、白板，直接進文件，不用再傳'],['wl3','手機在充電或在包包裡，也能在 Mac 回訊息、開 App']]},
+  {c:'19 歲大學生，已有 iPad 與 iPhone，剛買 Mac',s:'上課用 iPad 記筆記，回宿舍用 Mac 整理並寫報告',p:'兩台裝置來回傳檔；鍵盤滑鼠換來換去；iPad 螢幕小看資料不方便',r:[['wl7','不用換鍵盤滑鼠，游標移到螢幕邊緣就進 iPad'],['wl4','讓 Mac 多一個螢幕對照資料'],['wl1','課堂上寫到一半的筆記，回宿舍 Mac 直接接著寫']]},
+  {c:'35 歲業務，常外出洽公，用手機拍資料',s:'在客戶端拍名片、產品與白板，回公司整理成報告',p:'照片傳來傳去很麻煩；手機通知太多要看；文字要重打',r:[['wl5','手機複製的文字直接貼到 Mac'],['wl2','現場拍照或掃描文件直接進 Mac'],['wl3','在 Mac 上直接回手機訊息']]},
+  {c:'28 歲設計師，用 iPad 畫草稿，Mac 做完稿',s:'iPad 畫草稿，回 Mac 排版成完稿',p:'檔案傳來傳去；螢幕不夠大；鍵盤滑鼠常切換',r:[['wl4','iPad 當 Mac 第二個螢幕，多一個螢幕對照'],['wl7','一組鍵盤滑鼠控制 Mac 與 iPad'],['wl1','iPad 畫到一半，Mac 接著做']]},
+  {c:'42 歲老師，用手機拍黑板，Mac 做教材',s:'課堂拍黑板與學生作品，回家整理成教材',p:'照片傳送麻煩；文字要重打；想用大螢幕投影影片',r:[['wl2','現場拍黑板與作品直接進文件'],['wl5','手機找到的資料直接貼到教材'],['wl6','手機影片投到 Mac 大螢幕']]},
+  {c:'30 歲新手媽媽，用手機拍寶寶照片，Mac 整理',s:'每天手機拍寶寶，晚上用 Mac 整理成成長紀錄',p:'照片散在手機；要一張張傳；想在大螢幕看影片',r:[['wl5','手機找到的文字資料貼到 Mac 文件'],['wl2','拍照直接進 Mac 文件'],['wl6','寶寶影片投到 Mac 大螢幕看']]},
+  {c:'26 歲企劃，在外開會，回座位整理會議記錄',s:'外出開會用手機記，回座位用 Mac 整理',p:'手機記的資料要重打；筆記寫到一半換電腦；通知漏看',r:[['wl1','手機寫到一半，到 Mac 接著寫'],['wl5','手機複製的文字直接貼到 Mac'],['wl3','在 Mac 上看手機通知並回覆']]},
+  {c:'22 歲研究生，用 iPad 看論文，Mac 寫報告',s:'iPad 看 PDF 論文，Mac 寫報告與整理筆記',p:'兩台來回傳檔；螢幕太小；鍵盤滑鼠要換來換去',r:[['wl4','iPad 當第二螢幕放論文，Mac 寫報告'],['wl7','一組鍵盤滑鼠同時控制兩台'],['wl1','iPad 寫到一半，Mac 接著做']]}
+ ]
+};
+
+// 同一位客人模式：Mac 硬體客人（依序）對應各軟體題型要講的功能（t1..t5）
+const SW_RAW = {
+'MacBook Neo':[
+ 'mf3 mf11 mf1|mp1 mp2 mp5|pg1 pg2 pg5|kn1 kn4 kn6|wl5 wl2 wl3',
+ 'mf4 mf5 mf10|mp1 mp3 mp6|pg1 pg3 pg5|kn1 kn5 kn6|wl5 wl2 wl3',
+ 'mf4 mf5 mf10|mp1 mp6 mp5|pg1 pg3 pg5|kn1 kn5 kn6|wl5 wl3 wl1',
+ 'mf1 mf3 mf11|mp1 mp2 mp8|pg1 pg3 pg5|kn1 kn4 kn6|wl5 wl2 wl1',
+ 'mf4 mf5 mf10|mp1 mp3 mp6|pg1 pg2 pg5|kn1 kn5 kn6|wl5 wl2 wl3',
+ 'mf3 mf9 mf11|mp2 mp4 mp5|pg1 pg3 pg5|kn1 kn4 kn6|wl5 wl2 wl1',
+ 'mf5 mf10 mf6|mp1 mp6 mp4|pg1 pg2 pg5|kn1 kn5 kn6|wl5 wl3 wl6',
+ 'mf1 mf3 mf11|mp1 mp2 mp8|pg1 pg2 pg5|kn1 kn2 kn5|wl5 wl2 wl6'],
+'MacBook Air (M4)':[
+ 'mf11 mf3 mf9|mp1 mp8 mp5|pg1 pg2 pg9|kn1 kn4 kn2|wl5 wl4 wl1',
+ 'mf11 mf9 mf6|mp2 mp5 mp6|pg1 pg2 pg5|kn1 kn4 kn6|wl5 wl2 wl6',
+ 'mf11 mf9 mf3|mp1 mp4 mp5|pg1 pg2 pg5|kn1 kn2 kn7|wl5 wl6 wl4',
+ 'mf9 mf3 mf11|mp2 mp5 mp8|pg1 pg3 pg5|kn1 kn5 kn6|wl5 wl2 wl3',
+ 'mf3 mf6 mf11|mp2 mp5 mp8|pg1 pg2 pg5|kn1 kn4 kn6|wl5 wl2 wl3',
+ 'mf3 mf11 mf9|mp2 mp4 mp5|pg1 pg2 pg5|kn1 kn4 kn7|wl5 wl2 wl3',
+ 'mf11 mf7 mf3|mp2 mp1 mp5|pg1 pg3 pg7|kn1 kn5 kn9|wl5 wl4 wl7',
+ 'mf1 mf11 mf3|mp1 mp8 mp5|pg1 pg2 pg5|kn1 kn4 kn6|wl5 wl2 wl4'],
+'MacBook Pro (M6)':[
+ 'mf1 mf11 mf7|mp1 mp2 mp4|pg1 pg2 pg7|kn1 kn5 kn7|wl5 wl4 wl6',
+ 'mf3 mf11 mf9|mp1 mp8 mp5|pg1 pg2 pg5|kn1 kn4 kn6|wl5 wl3 wl7',
+ 'mf1 mf4 mf11|mp1 mp2 mp5|pg1 pg2 pg7|kn1 kn5 kn9|wl5 wl2 wl6',
+ 'mf11 mf7 mf3|mp2 mp4 mp5|pg1 pg2 pg5|kn1 kn2 kn5|wl4 wl7 wl5',
+ 'mf3 mf11 mf5|mp1 mp4 mp5|pg1 pg2 pg5|kn1 kn2 kn5|wl5 wl3 wl7',
+ 'mf3 mf11 mf9|mp1 mp8 mp2|pg1 pg2 pg5|kn1 kn4 kn6|wl5 wl4 wl3',
+ 'mf11 mf1 mf7|mp1 mp2 mp5|pg1 pg2 pg5|kn1 kn5 kn6|wl5 wl6 wl4',
+ 'mf1 mf11 mf3|mp2 mp4 mp5|pg1 pg3 pg7|kn1 kn5 kn7|wl5 wl2 wl1']
+};
+const SW_FOR = {};
+Object.keys(SW_RAW).forEach(function(m){SW_FOR[m]=SW_RAW[m].map(function(row){var o={};row.split('|').forEach(function(x,i){o['t'+(i+1)]=x.split(' ')});return o})});
+
+// 建議說法（硬體／配件）：{why} 會換成對這位客人的好處
+const SCRIPT = {
+ 'iPhone 17':{
+  design:'鋁金屬機身的特性就是輕又好散熱，重量只有 177 公克，所以長時間拿在手上不容易手酸或發燙；正面有超瓷晶盾 2，也有抗反射鍍膜，看起來更清晰，操作時也不怕刮傷。',
+  chip:'A19 晶片有 6 核心 CPU、5 核心 GPU 和 16 核心神經網路引擎，日常 App 開起來又快又順，所以{why}。',
+  camera:'雙 48MP 融合相機有主相機和超廣角，前置 18MP Center Stage 直拍橫拍都能自拍，合照時畫面會自動把人框進來，所以{why}。',
+  battery:'影片續航最長約 30 小時，搭配 40W 充電器 20 分鐘約能充到 50%，所以{why}。',
+  action:'動作按鈕可以一鍵開手電筒等常用功能，相機控制按鈕單手就能開相機，再加上 120Hz ProMotion 讓滑動更順，所以{why}。'},
+ 'iPhone Air':{
+  design:'Air 厚度只有 5.6 公釐、重 165 公克，是史上最薄的 iPhone；邊框是 5 級鈦金屬，輕又堅固，正面和背面都有超瓷晶盾保護，所以握久了也不累、不怕刮傷。',
+  chip:'A19 Pro 搭配 N1 無線晶片與 C1X 數據機，這麼薄的機身也有 Pro 級效能與穩定連線，所以{why}。',
+  camera:'後置一顆 48MP Fusion 主相機，可以模擬多種焦段，連 2 倍光學級望遠都有；前置 18MP Center Stage 合照會自動置中，所以{why}。',
+  battery:'6.5 吋 ProMotion 大螢幕又輕薄，影片續航最長約 27 小時，所以{why}。',
+  action:'動作按鈕一鍵開常用功能，相機控制按鈕單手就能開相機，6.5 吋 ProMotion 顯示器滑動也順，所以{why}。'},
+ 'iPhone 18 Pro':{
+  design:'鍛造鋁金屬一體成型機身，結實耐用；正面超瓷晶盾 2、背面也是超瓷晶盾玻璃，所以耐刮好保養。顏色有黑、銀、冰川藍和勃根地紅，可以挑一個襯您氣質的。',
+  chip:'A20 Pro 是 2 奈米製程，有 6 核心 CPU、7 核心 GPU，更大的蒸氣室讓持續效能最高提升約 40%，C2 數據機也讓連線更穩，所以{why}。',
+  camera:'48MP 融合主相機、48MP 超廣角和望遠，三顆鏡頭涵蓋廣角到望遠，前置 18MP Center Stage 合照會自動置中，所以{why}。',
+  battery:'影片續航最長約 34 小時，所以{why}。',
+  action:'動作按鈕一鍵開常用功能，相機控制按鈕單手就能開相機，縮小的動態島也讓畫面更完整，所以{why}。'},
+ 'iPad Air (M4)':{
+  design:'11 吋只有 464 公克、厚度 6.1 公釐，輕薄好攜帶，有藍色、紫色、星光色和太空灰色可以選。',
+  chip:'M4 晶片有 8 核心 CPU、9 核心 GPU 和 12GB 統一記憶體，多個 App 同時開也順，所以{why}。',
+  display:'Liquid Retina 顯示器有 P3 廣色域和抗反射，264 ppi 看文字和照片都細緻，還支援 Pencil 懸浮感應，所以{why}。',
+  unlock:'上方按鈕內建 Touch ID，指尖一按就解鎖，所以{why}。',
+  usbc:'底部 USB-C 可以充電，也能接外接裝置，一條線就搞定，所以{why}。',
+  kb:'巧控鍵盤磁吸在背面就會連線，不用藍牙配對也不用另外充電，打字量大時 iPad 就變成小筆電。',
+  pencil:'Apple Pencil Pro 吸附在側邊就會自動配對並充電；如果是 USB-C 款，滑開尾蓋用 USB-C 線配對與充電，寫字、畫圖都很自然。'},
+ 'iPad Pro (M5)':{
+  design:'11 吋只有 444 公克、厚度 5.3 公釐，是 100% 再生鋁金屬機身，質感高又輕巧。',
+  chip:'M5 晶片搭配 12GB 或 16GB 記憶體，重度多工和影片剪輯都有餘裕，所以{why}。',
+  display:'Ultra Retina XDR 串聯 OLED，黑更黑、對比更好，ProMotion 最高 120Hz、HDR 峰值亮度最高 1600 尼特，看影片和修圖更細膩，所以{why}。',
+  unlock:'Face ID 看一眼就解鎖，四揚聲器、四麥克風讓音效立體、視訊收音清楚，所以{why}。',
+  usbc:'USB-C 支援 Thunderbolt／USB 4，外接高速裝置也沒問題，所以{why}。',
+  kb:'適用於 iPad Pro 的巧控鍵盤磁吸在背面就會連線，不用配對也不用另外充電，打字量大時 iPad 就變成工作站。',
+  pencil:'Apple Pencil Pro 吸附在側邊就會自動配對並充電；如果是 USB-C 款，用 USB-C 線配對與充電，寫字、畫圖都很自然。'},
+ 'MacBook Neo':{
+  design:'13 吋鋁金屬機身，只有約 1.23 公斤、厚度 1.27 公分，放進背包很輕；有 Silver、Blush、Citrus、Indigo 四種顏色，可以選自己喜歡的。',
+  chip:'A18 Pro 晶片有 6 核心 CPU、5 核心 GPU，搭配 8GB 統一記憶體，日常文書、上網、照片影片都順，所以{why}。',
+  display:'13 吋 Liquid Retina 顯示器，解析度 2408×1506、最高 500 尼特，看講義、追劇都清晰，所以{why}。',
+  battery:'影片串流最長可達 16 小時，所以{why}。',
+  cam:'1080p FaceTime HD 相機搭配雙麥克風和雙喇叭，視訊時看得清楚、聽得清楚，所以{why}。'},
+ 'MacBook Air (M4)':{
+  design:'有 13 吋和 15 吋兩種尺寸，顏色有午夜色、星光色、銀色和天藍色，輕薄好攜帶；15 吋螢幕大，多視窗並排更寬敞。',
+  chip:'M4 晶片搭配 16GB 起的統一記憶體，同時開很多 App 也順，所以{why}。',
+  battery:'影片播放最長可達 18 小時，所以{why}。',
+  cam:'12MP Center Stage 相機會讓人物自動維持在畫面中，站起來、走動都不會出框，所以{why}。',
+  ext:'最多可以外接 2 個顯示器，回到辦公室接上大螢幕就是桌機，所以{why}。'},
+ 'MacBook Pro (M6)':{
+  design:'14 吋機身，有太空黑色和銀色，外型專業穩重，帶出門見客戶也合適。',
+  chip:'M6 晶片有 12 核心 CPU／GPU，統一記憶體 16GB 起、最高 32GB，多軌剪輯、特效與匯出更有餘裕，所以{why}。',
+  ports:'有 3 個 Thunderbolt 4、HDMI、SDXC 讀卡機和 MagSafe 3 充電，記憶卡直接插、外接螢幕直接接，不用帶轉接頭，所以{why}。',
+  battery:'最長 24 小時電池續航，還有 MagSafe 3 磁吸充電，所以{why}。',
+  ne:'雙 16 核心神經網路引擎搭配最高 32GB 統一記憶體，本機跑模型和開發工具同時開也有餘裕，所以{why}。'}
+};
+
+</script>
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)};
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+var rnd=function(a){return a[Math.floor(Math.random()*a.length)]};
+var FALL=Object.assign({},F_IOS,F_MAC);
+var last={};
+function pick(key,len){var i,n=0;do{i=Math.floor(Math.random()*len);n++}while(len>1&&i===last[key]&&n<20);last[key]=i;return i}
+
+// ---------- 文字排版：以子句為單位換行，避免詞語被切斷 ----------
+function ph(t){return esc(t).replace(/[^，、；。：]+[，、；。：]?[」）)]?/g,function(m){return '<span class="cl">'+m+'</span>'})}
+function bl(arr){return '<ul class="bl">'+arr.map(function(x){return '<li>'+ph(x.trim())+'</li>'}).join('')+'</ul>'}
+function bullets(t){return bl(String(t).split(/[；。]/).filter(function(x){return x.trim()}))}
+function lab(t){return '<div class="lab">'+t+'</div>'}
+function segs(p){return String(p).split('；')}
+function steps(p){
+ var h='';
+ segs(p).forEach(function(sg){
+  var l='',txt=sg,m=sg.match(/^([^：>]{1,14})：(.*)$/);
+  if(m&&m[2].indexOf(' > ')>-1){l=m[1];txt=m[2]}
+  if(txt.indexOf(' > ')>-1){
+   if(l)h+='<div class="plab">'+esc(l)+'</div>';
+   h+='<ol class="st">'+txt.split(' > ').map(function(x){return '<li>'+ph(x)+'</li>'}).join('')+'</ol>';
+  }else h+=bl([sg]);
+ });
+ return h;
+}
+function sayBox(t){return ''}
+function warnBox(t){return t?'<div class="w">⚠ '+esc(t)+'</div>':''}
+function stage(t,sm){return '<div class="stage">'+esc(t)+(sm?'<small>'+esc(sm)+'</small>':'')+'</div>'}
+function proj(t){return '<div class="proj">'+esc(t)+'</div>'}
+function bridge(t){return '<div class="bridge">↪ 串場：'+ph(t)+'</div>'}
+
+// ---------- 狀態 ----------
+var state={view:'home',tab:0,cards:[]};
+var IPHONE_MODELS=['iPhone 17','iPhone Air','iPhone 18 Pro'],IPAD_MODELS=['iPad Air (M4)','iPad Pro (M5)'],MAC_MODELS=['MacBook Neo','MacBook Air (M4)','MacBook Pro (M6)'];
+function mkTimers(type){
+ if(type==='mac')return [{k:'硬體',lim:240,rem:180,sec:0,run:false},{k:'軟體',lim:240,rem:180,sec:0,run:false}];
+ return [{k:'展演',lim:300,rem:240,sec:0,run:false}];
+}
+function custList(c){
+ if(c.type==='iphone')return C_IPHONE[c.topic];
+ if(c.type==='ipad')return C_IPAD[c.topic];
+ return C_MACHW[c.model];
+}
+function key(c){return c.type+'|'+(c.model||'')+'|'+(c.topic||'')}
+function resetTimers(c){c.timers=mkTimers(c.type)}
+function reroll(c){c.ci=pick(key(c),custList(c).length);c.need=false;c.rec=false;resetTimers(c)}
+function newCard(type){
+ var c={type:type,need:false,rec:false,pencil:'pro'};
+ if(type==='iphone'){c.model=rnd(IPHONE_MODELS);c.topic=rnd(Object.keys(C_IPHONE))}
+ if(type==='ipad'){c.model=rnd(IPAD_MODELS);c.topic=rnd(Object.keys(C_IPAD))}
+ if(type==='mac'){c.model=rnd(MAC_MODELS);c.topic=rnd(Object.keys(T_MAC))}
+ c.ci=pick(key(c),custList(c).length);
+ c.timers=mkTimers(type);
+ return c;
+}
+function redraw(c){var n=newCard(c.type);Object.keys(n).forEach(function(k){c[k]=n[k]})}
+function cust(c){return custList(c)[c.ci]}
+
+// ---------- 計時 ----------
+var tickId=null;
+function beep(){try{var A=window.AudioContext||window.webkitAudioContext;var a=new A(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=880;g.gain.value=.15;o.start();setTimeout(function(){o.stop();a.close()},350)}catch(e){}try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}}
+function fmt(s){var m=Math.floor(s/60),r=s%60;return m+':'+(r<10?'0':'')+r}
+function tcls(t){return t.sec>=t.lim?'over':t.sec>=t.rem?'remind':''}
+function tmsg(t){if(t.sec>=t.lim)return '時間到（'+fmt(t.lim)+'）：請收尾、回扣痛點';if(t.sec>=t.rem)return '提醒響了（'+fmt(t.rem)+'）：開始收尾，回扣客人的痛點';return ''}
+function tick(){
+ var c=state.cards[state.tab];if(!c)return;
+ state.cards.forEach(function(card,ci){card.timers.forEach(function(t,k){
+  if(!t.run)return;t.sec++;
+  if(t.sec===t.rem||t.sec===t.lim)beep();
+  if(card!==c)return;
+  var tm=document.getElementById('tm'+k);if(!tm)return;
+  tm.textContent=fmt(t.sec);var row=tm.closest('.timer');row.className='timer '+tcls(t);
+  var mb=document.getElementById('tb'+k);if(mb){var m=tmsg(t);mb.textContent=m;mb.style.display=m?'':'none'}
+ })});
+}
+function ensureTick(){if(!tickId)tickId=setInterval(tick,1000)}
+function timersHtml(c){
+ var h='<div class="timers">';
+ c.timers.forEach(function(t,k){
+  h+='<div class="timer '+tcls(t)+'"><span class="tl">'+(c.type==='mac'?t.k+'展演':'計時')+'</span><span class="t" id="tm'+k+'">'+fmt(t.sec)+'</span><button class="btn sm" data-act="timer" data-v="'+k+'">'+(t.run?'暫停':(t.sec?'繼續':'開始'))+'</button><button class="btn sm sec" data-act="treset" data-v="'+k+'">歸零</button></div>';
+  var m=tmsg(t);h+='<div class="tb" id="tb'+k+'" style="'+(m?'':'display:none')+'">'+esc(m)+'</div>';
+ });
+ var t0=c.timers[0];
+ return h+'<div class="tip">每場 '+fmt(t0.lim)+'，'+fmt(t0.rem)+' 提醒收尾</div></div>';
+}
+
+// ---------- 建議說法 ----------
+function s1(u){return String(u.s).split('，')[0]}
+function nm0(f){return f.n.replace(/[（(].*?[）)]/g,'')}
+function fnScript(u,f,b){return '像您'+s1(u)+'，我會用「'+nm0(f)+'」來幫您：'+f.t+'，'+b+'。'}
+function hwScript(c,tag,u,why){
+ var base=(SCRIPT[c.model]||{})[tag]||'';
+ var t=base.replace('{why}',why||'');
+ if(tag==='design')t+='像您'+s1(u)+'，帶著它一整天都輕鬆。';
+ return t;
+}
+function tagName(c,t){return {design:'外觀',chip:'晶片',camera:'相機系統',battery:'續航與充電',action:'動作按鈕與相機控制按鈕',display:'顯示器',unlock:(c.model.indexOf('Air')>-1&&c.type==='ipad')?'Touch ID':'Face ID 與揚聲器',usbc:'USB-C',cam:'相機、麥克風與喇叭',ext:'外接顯示器',ports:'連接埠',ne:'神經網路引擎與記憶體'}[t]||t}
+
+// ---------- 功能／項目卡 ----------
+function fnHtml(c,u,id,benefit,swapFrom){
+ var f=FALL[id],b=benefit||f.b;
+ var h='<div class="fn"><div class="fh"><span class="no">'+esc(f.no)+'</span><span class="nm">'+esc(f.n)+'</span>'+(f.chk?'<span class="badge">路徑上機確認</span>':'')+'</div>';
+ h+=lab('是什麼')+bl([f.t]);
+ h+=lab('對這位客人的好處')+'<div class="good-t">'+bl([b])+'</div>';
+ h+=sayBox(fnScript(u,f,b));
+ h+=lab('操作步驟')+steps(f.p);
+ h+=warnBox(f.w);
+ if(swapFrom)h+='<div class="swap">已依機型／筆款，將「'+esc(FALL[swapFrom].n)+'」改為此功能</div>';
+ return h+'</div>';
+}
+function itemHtml(label,arr,why,script,extra){
+ var h='<div class="fn"><div class="fh"><span class="nm">'+esc(label)+'</span></div>';
+ h+=lab('重點')+bullets(arr[0]);
+ if(why)h+=lab('對這位客人的好處')+'<div class="good-t">'+bl([why])+'</div>';
+ if(script)h+=sayBox(script);
+ if(arr[1])h+=lab('示範方式')+steps(arr[1]);
+ h+=warnBox(arr[2]);
+ return h+(extra||'')+'</div>';
+}
+function substitute(c,id){
+ var f=F_IOS[id];if(!f)return [id,null];
+ if(f.ban&&c.type==='iphone'&&c.model==='iPhone Air'&&f.ban.indexOf('air')>-1)return [f.alt,id];
+ if(f.pro&&c.type==='ipad'&&c.pencil==='usbc')return [f.alt,id];
+ return [id,null];
+}
+function altHint(id){var f=FALL[id];return f&&f.alt?'<div class="tip">備案：臨時卡住時可改用「'+esc(FALL[f.alt].n)+'」</div>':''}
+
+var MODEL_TIP={
+ 'iPhone 17':['微距是否支援，先上機確認','前置與主相機擇一只講一個'],
+ 'iPhone Air':['只有後置單鏡頭：不講 0.5× 與微距','僅 eSIM、沒有 SIM 卡槽'],
+ 'iPhone 18 Pro':['可變光圈、Pro 控制項沒練過不要選','前置與主相機擇一只講一個'],
+ 'iPad Air (M4)':['Air 是 LCD、Touch ID（不是 OLED、Face ID）','鍵盤要拿「適用於 iPad Air」款'],
+ 'iPad Pro (M5)':['Pro 是 OLED、Face ID（不是 LCD、Touch ID）','鍵盤要拿「適用於 iPad Pro」款'],
+ 'MacBook Neo':['8GB 記憶體要誠實說適合輕量日常','不跟 M 系列比跑分；不說 P3、True Tone'],
+ 'MacBook Air (M4)':['不跟 Pro 比跑分','重量厚度以台灣官網為準'],
+ 'MacBook Pro (M6)':['規格以台灣官網配置為準','不宣稱未驗證的模型速度']
+};
+function tipBox(c){var t=MODEL_TIP[c.model];return t?'<div class="mt2">⚠ '+esc(c.model)+'：'+t.map(esc).join('；')+'</div>':''}
+
+// ---------- 展演順序一覽 ----------
+function outline(c){
+ var u=cust(c),rows=[];var nm=function(id){return FALL[id].n};
+ var R=function(a,b){rows.push(['r',a,b])},G=function(a){rows.push(['g',a])};
+ if(c.type==='iphone'){
+  R('快速展演 1 分鐘','外觀 → '+tagName(c,u.hw[0]));
+  var order=[],seen={};u.r.forEach(function(x){var s=substitute(c,x[0]);var f=F_IOS[s[0]];if(!seen[f.g]){seen[f.g]=[];order.push(f.g)}seen[f.g].push(nm(s[0]))});
+  order.forEach(function(g){R('項目：'+G_IOS[g],seen[g].join(' → '))});
+ }else if(c.type==='ipad'){
+  var acc=u.acc==='kb'?'巧控鍵盤':'Apple Pencil';
+  R('快速展演 1 分鐘',u.hw.map(function(x){return tagName(c,x[0])}).join(' → ')+' → 配件：'+acc);
+  var ig=[],pg=[],kg=[];u.r.forEach(function(x){var s=substitute(c,x[0]);var f=F_IOS[s[0]];(f.g==='ipad'?ig:f.g==='pen'?pg:kg).push(nm(s[0]))});
+  R('iPad 功能',ig.join(' → '));R('Pencil 功能',pg.join(' → '));if(kg.length)R('鍵盤加分',kg.join(' → '));
+ }else{
+  G('硬體展演（4 分鐘）');
+  R('點題：購買族群','說出客人是誰');R('外觀設計','機身、顏色、重量');
+  u.hw.forEach(function(x){R('硬體好處',tagName(c,x[0]))});
+  R('適合情境','收尾示範');
+  G('軟體展演（4 分鐘）');
+  SW_FOR[c.model][c.ci][c.topic].forEach(function(id){R('功能',nm(id))});
+ }
+ R('收尾','回扣痛點');
+ var html='',open=false;
+ rows.forEach(function(r){
+  if(r[0]==='g'){if(open)html+='</ol>';html+='<div class="og">'+esc(r[1])+'</div><ol>';open=true}
+  else{if(!open){html+='<ol>';open=true}html+='<li><b>'+esc(r[1])+'</b><span>'+esc(r[2])+'</span></li>'}
+ });
+ return '<div class="outline"><div class="ot">展演順序一覽</div>'+html+(open?'</ol>':'')+'</div>';
+}
+
+// ---------- 推薦內容 ----------
+function recIphone(c){
+ var u=cust(c),m=M_IOS[c.model];var h='';
+ h+=stage('① 快速展演（約 1 分鐘）','外觀（顏色＋材質）＋ 1 項硬體');
+ h+=itemHtml('外觀設計（顏色＋材質）',m.design,'手持機身，挑一個襯這位客人的顏色介紹',hwScript(c,'design',u,''));
+ h+=itemHtml('硬體：'+tagName(c,u.hw[0]),m[u.hw[0]],u.hw[1],hwScript(c,u.hw[0],u,u.hw[1]));
+ h+=bridge('硬體說完，接著針對您的需求，用實際功能示範給您看。');
+ h+=stage('② 功能展演',TOPICS_IOS.iphone[c.topic].note);
+ var order=[],seen={};u.r.forEach(function(x){var s=substitute(c,x[0]);var f=F_IOS[s[0]];if(!seen[f.g]){seen[f.g]=[];order.push(f.g)}seen[f.g].push({id:s[0],b:s[1]?null:x[1],from:s[1]})});
+ order.forEach(function(g,i){h+=proj('項目：'+G_IOS[g]);if(i>0)h+=bridge('「'+G_IOS[order[i-1]]+'」講完，換到「'+G_IOS[g]+'」，繼續解決您的需求。');seen[g].forEach(function(x){h+=fnHtml(c,u,x.id,x.b,x.from)})});
+ return h;
+}
+function recIpad(c){
+ var u=cust(c),m=M_IOS[c.model];var h='';
+ h+=stage('① 快速展演（約 1 分鐘）','≥2 項硬體＋ 1 項專屬配件');
+ u.hw.forEach(function(x){h+=itemHtml('硬體：'+tagName(c,x[0]),m[x[0]],x[1],hwScript(c,x[0],u,x[1]))});
+ var accName=u.acc==='kb'?'巧控鍵盤':'Apple Pencil';
+ h+=itemHtml('專屬配件：'+accName,ACC_IOS[c.model][u.acc],u.acc==='kb'?'磁吸上去就能打字，像小筆電':'吸附或接線即可配對與充電',SCRIPT[c.model][u.acc==='kb'?'kb':'pencil']);
+ h+=bridge(u.acc==='kb'?'鍵盤先接著不拆，等一下的加分功能會用到；接著進入「'+c.topic+'」的 iPad 功能。':'Apple Pencil 先拿在手上，等一下的手寫功能直接接著用；接著進入「'+c.topic+'」的 iPad 功能。');
+ h+=stage('② 功能展演','≥2 項 iPad 功能＋≥2 項 Pencil 功能（鍵盤為加分）');
+ var ig=[],pg=[],kg=[];
+ u.r.forEach(function(x){var s=substitute(c,x[0]);var f=F_IOS[s[0]];var o={id:s[0],b:s[1]?null:x[1],from:s[1]};(f.g==='ipad'?ig:f.g==='pen'?pg:kg).push(o)});
+ h+=proj('iPad 功能（'+c.topic+'）≥2 項');ig.forEach(function(x){h+=fnHtml(c,u,x.id,x.b,x.from)});
+ h+=bridge(u.acc==='pencil'?'iPad 本身的功能講完，換手上的 Apple Pencil，把手寫與標示接著示範。':'iPad 本身的功能講完，把旁邊的 Apple Pencil 拿起來，示範手寫與標示。');
+ h+=proj('Apple Pencil 功能 ≥2 項');pg.forEach(function(x){h+=fnHtml(c,u,x.id,x.b,x.from)});
+ if(kg.length){h+=bridge('最後補充鍵盤，讓 iPad 能像小筆電一樣用。');h+=proj('鍵盤加分（選用）');kg.forEach(function(x){h+=fnHtml(c,u,x.id,x.b,x.from)})}
+ return h;
+}
+function recMac(c){
+ var u=cust(c),m=M_MAC[c.model];var h='';
+ h+=stage('硬體展演（4 分鐘）','四項主題都要講；順序可依情境與腳本調整，下面是建議串場');
+ h+=itemHtml('購買族群（點題開場）',[m.who,'',''],null,u.who);
+ h+=itemHtml('外觀設計',m.design,'拿起機身，連回客人「帶著走」的需求',hwScript(c,'design',u,''));
+ u.hw.forEach(function(x){h+=itemHtml('硬體好處：'+tagName(c,x[0]),m[x[0]],x[1],hwScript(c,x[0],u,x[1]))});
+ var sc=u.scene.split('：'),spoken=sc[0],st=sc.slice(1).join('：');
+ h+=itemHtml('適合情境（收尾示範）',['',st,''],null,spoken);
+ h+=bridge('硬體講完了，接著換軟體展演，示範這台 Mac 怎麼幫您解決日常的事。');
+ h+=stage('軟體展演（4 分鐘）','題目「'+T_MAC[c.topic]+'」至少講 3 個功能，每項都要操作完');
+ if(c.topic==='t5')h+='<div class="fn"><div class="fh"><span class="nm">準備時間先做（不用說出口）</span></div>'+steps(PREP_WL.replace('準備時間先確認：','').replace('第一個功能建議放「通用剪貼板」最穩。','').replace(/。$/,''))+warnBox('第一個功能建議放「通用剪貼板」，最穩定')+'</div>';
+ SW_FOR[c.model][c.ci][c.topic].forEach(function(id){h+=fnHtml(c,u,id,null)+altHint(id)});
+ return h;
+}
+function recHtml(c){
+ var h=c.type==='iphone'?recIphone(c):c.type==='ipad'?recIpad(c):recMac(c);
+ var u=cust(c);
+ h+=stage('收尾');h+='<div class="fn">'+lab('回扣痛點')+'<div class="good-t">'+bullets(u.p)+'</div><div class="tip">點名最貼近的 1–2 個功能收尾。</div></div>';
+ return h;
+}
+
+// ---------- 卡片 ----------
+function cardHtml(c){
+ var u=cust(c);
+ var h='<section class="card"><div class="hero"><div class="hb m"><span>機型</span><b>'+esc(c.model)+'</b></div>';
+ h+='<div class="hb t"><span>'+(c.type==='mac'?'軟體題型':'題型')+'</span><b>'+esc(c.type==='mac'?T_MAC[c.topic]:c.topic)+'</b></div></div>';
+ h+=tipBox(c);
+ if(c.type==='ipad')h+='<div class="seg"><span>現場 Pencil：</span><button data-act="pencil" data-v="pro" class="'+(c.pencil==='pro'?'on':'')+'">Pro</button><button data-act="pencil" data-v="usbc" class="'+(c.pencil==='usbc'?'on':'')+'">USB-C</button></div>';
+ h+=timersHtml(c);
+ h+='<div class="cust">'+lab('客人')+bl(String(u.c).split('，'))+lab('情境')+bl(String(u.s).split('，'))+'</div>';
+ h+='<div class="steps">';
+ if(!c.need){
+  h+='<button class="btn go" data-act="need"><span class="n">1</span><span>先按這裡：看客人需求<small>先自己想：這位客人需要什麼？</small></span></button>';
+  h+='<button class="btn lock" disabled><span class="n">2</span><span>看推薦展演<small>🔒 完成步驟 1 後才能按</small></span></button>';
+ }else{
+  h+='<div class="need"><div class="done">✓ 步驟 1 完成</div><span class="nt">客人的需求／痛點</span>'+bullets(u.p)+'</div>';
+  if(!c.rec)h+='<button class="btn go next" data-act="rec"><span class="n">2</span><span>下一步：看推薦展演<small>想好再看：硬體、功能與好處</small></span></button>';
+  else h+='<div class="recbox"><div class="done">✓ 步驟 2 完成</div>'+outline(c)+recHtml(c)+'</div>';
+ }
+ h+='</div>';
+ h+='<div class="navb"><div class="l">想換題？</div><div class="rowbtn"><button class="btn ghost" data-act="cust">換一位客人</button><button class="btn ghost" data-act="redraw">重抽題目</button></div></div></section>';
+ return h;
+}
+
+// ---------- 畫面 ----------
+function home(){
+ $('#main').innerHTML='<div class="home stack"><h1>數位檢定展演練習</h1><p class="sub">FY26 iOS Expert／Mac Specialist。按下後立刻抽機型與題型，並出一位客人與情境。</p>'+
+ '<button class="btn big" data-act="start" data-v="ios">iOS Expert<small>iPhone 展演＋iPad 展演</small></button>'+
+ '<button class="btn big" data-act="start" data-v="mac">Mac Specialist<small>硬體＋軟體同一頁、同一位客人</small></button>'+
+ '<div class="note"><b>怎麼練：</b>看到客人與情境後先自己想需求，再自己按「看客人需求」「看推薦展演」。推薦內容是預先備好的題庫，操作路徑請以現場機型實際介面為準；標示「路徑上機確認」的務必先練過。</div></div>';
+}
+function session(kind){
+ state.view=kind;state.tab=0;
+ state.cards=kind==='ios'?[newCard('iphone'),newCard('ipad')]:[newCard('mac')];
+ render();
+}
+function render(){
+ if(state.view==='home'){home();window.scrollTo(0,0);return}
+ var h='<div class="top"><button class="btn sec back" data-act="home">← 首頁</button><h2>'+(state.view==='ios'?'iOS Expert':'Mac Specialist')+'</h2></div>';
+ if(state.view==='ios')h+='<div class="tabs">'+['iPhone','iPad'].map(function(t,i){return '<button data-act="tab" data-v="'+i+'" class="'+(state.tab===i?'on':'')+'">'+t+'</button>'}).join('')+'</div>';
+ h+=cardHtml(state.cards[state.tab]);
+ $('#main').innerHTML=h;
+}
+
+// ---------- 事件 ----------
+document.addEventListener('click',function(e){
+ var b=e.target.closest('[data-act]');if(!b||b.disabled)return;
+ var a=b.getAttribute('data-act'),v=b.getAttribute('data-v');var c=state.cards[state.tab];var keepY=window.scrollY;
+ if(a==='start'){session(v);window.scrollTo(0,0);ensureTick();return}
+ if(a==='home'){state.view='home';state.cards=[];render();return}
+ if(a==='tab'){state.tab=+v;render();window.scrollTo(0,0);return}
+ if(a==='need'){c.need=true}
+ else if(a==='rec'){c.rec=true}
+ else if(a==='cust'){reroll(c)}
+ else if(a==='redraw'){redraw(c)}
+ else if(a==='pencil'){c.pencil=v}
+ else if(a==='timer'){var t=c.timers[+v];t.run=!t.run}
+ else if(a==='treset'){c.timers[+v].sec=0;c.timers[+v].run=false}
+ render();
+ if(a==='need'||a==='rec'||a==='timer'||a==='treset'||a==='pencil')window.scrollTo(0,keepY);else window.scrollTo(0,0);
+});
+home();
+})();
+</script>
+</body>
+</html>
