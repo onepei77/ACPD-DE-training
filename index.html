@@ -77,6 +77,18 @@ ul.bl li{margin:3px 0}
 .recbox{background:var(--rec)}
 .need ul.bl li{font-size:17px;margin:4px 0}
 .need .nt{display:block;font-size:13px;color:var(--sub);margin:2px 0 0;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:8px 14px;font:600 14px inherit;cursor:pointer;min-height:40px}
+.chip.on{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.plist{display:flex;flex-direction:column;gap:8px}
+.pitem{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:10px 12px;font:500 15px/1.45 inherit;cursor:pointer;min-height:48px}
+.pitem b{flex:0 0 auto;min-width:22px;height:22px;border-radius:99px;background:var(--accent);color:var(--accent-ink);font-size:13px;display:inline-flex;align-items:center;justify-content:center;margin-top:1px}
+.pitem span{flex:1;min-width:0;word-break:break-word}
+.pitem em{display:block;font-style:normal;font-size:12px;color:var(--sub);margin-bottom:2px}
+.fgrp{font-size:13px;font-weight:700;color:var(--sub);margin:12px 0 6px}
+.fsel{background:var(--topic-bg);border:2px solid var(--topic);border-radius:14px;padding:10px 14px}
+.fsel b{display:block;font-size:18px;color:var(--topic)}
+.fsel small{display:block;font-size:13px;color:var(--sub);margin-top:2px}
 .navb{margin-top:22px;padding-top:12px;border-top:1px dashed var(--line)}
 .navb .l{font-size:12px;color:var(--sub);margin-bottom:6px}
 .rowbtn{display:flex;gap:8px;flex-wrap:wrap}
@@ -764,6 +776,7 @@ Object.assign(F_MAC.mp3,{n:'智慧照片編輯（清除、延伸、重構）',t:
  put('t1',1,'mf8');put('t1',3,'mf12');
  put('t3',0,'pg4');put('t3',2,'pg6');put('t3',4,'pg8');
  put('t4',1,'kn3');put('t4',3,'kn8');
+ put('t1',5,'mf2');put('t2',3,'mp7');put('t3',6,'pg9');put('t4',5,'kn10');
 })();
 
 </script>
@@ -801,7 +814,7 @@ function proj(t){return '<div class="proj">'+esc(t)+'</div>'}
 function bridge(t){return '<div class="bridge">↪ 串場：'+ph(t)+'</div>'}
 
 // ---------- 狀態 ----------
-var state={view:'home',tab:0,cards:[]};
+var state={view:'home',tab:0,cards:[],kind:'ios',pinned:false,pk:null,fq:null};
 var IPHONE_MODELS=['iPhone 17','iPhone Air','iPhone 18 Pro'],IPAD_MODELS=['iPad Air (M4)','iPad Pro (M5)'],MAC_MODELS=['MacBook Neo','MacBook Air (M4)','MacBook Pro (M6)'];
 function mkTimers(type){
  if(type==='mac')return [{k:'硬體',lim:240,rem:180,sec:0,run:false},{k:'軟體',lim:240,rem:180,sec:0,run:false}];
@@ -1006,26 +1019,105 @@ function cardHtml(c){
   else h+='<div class="recbox"><div class="done">✓ 步驟 2 完成</div>'+outline(c)+recHtml(c)+'</div>';
  }
  h+='</div>';
- h+='<div class="navb"><div class="l">想換題？</div><div class="rowbtn"><button class="btn ghost" data-act="cust">換一位客人</button><button class="btn ghost" data-act="redraw">重抽題目</button></div></div></section>';
+ h+='<div class="navb"><div class="l">想換題？</div><div class="rowbtn"><button class="btn ghost" data-act="cust">換一位客人</button>'+(state.pinned?'<button class="btn ghost" data-act="repick">重新指定</button>':'<button class="btn ghost" data-act="redraw">重抽題目</button>')+'</div></div></section>';
  return h;
 }
 
 // ---------- 畫面 ----------
 function home(){
- $('#main').innerHTML='<div class="home stack"><h1>數位檢定展演練習</h1><p class="sub">FY26 iOS Expert／Mac Specialist。按下後立刻抽機型與題型，並出一位客人與情境。</p>'+
+ $('#main').innerHTML='<div class="home stack"><h1>數位檢定展演練習</h1><p class="sub">FY26 iOS Expert／Mac Specialist。先選檢定類別，再選「自動抽題」或「指定練習」（自己選機型、題型與客人，也能依功能找客人）。</p>'+
  '<button class="btn big" data-act="start" data-v="ios">iOS Expert<small>iPhone 展演＋iPad 展演</small></button>'+
  '<button class="btn big" data-act="start" data-v="mac">Mac Specialist<small>硬體＋軟體同一頁、同一位客人</small></button>'+
  '<div class="note"><b>怎麼練：</b>看到客人與情境後先自己想需求，再自己按「看客人需求」「看推薦展演」。推薦內容是預先備好的題庫，操作路徑請以現場機型實際介面為準；標示「路徑上機確認」的務必先練過。</div></div>';
 }
+// ---------- 選擇方式／指定練習／依功能找客人 ----------
+function modeScreen(){
+ var nm=state.kind==='ios'?'iOS Expert':'Mac Specialist';
+ $('#main').innerHTML='<div class="home stack"><div class="top"><button class="btn sec back" data-act="home">← 首頁</button><h2>'+nm+'</h2></div>'+
+ '<button class="btn big" data-act="auto">自動抽題<small>系統隨機抽機型、題型與客人</small></button>'+
+ '<button class="btn big" data-act="pick">指定練習<small>自己選機型、題型，再選一位客人或隨機抽</small></button>'+
+ '<button class="btn big" data-act="fnq">依功能找客人<small>選一個想加強的功能，看哪些客人會用到</small></button></div>';
+ window.scrollTo(0,0);
+}
+function pkModels(s){return s==='iphone'?IPHONE_MODELS:s==='ipad'?IPAD_MODELS:MAC_MODELS}
+function pkTopics(s){return s==='iphone'?Object.keys(C_IPHONE):s==='ipad'?Object.keys(C_IPAD):Object.keys(T_MAC)}
+function pkInit(s){return {show:s,model:pkModels(s)[0],topic:pkTopics(s)[0]}}
+function chips(act,items,cur){return '<div class="chips">'+items.map(function(x){return '<button class="chip'+(x[0]===cur?' on':'')+'" data-act="'+act+'" data-v="'+esc(x[0])+'">'+esc(x[1])+'</button>'}).join('')+'</div>'}
+function showTabs(act,cur){
+ if(state.kind!=='ios')return '';
+ return '<div class="tabs">'+[['iphone','iPhone'],['ipad','iPad']].map(function(t){return '<button data-act="'+act+'" data-v="'+t[0]+'" class="'+(cur===t[0]?'on':'')+'">'+t[1]+'</button>'}).join('')+'</div>';
+}
+function pickScreen(){
+ var pk=state.pk,list=pk.show==='mac'?C_MACHW[pk.model]:(pk.show==='iphone'?C_IPHONE:C_IPAD)[pk.topic];
+ var h='<div class="top"><button class="btn sec back" data-act="mode">← 返回</button><h2>指定練習</h2></div>'+showTabs('pkshow',pk.show);
+ h+='<div class="card stack">'+lab('機型')+chips('pkmodel',pkModels(pk.show).map(function(m){return [m,m]}),pk.model);
+ h+=lab(pk.show==='mac'?'軟體題型':'題型')+chips('pktopic',pkTopics(pk.show).map(function(k){return [k,pk.show==='mac'?T_MAC[k]:k]}),pk.topic);
+ h+=lab('客人：點一位開始，或隨機')+'<button class="btn" data-act="pkgo" data-v="-1">隨機抽一位</button>';
+ h+='<div class="plist">'+list.map(function(c,i){return '<button class="pitem" data-act="pkgo" data-v="'+i+'"><b>'+(i+1)+'</b><span>'+esc(c.c)+'</span></button>'}).join('')+'</div></div>';
+ $('#main').innerHTML=h;
+}
+function startCard(show,model,topic,ci){
+ var c=newCard(show);c.model=model;c.topic=topic;c.ci=ci<0?pick(key(c),custList(c).length):ci;c.timers=mkTimers(show);
+ state.view=state.kind;state.cards=[c];state.tab=0;state.pinned=true;render();window.scrollTo(0,0);ensureTick();
+}
+function fnHeads(show){
+ var F=show==='mac'?F_MAC:F_IOS,gs=show==='iphone'?['im','ph','cam','vid','pho','sys','note','com']:show==='ipad'?['ipad','pen','kb']:['t1','t2','t3','t4','t5'];
+ var heads=[],map={};
+ function add(h,id){if(!map[h]){map[h]=[];heads.push(h)}map[h].push(id)}
+ var ip={ib:'iPad 基礎操作',iw:'iPad 工作生產',ic:'iPad 創意創作'};
+ gs.forEach(function(g){
+  if(g==='ipad'){['ib','iw','ic'].forEach(function(pf){Object.keys(F).forEach(function(id){if(F[id].g==='ipad'&&id.slice(0,2)===pf)add(ip[pf],id)})});return}
+  Object.keys(F).forEach(function(id){if(F[id].g===g)add(show==='mac'?T_MAC[g]:G_IOS[g],id)});
+ });
+ heads.forEach(function(h){map[h].sort(function(a,b){return (parseInt(a.replace(/\D/g,''),10)||0)-(parseInt(b.replace(/\D/g,''),10)||0)})});
+ return heads.map(function(h){return [h,map[h]]});
+}
+function fnResults(show,fid){
+ var out=[];
+ if(show==='mac'){var t=F_MAC[fid].g;Object.keys(C_MACHW).forEach(function(m){C_MACHW[m].forEach(function(c,i){if(SW_FOR[m][i][t].indexOf(fid)>-1)out.push({model:m,topic:t,i:i,c:c.c,label:m+'・'+T_MAC[t]})})})}
+ else{var L=show==='iphone'?C_IPHONE:C_IPAD;Object.keys(L).forEach(function(t){L[t].forEach(function(c,i){if(c.r.some(function(x){return x[0]===fid}))out.push({topic:t,i:i,c:c.c,label:t})})})}
+ return out;
+}
+function fqModelDefault(show,fid){
+ if(show==='mac')return null;
+ var f=F_IOS[fid],ms=pkModels(show);
+ if(show==='iphone'&&f.ban){var ok=ms.filter(function(m){return f.ban.indexOf(m==='iPhone Air'?'air':m==='iPhone 17'?'17':'pro')<0});if(ok.length)return ok[0]}
+ return ms[0];
+}
+function fnScreen(){
+ var q=state.fq,F=q.show==='mac'?F_MAC:F_IOS;
+ var h='<div class="top"><button class="btn sec back" data-act="mode">← 返回</button><h2>依功能找客人</h2></div>';
+ if(!q.fid){
+  h+=showTabs('fqshow',q.show)+'<div class="card">'+lab('選一個想練的功能');
+  fnHeads(q.show).forEach(function(g){h+='<div class="fgrp">'+esc(g[0])+'</div><div class="chips">'+g[1].map(function(id){return '<button class="chip" data-act="fqfn" data-v="'+id+'">'+esc(nm0(F[id]))+'</button>'}).join('')+'</div>'});
+  h+='</div>';
+ }else{
+  var f=F[q.fid],res=fnResults(q.show,q.fid);
+  h+='<div class="card stack"><div class="fsel"><b>'+esc(f.n)+'</b><small>'+esc(f.t)+'</small></div><button class="btn sec" data-act="fqclr">換一個功能</button>';
+  if(q.show!=='mac'){
+   var onlyPro=q.show==='iphone'&&f.ban;
+   h+=lab('練習用機型')+chips('fqmodel',pkModels(q.show).map(function(m){return [m,m]}),q.model);
+   if(onlyPro)h+='<div class="tip">這個功能只有部分機型支援，選到不支援的機型時會自動換成備案功能。</div>';
+  }
+  h+=lab('會用到這個功能的客人（'+res.length+' 位）：點一位開始');
+  h+=res.length?'<div class="plist">'+res.map(function(r,i){return '<button class="pitem" data-act="fqgo" data-v="'+i+'"><b>'+(i+1)+'</b><span><em>'+esc(r.label)+'</em>'+esc(r.c)+'</span></button>'}).join('')+'</div>':'<div class="note">目前題庫沒有客人用到這個功能。</div>';
+  h+='</div>';
+ }
+ $('#main').innerHTML=h;
+}
+
 function session(kind){
- state.view=kind;state.tab=0;
+ state.pinned=false;state.view=kind;state.tab=0;
  state.cards=kind==='ios'?[newCard('iphone'),newCard('ipad')]:[newCard('mac')];
  render();
 }
 function render(){
  if(state.view==='home'){home();window.scrollTo(0,0);return}
+ if(state.view==='mode'){modeScreen();return}
+ if(state.view==='pick'){pickScreen();return}
+ if(state.view==='fn'){fnScreen();return}
  var h='<div class="top"><button class="btn sec back" data-act="home">← 首頁</button><h2>'+(state.view==='ios'?'iOS Expert':'Mac Specialist')+'</h2></div>';
- if(state.view==='ios')h+='<div class="tabs">'+['iPhone','iPad'].map(function(t,i){return '<button data-act="tab" data-v="'+i+'" class="'+(state.tab===i?'on':'')+'">'+t+'</button>'}).join('')+'</div>';
+ if(state.cards.length>1)h+='<div class="tabs">'+['iPhone','iPad'].map(function(t,i){return '<button data-act="tab" data-v="'+i+'" class="'+(state.tab===i?'on':'')+'">'+t+'</button>'}).join('')+'</div>';
  h+=cardHtml(state.cards[state.tab]);
  $('#main').innerHTML=h;
 }
@@ -1034,7 +1126,21 @@ function render(){
 document.addEventListener('click',function(e){
  var b=e.target.closest('[data-act]');if(!b||b.disabled)return;
  var a=b.getAttribute('data-act'),v=b.getAttribute('data-v');var c=state.cards[state.tab];var keepY=window.scrollY;
- if(a==='start'){session(v);window.scrollTo(0,0);ensureTick();return}
+ if(a==='start'){state.kind=v;state.view='mode';state.cards=[];render();return}
+ if(a==='auto'){session(state.kind);window.scrollTo(0,0);ensureTick();return}
+ if(a==='mode'){state.view='mode';state.cards=[];render();return}
+ if(a==='pick'){state.pk=pkInit(state.kind==='ios'?'iphone':'mac');state.view='pick';render();window.scrollTo(0,0);return}
+ if(a==='pkshow'){state.pk=pkInit(v);render();return}
+ if(a==='pkmodel'){state.pk.model=v;render();window.scrollTo(0,keepY);return}
+ if(a==='pktopic'){state.pk.topic=v;render();window.scrollTo(0,keepY);return}
+ if(a==='pkgo'){startCard(state.pk.show,state.pk.model,state.pk.topic,+v);return}
+ if(a==='repick'){state.pk={show:c.type,model:c.model,topic:c.topic};state.view='pick';render();window.scrollTo(0,0);return}
+ if(a==='fnq'){state.fq={show:state.kind==='ios'?'iphone':'mac',fid:null,model:null};state.view='fn';render();window.scrollTo(0,0);return}
+ if(a==='fqshow'){state.fq={show:v,fid:null,model:null};render();return}
+ if(a==='fqfn'){state.fq.fid=v;state.fq.model=fqModelDefault(state.fq.show,v);render();window.scrollTo(0,0);return}
+ if(a==='fqclr'){state.fq.fid=null;render();window.scrollTo(0,0);return}
+ if(a==='fqmodel'){state.fq.model=v;render();window.scrollTo(0,keepY);return}
+ if(a==='fqgo'){var q=state.fq,r=fnResults(q.show,q.fid)[+v];startCard(q.show,q.show==='mac'?r.model:q.model,r.topic,r.i);return}
  if(a==='home'){state.view='home';state.cards=[];render();return}
  if(a==='tab'){state.tab=+v;render();window.scrollTo(0,0);return}
  if(a==='need'){c.need=true}
