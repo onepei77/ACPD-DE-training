@@ -221,19 +221,19 @@ const G_IOS = {im:'iMessage',ph:'電話與 FaceTime',cam:'拍照',vid:'錄影',p
 // 機型硬體資料：tag -> [特點, 示範路徑, 提醒]
 const M_IOS = {
  'iPhone 17':{kind:'iphone',
-  design:['鋁金屬機身、正面超瓷晶盾 2；黑、白、霧藍、鼠尾草綠、薰衣草紫五色；重 177 公克','手持機身，介紹顏色與材質（現場是哪個顏色就講哪個）','色名以台灣官網為準'],
+  design:['鋁金屬機身、正面超瓷晶盾 2（抗刮）；黑、白、霧藍、鼠尾草綠、薰衣草紫五色；重 177 公克','手持機身，介紹顏色與材質（現場是哪個顏色就講哪個）','色名以台灣官網為準'],
   chip:['A19 晶片（6 核心 CPU、5 核心 GPU、16 核心神經網路引擎）','設定 > 一般 > 關於本機','數字以台灣官網為準'],
   camera:['雙 48MP 融合相機（主相機＋超廣角）；前置 18MP Center Stage 方形感測器','相機 > 切換前置鏡頭 > 點旋轉箭頭','前置與主相機擇一只講一個'],
   battery:['影片續航最長約 30 小時；搭配 40W 充電器 20 分鐘約 50%','設定 > 電池','續航與快充數字以台灣官網為準，要說「最長」'],
   action:['動作按鈕、相機控制按鈕、動態島；120Hz ProMotion 顯示器','設定 > 動作按鈕；設定 > 相機 > 相機控制','']},
  'iPhone Air':{kind:'iphone',
-  design:['厚 5.6 公釐、重 165 公克，史上最薄 iPhone；5 級鈦金屬邊框；正面與背面都有超瓷晶盾保護','手持機身介紹，重點講鈦金屬與輕薄','顏色以現場機型為準；只有 eSIM、沒有 SIM 卡槽'],
+  design:['厚 5.6 公釐、重 165 公克，史上最薄 iPhone；5 級鈦金屬邊框；正面超瓷晶盾 2（抗刮）、背面超瓷晶盾（抗裂）','手持機身介紹，重點講鈦金屬與輕薄','顏色以現場機型為準；只有 eSIM、沒有 SIM 卡槽'],
   chip:['A19 Pro（6 核心 CPU、5 核心 GPU 含神經網路加速器），搭配 N1 無線晶片與 C1X 數據機','設定 > 一般 > 關於本機',''],
   camera:['後置單顆 48MP Fusion 主相機（可模擬多種焦段、含 2 倍光學級望遠）；前置 18MP Center Stage','相機 > 點 1× 或 2× 切換焦段','沒有超廣角：不能講 0.5× 與微距；前置與主相機只講一個'],
   battery:['影片續航最長約 27 小時；6.5 吋 ProMotion 顯示器（1–120Hz）','設定 > 電池','續航數字以台灣官網為準'],
   action:['動作按鈕、相機控制按鈕；6.5 吋 ProMotion 顯示器','設定 > 動作按鈕；設定 > 相機 > 相機控制','']},
  'iPhone 18 Pro':{kind:'iphone',
-  design:['鍛造鋁金屬一體成型機身；正面超瓷晶盾 2、背面超瓷晶盾玻璃；黑色、銀色、冰川藍色、勃根地紅色','手持機身介紹顏色與材質','色名以台灣官網為準'],
+  design:['鍛造鋁金屬一體成型機身，重 211 公克；正面超瓷晶盾 2（抗刮）、背面超瓷晶盾（抗裂）；黑色、銀色、冰川藍色、勃根地紅色','手持機身介紹顏色與材質','色名以台灣官網為準'],
   chip:['A20 Pro（2 奈米、6 核心 CPU、7 核心 GPU、雙 16 核心神經網路引擎）、C2 數據機；更大蒸氣室讓持續效能最高提升約 40%','設定 > 一般 > 關於本機；展示時開相機連拍','數字以台灣官網為準'],
   camera:['48MP 融合主相機、48MP 超廣角與望遠；前置 18MP Center Stage','相機 > 切換前置鏡頭或點 0.5×／1×／2×／4×','可變光圈與 Pro 控制項沒練過不要講；前置與主相機只講一個'],
   battery:['影片續航最長約 34 小時（台灣官網數字）','設定 > 電池','各來源續航數字不一，以台灣官網為準'],
@@ -526,19 +526,19 @@ Object.keys(SW_RAW).forEach(function(m){SW_FOR[m]=SW_RAW[m].map(function(row){va
 // 建議說法（硬體／配件）：{why} 會換成對這位客人的好處
 const SCRIPT = {
  'iPhone 17':{
-  design:'鋁金屬機身的特性就是輕又好散熱，重量只有 177 公克，所以長時間拿在手上不容易手酸或發燙；正面有超瓷晶盾 2，也有抗反射鍍膜，看起來更清晰，操作時也不怕刮傷。',
+  design:'鋁金屬機身的特性就是輕又好散熱，重量只有 177 公克，所以長時間拿在手上不容易手酸或發燙；正面有超瓷晶盾 2，抗刮能力更好，也有抗反射鍍膜，看起來更清晰。',
   chip:'A19 晶片有 6 核心 CPU、5 核心 GPU 和 16 核心神經網路引擎，日常 App 開起來又快又順，所以{why}。',
   camera:'雙 48MP 融合相機有主相機和超廣角，前置 18MP Center Stage 直拍橫拍都能自拍，合照時畫面會自動把人框進來，所以{why}。',
   battery:'影片續航最長約 30 小時，搭配 40W 充電器 20 分鐘約能充到 50%，所以{why}。',
   action:'動作按鈕可以一鍵開手電筒等常用功能，相機控制按鈕單手就能開相機，再加上 120Hz ProMotion 讓滑動更順，所以{why}。'},
  'iPhone Air':{
-  design:'Air 厚度只有 5.6 公釐、重 165 公克，是史上最薄的 iPhone；邊框是 5 級鈦金屬，輕又堅固，正面和背面都有超瓷晶盾保護，所以握久了也不累、不怕刮傷。',
+  design:'Air 厚度只有 5.6 公釐、重 165 公克，是史上最薄的 iPhone；邊框是 5 級鈦金屬，輕又堅固，正面是超瓷晶盾 2 更抗刮、背面是超瓷晶盾更抗裂，所以握久了也不累、日常使用更放心。',
   chip:'A19 Pro 搭配 N1 無線晶片與 C1X 數據機，這麼薄的機身也有 Pro 級效能與穩定連線，所以{why}。',
   camera:'後置一顆 48MP Fusion 主相機，可以模擬多種焦段，連 2 倍光學級望遠都有；前置 18MP Center Stage 合照會自動置中，所以{why}。',
   battery:'6.5 吋 ProMotion 大螢幕又輕薄，影片續航最長約 27 小時，所以{why}。',
   action:'動作按鈕一鍵開常用功能，相機控制按鈕單手就能開相機，6.5 吋 ProMotion 顯示器滑動也順，所以{why}。'},
  'iPhone 18 Pro':{
-  design:'鍛造鋁金屬一體成型機身，結實耐用；正面超瓷晶盾 2、背面也是超瓷晶盾玻璃，所以耐刮好保養。顏色有黑、銀、冰川藍和勃根地紅，可以挑一個襯您氣質的。',
+  design:'鍛造鋁金屬一體成型機身，結實耐用；正面超瓷晶盾 2 更抗刮、背面超瓷晶盾更抗裂，所以日常使用更放心。顏色有黑、銀、冰川藍和勃根地紅，可以挑一個襯您氣質的。',
   chip:'A20 Pro 是 2 奈米製程，有 6 核心 CPU、7 核心 GPU，更大的蒸氣室讓持續效能最高提升約 40%，C2 數據機也讓連線更穩，所以{why}。',
   camera:'48MP 融合主相機、48MP 超廣角和望遠，三顆鏡頭涵蓋廣角到望遠，前置 18MP Center Stage 合照會自動置中，所以{why}。',
   battery:'影片續航最長約 34 小時，所以{why}。',
@@ -577,6 +577,41 @@ const SCRIPT = {
   ports:'有 3 個 Thunderbolt 4、HDMI、SDXC 讀卡機和 MagSafe 3 充電，記憶卡直接插、外接螢幕直接接，不用帶轉接頭，所以{why}。',
   battery:'最長 24 小時電池續航，還有 MagSafe 3 磁吸充電，所以{why}。',
   ne:'雙 16 核心神經網路引擎搭配最高 32GB 統一記憶體，本機跑模型和開發工具同時開也有餘裕，所以{why}。'}
+};
+
+// ===== 外觀設計（顏色＋材質）：依客人身分與需求，推薦顏色並說明材質好處 =====
+// 顏色：每個機型的顏色各帶「適合的氣質」標籤；客人有一個氣質（cs）→ 挑 1–2 個對應顏色
+// 材質：客人有一個外觀需求（ms）→ 依機型材質，講對他的好處
+const DS_STYLE={pro:'專業可靠的形象',elegant:'有品味、有質感的氣質',fresh:'清爽有朝氣的個性',warm:'溫暖親切的氣質',calm:'低調穩重的風格',vivid:'活潑有個性的風格'};
+const DS_LEAD={rugged:'常在外面跑、帶著走，難免碰撞，',light:'要隨身帶著、時常拿在手上，',scratch:'使用頻繁、難免碰撞刮傷，',image:'很重視形象與質感，'};
+// [顏色, {氣質: 對該氣質的說法}]：每個說法都要和該氣質吻合，才不會「沉穩」配「活潑」
+const DS_COLOR={
+ 'iPhone 17':[['黑色',{pro:'沉穩專業，見客戶、開會都合適',calm:'低調耐看，不張揚',elegant:'經典深色，質感穩重'}],['白色',{fresh:'乾淨清爽，看起來很清新',calm:'簡潔低調，百搭'}],['霧藍色',{calm:'低調有質感，不張揚',elegant:'柔和有層次，質感好',fresh:'清爽舒服，不會太搶'}],['鼠尾草綠色',{warm:'柔和自然，親切好看',calm:'低飽和，耐看舒服'}],['薰衣草紫色',{vivid:'柔和又有個性，一眼認得出是自己的',warm:'柔和有溫度，親切好看',fresh:'淡雅清新，很有朝氣'}]],
+ 'iPhone Air':[['太空黑色',{pro:'沉穩專業，低調有質感',calm:'低調耐看',elegant:'深色俐落，質感好'}],['雲白色',{fresh:'乾淨清爽，很輕盈',calm:'簡潔耐看'}],['淺金色',{elegant:'溫潤有氣質，質感好',warm:'溫暖柔和，很有親和力'}],['天藍色',{fresh:'清爽有朝氣',vivid:'明亮搶眼，很有個性'}]],
+ 'iPhone 18 Pro':[['黑色',{pro:'沉穩專業，見客戶、開會都合適',calm:'低調耐看，百搭'}],['銀色',{fresh:'俐落清爽',calm:'簡潔低調，百搭'}],['冰川藍色',{fresh:'清透有朝氣',vivid:'清透明亮，很有活力',calm:'清冷低調，有質感',elegant:'清冷有質感，不俗氣'}],['勃根地紅色',{pro:'新色，酒紅沉穩又有質感，專業中帶點個性',elegant:'新色，酒紅質感很好，有品味',warm:'新色，酒紅溫潤有氣質',vivid:'新色，酒紅鮮明有個性，拿出來很吸睛'}]],
+ 'MacBook Neo':[['Silver',{pro:'簡潔俐落，百搭',calm:'低調簡潔，耐看',fresh:'清爽俐落'}],['Blush',{warm:'柔和溫暖，親切好看',elegant:'柔美有質感'}],['Citrus',{vivid:'明亮有活力，一眼就看到',fresh:'明亮清新，很有朝氣'}],['Indigo',{calm:'沉穩有深度，低調耐看',elegant:'深色有質感',pro:'沉穩專業，有深度'}]],
+ 'MacBook Air (M4)':[['午夜色',{pro:'深色穩重，商務場合很合',calm:'低調耐看',elegant:'深色質感，俐落'}],['星光色',{warm:'柔和淡雅，溫暖有質感',elegant:'淡雅有質感'}],['銀色',{pro:'俐落簡潔，專業清爽',fresh:'清爽簡潔',calm:'簡潔耐看'}],['天藍色',{fresh:'清新有朝氣',vivid:'明亮亮眼，有個性'}]],
+ 'MacBook Pro (M6)':[['太空黑色',{pro:'專業穩重，質感高',calm:'低調耐看',elegant:'深色質感，俐落'}],['銀色',{pro:'俐落簡潔，專業清爽',calm:'簡潔耐看',elegant:'簡潔有質感'}]]
+};
+// 材質好處：依機型與需求
+const DS_MAT={
+ 'iPhone 17':{rugged:'鋁金屬機身結實，正面超瓷晶盾 2 更抗刮，放包包、口袋裡拿進拿出比較放心',light:'鋁金屬機身只有 177 公克，長時間拿著、單手操作都不容易手酸',scratch:'正面超瓷晶盾 2 更抗刮，日常使用不用太小心翼翼',image:'鋁金屬機身線條俐落，拿出來質感好、不用多說也有品味'},
+ 'iPhone Air':{rugged:'5 級鈦金屬邊框輕又堅固，正面超瓷晶盾 2 抗刮、背面超瓷晶盾抗裂，這麼輕薄也比較不用擔心日常碰撞',light:'只有 5.6 公釐、165 公克，是史上最薄的 iPhone，放口袋、拿在手上都幾乎沒負擔',scratch:'正面超瓷晶盾 2 抗刮、背面超瓷晶盾抗裂，日常使用更放心',image:'5 級鈦金屬邊框搭配極薄機身，拿出來很有質感、很有話題'},
+ 'iPhone 18 Pro':{rugged:'鍛造鋁金屬一體成型，機身堅固耐用；正面超瓷晶盾 2 抗刮、背面超瓷晶盾抗裂，外出跑更放心',light:'鍛造鋁金屬一體成型，握感扎實穩定，長時間拿在手上也穩',scratch:'正面超瓷晶盾 2 更抗刮、背面超瓷晶盾更抗裂，日常難免的碰撞與刮擦也更放心',image:'鍛造鋁金屬一體成型，質感扎實高級，拿出來就有 Pro 的專業感'},
+ 'MacBook Neo':{rugged:'鋁金屬機身結實，約 1.23 公斤，每天背著走不吃力，也耐得住日常碰撞',light:'約 1.23 公斤、厚度 1.27 公分，每天背著走很輕鬆',scratch:'鋁金屬機身耐用好保養，全家共用也不用太小心',image:'鋁金屬機身搭配多種色彩，放在桌上或咖啡廳都好看'},
+ 'MacBook Air (M4)':{rugged:'鋁金屬一體成型機身紮實耐用，在客戶端與辦公室來回，背著走也安心',light:'機身輕薄，每天背著跑、到處移動都不吃力',scratch:'鋁金屬一體成型機身耐用好保養',image:'鋁金屬一體成型機身，外型簡潔俐落，拿出來就有專業形象'},
+ 'MacBook Pro (M6)':{rugged:'鋁金屬一體成型機身紮實耐用，帶到工地、錄音室、客戶端都穩',light:'14 吋機身相對好攜帶，常帶出門也不吃力',scratch:'鋁金屬一體成型機身耐用好保養',image:'外型專業穩重，拿出來就有專業形象'}
+};
+// 每位客人的 [氣質, 外觀需求]
+const DS_IPHONE={
+ '聯繫分享':[['warm','scratch'],['pro','rugged'],['vivid','scratch'],['calm','scratch'],['calm','rugged'],['elegant','image'],['warm','rugged'],['fresh','light']],
+ '影像創作':[['calm','rugged'],['fresh','rugged'],['elegant','image'],['warm','scratch'],['vivid','light'],['warm','light'],['calm','rugged'],['pro','light']],
+ '便利生活':[['pro','light'],['calm','rugged'],['fresh','scratch'],['calm','light'],['pro','rugged'],['vivid','rugged'],['warm','scratch'],['pro','rugged']]
+};
+const DS_MAC={
+ 'MacBook Neo':[['fresh','light'],['warm','scratch'],['calm','light'],['fresh','image'],['warm','scratch'],['elegant','light'],['calm','light'],['warm','scratch']],
+ 'MacBook Air (M4)':[['calm','light'],['pro','image'],['elegant','light'],['fresh','light'],['pro','rugged'],['elegant','rugged'],['elegant','light'],['pro','image']],
+ 'MacBook Pro (M6)':[['elegant','rugged'],['calm','rugged'],['elegant','rugged'],['calm','image'],['calm','rugged'],['pro','image'],['pro','rugged'],['elegant','rugged']]
 };
 
 // ===== FY26 簡章補齊（iOS）：新增功能、硬體拆項、題庫重新分配 =====
@@ -878,6 +913,16 @@ function hwScript(c,tag,u,why){
  if(tag==='design')t+='像您'+s1(u)+'，帶著它一整天都輕鬆。';
  return t;
 }
+function designWhy(c,u){
+ var row=(c.type==='iphone'?DS_IPHONE[c.topic]:DS_MAC[c.model]);var d=row&&row[c.ci];
+ if(!d)return c.type==='iphone'?'手持機身，挑一個襯這位客人的顏色介紹':'拿起機身，連回客人「帶著走」的需求';
+ var role=String(u.c).split('，')[0].replace(/^\d+\s*歲/,'');
+ var cols=DS_COLOR[c.model].filter(function(x){return x[1][d[0]]}).slice(0,2);
+ if(!cols.length)cols=[[DS_COLOR[c.model][0][0],{}]];
+ var b1='顏色：'+cols.map(function(x){return '「'+x[0]+'」'+(x[1][d[0]]||'')}).join('；')+'，'+(cols.length>1?'都':'')+'很襯'+role+'的身分與特質。';
+ var b2='材質：'+DS_LEAD[d[1]]+DS_MAT[c.model][d[1]]+'。';
+ return [b1,b2];
+}
 function tagName(c,t){return {design:'外觀',chip:'晶片',camera:'相機系統',battery:'續航與充電',action:'動作按鈕',cbtn:'相機控制按鈕',island:'動態島',speaker:'揚聲器',display:'顯示器',unlock:(c.model.indexOf('Air')>-1&&c.type==='ipad')?'Touch ID':'Face ID',usbc:'USB-C',cam:'相機、麥克風與喇叭',ext:'外接顯示器',ports:'連接埠',ne:'神經網路引擎與記憶體'}[t]||t}
 
 // ---------- 功能／項目卡 ----------
@@ -895,7 +940,7 @@ function fnHtml(c,u,id,benefit,swapFrom){
 function itemHtml(label,arr,why,script,extra){
  var h='<div class="fn"><div class="fh"><span class="nm">'+esc(label)+'</span></div>';
  h+=lab('重點')+bullets(arr[0]);
- if(why)h+=lab('對這位客人的好處')+'<div class="good-t">'+bl([why])+'</div>';
+ if(why)h+=lab('對這位客人的好處')+'<div class="good-t">'+bl(Array.isArray(why)?why:[why])+'</div>';
  if(script)h+=sayBox(script);
  if(arr[1])h+=lab('示範方式')+steps(arr[1]);
  h+=warnBox(arr[2]);
@@ -955,7 +1000,7 @@ function outline(c){
 function recIphone(c){
  var u=cust(c),m=M_IOS[c.model];var h='';
  h+=stage('① 快速展演（約 1 分鐘）','外觀（顏色＋材質）＋ 1 項硬體');
- h+=itemHtml('外觀設計（顏色＋材質）',m.design,'手持機身，挑一個襯這位客人的顏色介紹',hwScript(c,'design',u,''));
+ h+=itemHtml('外觀設計（顏色＋材質）',m.design,designWhy(c,u),hwScript(c,'design',u,''));
  h+=itemHtml('硬體：'+tagName(c,u.hw[0]),m[u.hw[0]],u.hw[1],hwScript(c,u.hw[0],u,u.hw[1]));
  h+=bridge('硬體說完，接著針對您的需求，用實際功能示範給您看。');
  h+=stage('② 功能展演',TOPICS_IOS.iphone[c.topic].note);
@@ -983,7 +1028,7 @@ function recMac(c){
  var u=cust(c),m=M_MAC[c.model];var h='';
  h+=stage('硬體展演（4 分鐘）','四項主題都要講；順序可依情境與腳本調整，下面是建議串場');
  h+=itemHtml('購買族群（點題開場）',[m.who,'',''],null,u.who);
- h+=itemHtml('外觀設計',m.design,'拿起機身，連回客人「帶著走」的需求',hwScript(c,'design',u,''));
+ h+=itemHtml('外觀設計',m.design,designWhy(c,u),hwScript(c,'design',u,''));
  u.hw.forEach(function(x){h+=itemHtml('硬體好處：'+tagName(c,x[0]),m[x[0]],x[1],hwScript(c,x[0],u,x[1]))});
  var sc=u.scene.split('：'),spoken=sc[0],st=sc.slice(1).join('：');
  h+=itemHtml('適合情境（收尾示範）',['',st,''],null,spoken);
