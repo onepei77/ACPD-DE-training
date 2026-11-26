@@ -55,6 +55,9 @@ p{margin:0}
 .timer.over .t{color:#d70015}
 .tb{padding:6px 12px;border-radius:10px;background:var(--warnbg);color:var(--warn);font-size:14px;font-weight:600;margin:2px 0 6px}
 .tip{font-size:14px;color:var(--sub);margin-top:6px}
+.hint{margin:8px 2px;padding:8px 12px;border-radius:10px;background:var(--card);border:1px solid var(--line);font-size:14px;line-height:1.5}
+.hint b{display:block;font-size:13px;color:var(--sub);margin-bottom:2px}
+.mu{font-size:14px;color:var(--sub);margin:6px 2px 10px;padding-left:10px;border-left:3px solid var(--line)}
 /* 客人情境 */
 .lab{font-size:13px;font-weight:700;color:var(--accent);margin:12px 0 2px;letter-spacing:.04em}
 .cust{margin-top:12px}
@@ -814,6 +817,98 @@ Object.assign(F_MAC.mp3,{n:'智慧照片編輯（清除、延伸、重構）',t:
  put('t1',5,'mf2');put('t2',3,'mp7');put('t3',6,'pg9');put('t4',5,'kn10');
 })();
 
+// ===== FY26 簡章 Mac 期望對應：① Switch to macOS ② 照片、影片與創作 =====
+// 客人設定為練習用情境；macOS 特色說明依公開資訊整理，路徑與細節仍請上機確認
+(function(){
+ const M=C_MACHW;
+ const setC=(m,i,c,extraPain)=>{M[m][i].c=c;if(extraPain)M[m][i].p+='；'+extraPain};
+ // ---- 客人改寫：轉換系統或第一次買 Mac ----
+ setC('MacBook Air (M4)',0,'26 歲研究生，從 Windows 轉到 Mac，讀論文、寫報告、跑統計軟體','剛從 Windows 換過來，擔心不熟 Mac 操作');
+ setC('MacBook Air (M4)',3,'29 歲文案企劃，第一次買 Mac，咖啡廳工作也常客戶視訊','第一次用 Mac，不確定操作會不會太難');
+ setC('MacBook Air (M4)',6,'25 歲設計新人，學生時期用 Windows，剛入行第一次買 Mac','從 Windows 換過來，還不熟 Mac 的操作');
+ setC('MacBook Air (M4)',7,'45 歲會計師，從 Windows 轉到 Mac，在事務所與客戶端兩邊跑','一直用 Windows，擔心換 Mac 後檔案與表單操作不順');
+ setC('MacBook Pro (M6)',0,'32 歲影音創作者，剛從 Windows 剪輯電腦轉到 Mac，經營頻道並接商業案','剛換平台，擔心不熟 Mac 的操作');
+ setC('MacBook Pro (M6)',1,'30 歲軟體工程師，從 Windows 轉到 Mac 開發 App，並在本機跑小型 AI 模型','剛換平台，想知道 Mac 的操作習慣有什麼不同');
+ setC('MacBook Pro (M6)',6,'40 歲建築師，從 Windows 轉到 Mac，常出圖也常到工地看圖','剛換平台，擔心不熟 Mac 的檔案與視窗操作');
+ setC('MacBook Neo',1,'45 歲家庭主婦，家裡第一台電腦也是第一次用 Mac，孩子與自己共用');
+ setC('MacBook Neo',2,'62 歲退休長輩，第一次用 Mac，想學電腦也想看孫子的照片');
+ setC('MacBook Neo',7,'50 歲老師，第一次買 Mac，備課與批改作業');
+ // ---- t1 功能清單：有並排就配並排情境；10 個功能（mf1–mf12）都要排得到 ----
+ const t1=(m,i,a)=>{SW_FOR[m][i].t1=a};
+ t1('MacBook Neo',1,['mf4','mf5','mf6']);
+ t1('MacBook Neo',3,['mf2','mf3','mf12']);
+ t1('MacBook Air (M4)',3,['mf9','mf11','mf12']);
+ // t2：婚禮攝影師換入「智慧照片編輯」，清掉背景路人更貼題
+ SW_FOR['MacBook Pro (M6)'][2].t2=['mp1','mp2','mp3'];
+})();
+
+// 轉換系統／第一次用 Mac 的客人：Switch to macOS 題型只從這些人抽
+// k: switch 轉換系統、first 第一次用 Mac；w: 客人背景；win: 視窗並排的搭配情境（有排入視窗並排才寫）
+const MAC_T1 = {
+ 'MacBook Neo':{
+  0:{k:'first',w:'第一次買自己的筆電，也是第一次用 Mac',win:'左邊開老師的講義，右邊開筆記，邊看邊記'},
+  1:{k:'first',w:'家裡第一台電腦，也是第一次用 Mac，怕按錯、怕設定被弄亂',win:''},
+  2:{k:'first',w:'第一次用 Mac，想學電腦，擔心太複雜學不會',win:''},
+  3:{k:'switch',w:'用 Windows 習慣了，第一次換到 Mac，不熟選單與操作',win:''},
+  7:{k:'first',w:'第一次買 Mac，備課與批改作業，擔心操作複雜',win:'左邊開學生作業，右邊開評分表，邊看邊批改'}},
+ 'MacBook Air (M4)':{
+  0:{k:'switch',w:'用了多年 Windows，換 Mac 後想知道論文與文獻怎麼整理',win:'左邊開論文 PDF，右邊開報告文件，邊讀邊寫，不用一直切視窗'},
+  3:{k:'first',w:'第一次買 Mac，咖啡廳工作與客戶視訊，擔心操作太難',win:'左邊開客戶需求，右邊寫文案，邊對照邊寫'},
+  6:{k:'switch',w:'學生時期用 Windows，進公司第一次用 Mac 做設計與排版',win:'左邊放客戶的參考稿，右邊做排版'},
+  7:{k:'switch',w:'一直用 Windows 做帳，想換 Mac，擔心檔案與表單操作不順',win:'左邊放客戶帳冊 PDF，右邊開試算表對帳'}},
+ 'MacBook Pro (M6)':{
+  0:{k:'switch',w:'從 Windows 剪輯電腦轉到 Mac，想知道檔案與視窗怎麼管理',win:'左邊開素材資料夾，右邊開腳本文件，不用來回切換'},
+  1:{k:'switch',w:'從 Windows 轉到 Mac 開發，想知道操作習慣有什麼不同',win:'左邊寫程式，右邊看文件與測試結果'},
+  6:{k:'switch',w:'從 Windows 轉到 Mac，常開大型圖檔與規範文件對照',win:'左邊開圖面 PDF，右邊開規範與備忘，對照檢查'}}
+};
+
+// macOS 特色一句話（Switch to macOS 每個功能要點出的重點）
+const MAC_MU = {
+ mf1:'標籤、欄位檢視一路看到資料夾內容，檔案整理方式和 Windows 的檔案總管不太一樣',
+ mf2:'App 的選單固定在螢幕最上方，所有 App 位置一致，找功能不用到處翻',
+ mf3:'Command＋空白鍵，App、檔案、計算與換算都能搜',
+ mf4:'選檔案按空白鍵就預覽，不用打開 App',
+ mf5:'亮度、音量、Wi-Fi 等常用設定集中在螢幕右上角',
+ mf6:'通知與行程集中在一處，從螢幕右上角時間點開',
+ mf7:'觸控板手勢是 Mac 的標誌操作：滑動切換桌面與視窗',
+ mf8:'把游標甩到螢幕角落就觸發動作，是 Mac 獨有的小技巧',
+ mf9:'標籤群組可以和 iPhone、iPad 同步，同一個帳號各裝置都看得到',
+ mf10:'小工具直接放在桌面，一打開電腦就看到',
+ mf11:'拖曳視窗到螢幕邊緣就並排，不用手動調整大小',
+ mf12:'iPhone 來電可以在 Mac 上接，也能直接用 Mac 撥出，不用拿出手機'
+};
+
+// 照片、影片與創作：general 一般情境（簡易編輯、整理相簿、分享）／pro 專業級效能；w 為「為何選 Mac」回扣
+const MAC_T2 = {
+ 'MacBook Neo':[
+  {m:'general',w:'手機拍的上課板書與社團照片，用內建的照片 App 整理、簡單修圖，再 AirDrop 傳給同學，不用另外買軟體'},
+  {m:'general',w:'孩子的照片整理成相簿、清掉背景路人，做成幻燈片放給家人看，內建 App 就能完成，上手門檻低'},
+  {m:'general',w:'孫子的照片依人物整理、做成幻燈片放給家人看，也能 AirDrop 傳給家人，操作簡單'},
+  {m:'general',w:'作品照與證件照用內建 App 整理、簡單修圖，文件拍照後文字直接抓出來，換到 Mac 不用另外學軟體'},
+  {m:'general',w:'孩子的活動照片依人物整理、清掉背景路人，再做成幻燈片分享給長輩'},
+  {m:'general',w:'提案用的照片修圖、短片簡單剪輯，再 AirDrop 傳給客戶，一台輕巧的 Mac 就搞定'},
+  {m:'general',w:'生活與旅行照片整理成相簿、剪成短片、做成幻燈片，內建 App 就夠用'},
+  {m:'general',w:'活動照片整理、簡單修圖，板書與文件拍照後文字直接抓出來，再分享給家長或同事'}],
+ 'MacBook Air (M4)':[
+  {m:'general',w:'實驗與儀器照片整理成相簿，拍下板書與文獻用原況文字抓出文字，再 AirDrop 傳給組員，iPhone 與 Mac 接得起來'},
+  {m:'general',w:'出差與案場照片簡單修圖、做成幻燈片給客戶，AirDrop 當面傳，輕薄好帶隨時處理'},
+  {m:'general',w:'教學活動照片整理、課堂短片簡單剪輯，再分享給學生，備課與授課同一台搞定'},
+  {m:'general',w:'咖啡廳與商品照片簡單修圖，同事 AirDrop 傳來的素材，也能在「與您分享」看到'},
+  {m:'general',w:'現場照片簡單修圖，名片與資料拍照後文字直接抓出來，再 AirDrop 傳給同事'},
+  {m:'general',w:'產品照修圖、短片簡單剪輯，AirDrop 傳給夥伴，一個人身兼多職也夠用'},
+  {m:'general',w:'作品集的照片簡單修圖、整理成相簿，再 AirDrop 傳給客戶看，入門創作夠用'},
+  {m:'general',w:'客戶資料與單據拍照整理成相簿，文字直接抓出來，再 AirDrop 傳給同事'}],
+ 'MacBook Pro (M6)':[
+  {m:'pro',w:'素材量大、要多軌剪輯與調色，Pro 的晶片、外接螢幕與記憶卡讀取，讓匯入到輸出更有餘裕，專業創作選 Mac 更放心'},
+  {m:'general',w:'開發之外的旅行照片整理，拍下白板用原況文字抓出文字，再 AirDrop 傳給同事，工作與生活同一台'},
+  {m:'pro',w:'一場婚禮數千張照片，匯入、挑選、修圖與清掉背景路人都有餘裕，SD 卡直接插，專業修圖選 Mac 更安心'},
+  {m:'pro',w:'渲染完的成品影片剪輯與調整，團隊在「與您分享」收到分享的素材，Pro 的效能讓畫面處理更有餘裕'},
+  {m:'general',w:'錄音室花絮與演出影片簡單剪輯、照片整理，AirDrop 傳給團隊，音樂製作與日常創作同一台'},
+  {m:'general',w:'工作之外的旅行照片整理與簡單修圖，白板與投影片拍照後文字直接抓出來'},
+  {m:'general',w:'工地現況照片整理、簡單校正，AirDrop 傳給同事與客戶，辦公室與工地一台帶著走'},
+  {m:'pro',w:'每週剪片、旅途中匯出，Pro 的晶片與續航讓影像處理更有餘裕，相機卡直接插，專業級創作選 Mac'}]
+};
+
 </script>
 <script>
 (function(){
@@ -862,13 +957,15 @@ function custList(c){
 }
 function key(c){return c.type+'|'+(c.model||'')+'|'+(c.topic||'')}
 function resetTimers(c){c.timers=mkTimers(c.type)}
-function reroll(c){c.ci=pick(key(c),custList(c).length);c.need=false;c.rec=false;resetTimers(c)}
+function eligIdx(c){var L=custList(c),o=[];for(var i=0;i<L.length;i++){if(c.type==='mac'&&c.topic==='t1'&&!(MAC_T1[c.model]&&MAC_T1[c.model][i]))continue;o.push(i)}return o}
+function drawCi(c){var e=eligIdx(c);return e[pick(key(c),e.length)]}
+function reroll(c){c.ci=drawCi(c);c.need=false;c.rec=false;resetTimers(c)}
 function newCard(type){
  var c={type:type,need:false,rec:false,pencil:'pro'};
  if(type==='iphone'){c.model=rnd(IPHONE_MODELS);c.topic=rnd(Object.keys(C_IPHONE))}
  if(type==='ipad'){c.model=rnd(IPAD_MODELS);c.topic=rnd(Object.keys(C_IPAD))}
  if(type==='mac'){c.model=rnd(MAC_MODELS);c.topic=rnd(Object.keys(T_MAC))}
- c.ci=pick(key(c),custList(c).length);
+ c.ci=drawCi(c);
  c.timers=mkTimers(type);
  return c;
 }
@@ -1024,6 +1121,19 @@ function recIpad(c){
  if(kg.length){h+=bridge('最後補充鍵盤，讓 iPad 能像小筆電一樣用。');h+=proj('鍵盤加分（選用）');kg.forEach(function(x){h+=fnHtml(c,u,x.id,x.b,x.from)})}
  return h;
 }
+function macHint(c){
+ var h='';
+ if(c.topic==='t1'){var a=MAC_T1[c.model][c.ci];
+  h+='<div class="hint"><b>簡章重點</b>對象是轉換系統或第一次用 Mac 的客人；每個功能除了怎麼操作，還要點出 macOS 的特色（見各功能下方）。</div>';
+  h+='<div class="hint"><b>客人背景（'+(a.k==='switch'?'轉換系統':'第一次用 Mac')+'）</b>'+ph(a.w)+'</div>';
+  if(SW_FOR[c.model][c.ci].t1.indexOf('mf11')>-1&&a.win)h+='<div class="hint"><b>視窗並排的搭配情境</b>'+ph(a.win)+'</div>';
+ }
+ if(c.topic==='t2'){var b=MAC_T2[c.model][c.ci];
+  h+='<div class="hint"><b>簡章重點</b>二擇一：一般情境（簡易編輯、整理相簿、分享），或更快的影像處理、絕佳畫面與專業級效能；最後要回扣為什麼選 Mac。</div>';
+  h+='<div class="hint"><b>這位客人建議的講法</b>'+(b.m==='pro'?'專業級效能':'一般情境')+'</div>';
+ }
+ return h;
+}
 function recMac(c){
  var u=cust(c),m=M_MAC[c.model];var h='';
  h+=stage('硬體展演（4 分鐘）','四項主題都要講；順序可依情境與腳本調整，下面是建議串場');
@@ -1035,7 +1145,9 @@ function recMac(c){
  h+=bridge('硬體講完了，接著換軟體展演，示範這台 Mac 怎麼幫您解決日常的事。');
  h+=stage('軟體展演（4 分鐘）','題目「'+T_MAC[c.topic]+'」至少講 3 個功能，每項都要操作完');
  if(c.topic==='t5')h+='<div class="fn"><div class="fh"><span class="nm">準備時間先做（不用說出口）</span></div>'+steps(PREP_WL.replace('準備時間先確認：','').replace('第一個功能建議放「通用剪貼板」最穩。','').replace(/。$/,''))+warnBox('第一個功能建議放「通用剪貼板」，最穩定')+'</div>';
- SW_FOR[c.model][c.ci][c.topic].forEach(function(id){h+=fnHtml(c,u,id,null)+altHint(id)});
+ h+=macHint(c);
+ SW_FOR[c.model][c.ci][c.topic].forEach(function(id){h+=fnHtml(c,u,id,null)+altHint(id)+(c.topic==='t1'&&MAC_MU[id]?'<div class="mu">macOS 特色：'+ph(MAC_MU[id])+'</div>':'')});
+ if(c.topic==='t2'){var t2=MAC_T2[c.model][c.ci];h+='<div class="hint"><b>收尾：回扣為什麼選 Mac</b>'+ph(t2.w)+'</div>'}
  return h;
 }
 function recHtml(c){
@@ -1098,11 +1210,11 @@ function pickScreen(){
  h+='<div class="card stack">'+lab('機型')+chips('pkmodel',pkModels(pk.show).map(function(m){return [m,m]}),pk.model);
  h+=lab(pk.show==='mac'?'軟體題型':'題型')+chips('pktopic',pkTopics(pk.show).map(function(k){return [k,pk.show==='mac'?T_MAC[k]:k]}),pk.topic);
  h+=lab('客人：點一位開始，或隨機')+'<button class="btn" data-act="pkgo" data-v="-1">隨機抽一位</button>';
- h+='<div class="plist">'+list.map(function(c,i){return '<button class="pitem" data-act="pkgo" data-v="'+i+'"><b>'+(i+1)+'</b><span>'+esc(c.c)+'</span></button>'}).join('')+'</div></div>';
+ h+='<div class="plist">'+list.map(function(c,i){if(pk.show==='mac'&&pk.topic==='t1'&&!(MAC_T1[pk.model]&&MAC_T1[pk.model][i]))return '';return '<button class="pitem" data-act="pkgo" data-v="'+i+'"><b>'+(i+1)+'</b><span>'+esc(c.c)+'</span></button>'}).join('')+'</div></div>';
  $('#main').innerHTML=h;
 }
 function startCard(show,model,topic,ci){
- var c=newCard(show);c.model=model;c.topic=topic;c.ci=ci<0?pick(key(c),custList(c).length):ci;c.timers=mkTimers(show);
+ var c=newCard(show);c.model=model;c.topic=topic;c.ci=ci<0?drawCi(c):ci;c.timers=mkTimers(show);
  state.view=state.kind;state.cards=[c];state.tab=0;state.pinned=true;render();window.scrollTo(0,0);ensureTick();
 }
 function fnHeads(show){
@@ -1119,7 +1231,7 @@ function fnHeads(show){
 }
 function fnResults(show,fid){
  var out=[];
- if(show==='mac'){var t=F_MAC[fid].g;Object.keys(C_MACHW).forEach(function(m){C_MACHW[m].forEach(function(c,i){if(SW_FOR[m][i][t].indexOf(fid)>-1)out.push({model:m,topic:t,i:i,c:c.c,label:m+'・'+T_MAC[t]})})})}
+ if(show==='mac'){var t=F_MAC[fid].g;Object.keys(C_MACHW).forEach(function(m){C_MACHW[m].forEach(function(c,i){if(t==='t1'&&!(MAC_T1[m]&&MAC_T1[m][i]))return;if(SW_FOR[m][i][t].indexOf(fid)>-1)out.push({model:m,topic:t,i:i,c:c.c,label:m+'・'+T_MAC[t]})})})}
  else{var L=show==='iphone'?C_IPHONE:C_IPAD;Object.keys(L).forEach(function(t){L[t].forEach(function(c,i){if(c.r.some(function(x){return x[0]===fid}))out.push({topic:t,i:i,c:c.c,label:t})})})}
  return out;
 }
